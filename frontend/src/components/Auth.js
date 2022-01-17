@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector, batch } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { user } from '../reducers/user'
@@ -26,7 +26,7 @@ export const Auth = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const accessToken = useSelector(store => store.user.accessToken)
-  const loading = useSelector(store => store.user.loading)
+  //const loading = useSelector(store => store.user.loading)
 
   useEffect(() => {
     if (accessToken) {
@@ -83,7 +83,7 @@ export const Auth = () => {
   return (
     <Container>
       <FormContainer onSubmit={onSubmit}>
-        <h1>{formState === 'signin' ? 'Sign in' : 'Sign up'}</h1>
+        <h1>{formState === 'signin' ? 'Sign in' : 'Sign upe '}</h1>
         <label htmlFor='nameInput'>Username</label>
         <input
           id='nameInput'
