@@ -1,5 +1,5 @@
 {
-  "name": "project-auth-backend",
+  "name": "solproj-backend",
   "version": "1.0.0",
   "description": "Starter project to get up and running with express quickly",
   "scripts": {
@@ -10,22 +10,25 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@babel/core": "^7.8.3",
-    "@babel/node": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
+    "@babel/cli": "^7.16.8",
+    "@babel/core": "^7.16.7",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.8",
+    "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "mongoose": "^5.8.10",
-    "nodemon": "^2.0.2"
+    "crypto": "^1.0.1",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.6",
+    "nodemon": "^2.0.15"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
-    "eslint": "^6.8.0",
+    "eslint": "^8.7.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-import": "^0.13.0",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.16.0",
-    "eslint-plugin-react-hooks": "^2.3.0"
+    "eslint-plugin-react-hooks": "^2.5.1"
   }
 }

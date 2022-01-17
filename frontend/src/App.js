@@ -1,9 +1,7 @@
 import React from 'react'
+import './App.css'
+import { LeafletMap } from './components/LeafletMap'
 
 export const App = () => {
-  return (
-    <div>
-      Find me in src/app.js!
-    </div>
-  )
+  return <LeafletMap />
 }
