@@ -3,6 +3,9 @@ import styled from 'styled-components'
 
 import LocateSvg from '../assets/LocateIcon.svg'
 
+const LocationWrapper = styled.div`
+  display: flex;
+`
 const SearchWrapper = styled.div`
   position: relative;
   flex-grow: 1;
@@ -38,6 +41,7 @@ const SearchForm = styled.form`
 const LocateIcon = styled.img`
   width: 20px;
   height: 20px;
+  align-items: center;
 `
 
 export const SearchBox = ({ position, setPosition }) => {
@@ -89,7 +93,7 @@ export const SearchBox = ({ position, setPosition }) => {
   }
 
   return (
-    <>
+    <LocationWrapper>
       <LocateIcon src={LocateSvg} onClick={onLocate} />
       <SearchWrapper>
         <SearchForm onSubmit={onSubmit}>
@@ -102,6 +106,6 @@ export const SearchBox = ({ position, setPosition }) => {
         </SearchForm>
         <ResultsList />
       </SearchWrapper>
-    </>
+    </LocationWrapper>
   )
 }
