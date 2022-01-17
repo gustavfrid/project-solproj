@@ -1,6 +1,16 @@
 import React from 'react'
-import { LeafletMap } from './components/LeafletMap'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+import { Start } from './components/Start'
+import { NotFound } from './components/NotFound'
 
 export const App = () => {
-  return <LeafletMap />
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Start />} />
+        <Route path='*' element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
