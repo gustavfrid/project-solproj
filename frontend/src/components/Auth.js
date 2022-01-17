@@ -6,9 +6,22 @@ import styled from 'styled-components'
 import { user } from '../reducers/user'
 import { API_URL } from '../utils/constants'
 
-export const SignUp = () => {
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`
+const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+`
+
+export const Auth = () => {
   const [nameInput, setNameInput] = useState('')
   const [passwordInput, setPasswordInput] = useState('')
+  const [formState, setFormState] = useState('signin')
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -17,15 +30,23 @@ export const SignUp = () => {
 
   useEffect(() => {
     if (accessToken) {
-      navigate('/')
+      navigate('/project')
     }
   }, [accessToken, navigate])
 
-  const onSignUp = event => {
+  const onChangeFormState = () => {
+    if (formState === 'signin') {
+      setFormState('signup')
+    } else if (formState === 'signup') {
+      setFormState('signin')
+    }
+  }
+
+  const onSubmit = event => {
     event.preventDefault()
     dispatch(user.actions.setLoading(true))
 
-    fetch(API_URL('signup'), {
+    fetch(API_URL(formState), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -60,9 +81,9 @@ export const SignUp = () => {
   }
 
   return (
-    <div>
-      <form onSubmit={onSignUp}>
-        <h1>Sign up</h1>
+    <Container>
+      <FormContainer onSubmit={onSubmit}>
+        <h1>{formState === 'signin' ? 'Sign in' : 'Sign up'}</h1>
         <label htmlFor='nameInput'>Username</label>
         <input
           id='nameInput'
@@ -76,15 +97,16 @@ export const SignUp = () => {
         <input
           id='passwordInput'
           type='password'
+          placeholder='password'
           onChange={e => {
             setPasswordInput(e.target.value)
           }}
         />
-        <button type='submit' value='Sign up'>
-          Signup
-        </button>
-        <Link to='/'>Startpage</Link>
-      </form>
-    </div>
+        <button type='submit'>{formState}</button>
+        <p onClick={onChangeFormState}>
+          {formState === 'signin' ? 'Create an account? Signup!' : 'Already user? Sign in!'}
+        </p>
+      </FormContainer>
+    </Container>
   )
 }
