@@ -12,7 +12,7 @@ export const Start = () => {
   return (
     <Container>
       <h1>Welcome to SolProj</h1>
-      <Link to='auth'>Start</Link>
+      <Link to='/login'>Start</Link>
     </Container>
   )
 }

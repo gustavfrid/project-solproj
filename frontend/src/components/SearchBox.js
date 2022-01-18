@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import { API_URL_NOMINATIM } from '../utils/constants'
 import LocateSvg from '../assets/LocateIcon.svg'
 
 const LocationWrapper = styled.div`
@@ -10,33 +11,39 @@ const SearchWrapper = styled.div`
   position: relative;
   flex-grow: 1;
 `
-const HoveringList = styled.ul`
+const SearchForm = styled.form``
+const SearchInput = styled.input`
+  width: 100%;
+  border-radius: 5px;
+  box-sizing: border-box;
+`
+const ResultList = styled.ul`
   position: absolute;
+  display: none;
   background: white;
+  box-sizing: border-box;
   border: 1px solid black;
   border-radius: 5px;
-  width: 100%;
+  width: 98%;
   top: 26px;
   list-style-type: none;
   margin: 0;
   padding: 5px;
+  ${SearchInput}:focus + & {
+    display: inherit;
+  }
 `
 const ListItem = styled.li`
-  border-top: 1px solid black;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  &:not(:first-child) {
+    border-top: 1px solid black;
+  }
   &:hover {
     background-color: greenyellow;
     cursor: pointer;
   }
-`
-const SearchInput = styled.input`
-  width: 100%;
-  border-radius: 5px;
-`
-const SearchForm = styled.form`
-  width: 100%;
 `
 const LocateIcon = styled.img`
   width: 20px;
@@ -46,14 +53,11 @@ const LocateIcon = styled.img`
 
 export const SearchBox = ({ position, setPosition }) => {
   const [query, setQuery] = useState('')
-  const [results, setResults] = useState('')
+  const [results, setResults] = useState([])
 
   const onSubmit = e => {
     e.preventDefault()
-    console.log('query: ', query)
-    fetch(
-      `https://nominatim.openstreetmap.org/search?q=${query}&countrycodes=se&addressdetails=1&format=json`
-    )
+    fetch(API_URL_NOMINATIM(query))
       .then(res => res.json())
       .then(res => {
         if (res.length < 1) {
@@ -64,7 +68,6 @@ export const SearchBox = ({ position, setPosition }) => {
             lon: position.lng,
           })
         }
-        console.log(res)
         setResults(res)
       })
   }
@@ -76,20 +79,17 @@ export const SearchBox = ({ position, setPosition }) => {
   }
 
   const ResultsList = () => {
-    if (results) {
-      return (
-        <HoveringList>
-          {results?.map(result => (
-            <ListItem
-              key={result.place_id}
-              onClick={() => setPosition({ lat: result.lat, lng: result.lon })}>
-              {result.display_name}
-            </ListItem>
-          ))}
-        </HoveringList>
-      )
-    }
-    return null
+    return (
+      <ResultList>
+        {results?.map(result => (
+          <ListItem
+            key={result.place_id}
+            onClick={() => setPosition({ lat: result.lat, lng: result.lon })}>
+            {result.display_name}
+          </ListItem>
+        ))}
+      </ResultList>
+    )
   }
 
   return (
@@ -103,8 +103,8 @@ export const SearchBox = ({ position, setPosition }) => {
             value={query}
             onChange={e => setQuery(e.target.value)}
           />
+          <ResultsList />
         </SearchForm>
-        <ResultsList />
       </SearchWrapper>
     </LocationWrapper>
   )

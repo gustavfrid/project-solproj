@@ -1,22 +1,27 @@
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-const StyledHeader = styled.h1`
-  font-size: 20px;
-`
-const HeaderContainer = styled.div`
+import Sun from '../assets/sun.png'
+
+const HeaderContainer = styled.nav`
   display: flex;
-  flex-direction: column;
-  gap: 20px;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
-  margin-bottom: 25px;
+  margin: 5px;
+`
+const Logo = styled.img`
+  width: 50px;
 `
 
 export const Header = () => {
   return (
     <HeaderContainer>
-      <StyledHeader>SolProj</StyledHeader>
+      <Logo src={Sun} alt='logo' />
+      <h1>SolProj</h1>
+      <nav>
+        <Link to='map'>Map</Link>
+        <Link to='project'>Project</Link>
+      </nav>
     </HeaderContainer>
   )
 }
