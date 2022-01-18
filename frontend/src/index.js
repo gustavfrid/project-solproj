@@ -4,29 +4,9 @@ import './index.css'
 import { App } from './App'
 import reportWebVitals from './reportWebVitals'
 
-import { Provider } from 'react-redux'
-import { setupStore } from './store/setupStore'
-
-// Retrieve localstorage as initial state
-const persistedStateJSON = localStorage.getItem('solprojReduxState')
-let persistedState = {}
-
-if (persistedStateJSON) {
-  persistedState = JSON.parse(persistedStateJSON)
-}
-
-const store = setupStore(persistedState)
-
-// Store the state in localstorage when Redux state change
-store.subscribe(() => {
-  localStorage.setItem('solprojReduxState', JSON.stringify(store.getState()))
-})
-
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 )

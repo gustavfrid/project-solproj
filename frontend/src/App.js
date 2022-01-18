@@ -1,20 +1,42 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Provider } from 'react-redux'
 
+import { setupStore } from './store/setupStore'
+import { RequireAuth } from './utils/RequireAuth'
 import { Start } from './components/Start'
 import { Auth } from './components/Auth'
 import { NotFound } from './components/NotFound'
 import { LeafletMap } from './components/LeafletMap'
 
+// Retrieve localstorage as initial state
+const persistedStateJSON = localStorage.getItem('solprojReduxState')
+let persistedState = {}
+
+if (persistedStateJSON) {
+  persistedState = JSON.parse(persistedStateJSON)
+}
+
+const store = setupStore(persistedState)
+
+// Store the state in localstorage when Redux state change
+store.subscribe(() => {
+  localStorage.setItem('solprojReduxState', JSON.stringify(store.getState()))
+})
+
 export const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Start />} />
-        <Route path='/auth' element={<Auth />} />
-        <Route path='/project' element={<LeafletMap />} />
-        <Route path='*' element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Start />} />
+          <Route path='/login' element={<Auth />} />
+          <Route element={<RequireAuth />}>
+            <Route path='/project' element={<LeafletMap />} />
+          </Route>
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   )
 }
