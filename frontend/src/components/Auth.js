@@ -58,7 +58,7 @@ export const Auth = () => {
     })
       .then(res => res.json())
       .then(data => {
-        console.log('signup response', data)
+        console.log('signup/signin response', data)
         if (data.success) {
           batch(() => {
             dispatch(user.actions.setUserId(data.response.userId))
@@ -89,6 +89,7 @@ export const Auth = () => {
           id='nameInput'
           type='text'
           placeholder='username'
+          value={nameInput}
           onChange={e => {
             setNameInput(e.target.value)
           }}
@@ -98,6 +99,7 @@ export const Auth = () => {
           id='passwordInput'
           type='password'
           placeholder='password'
+          value={passwordInput}
           onChange={e => {
             setPasswordInput(e.target.value)
           }}

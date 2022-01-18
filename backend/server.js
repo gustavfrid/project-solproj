@@ -1,4 +1,4 @@
-import express, { response } from 'express'
+import express from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import crypto from 'crypto'
@@ -54,7 +54,7 @@ const authenticateUser = async (req, res, next) => {
 
 // Start defining your routes here
 app.get('/', (req, res) => {
-  res.send('Hello world')
+  res.send('Welcome to solproj API')
 })
 
 app.post('/signup', async (req, res) => {
@@ -82,15 +82,20 @@ app.post('/signup', async (req, res) => {
 
 app.post('/signin', async (req, res) => {
   const { username, password } = req.body
+  // console.log(req.body)
 
   try {
     const user = await User.findOne({ username })
-
+    // console.log(user)
     if (user && bcrypt.compareSync(password, user.password)) {
+      // console.log('password correct')
       res.status(200).json({
-        userId: user._id,
-        username: user.username,
-        accessToken: user.accessToken,
+        response: {
+          userId: user._id,
+          username: user.username,
+          accessToken: user.accessToken,
+        },
+        success: true,
       })
     } else {
       res.status(404).json({ response: 'User not found', success: false })
