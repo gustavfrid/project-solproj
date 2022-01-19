@@ -1,5 +1,5 @@
-import React, { useState, useRef, useMemo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useRef } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { MapContainer, TileLayer, Marker, LayersControl, useMapEvents, useMap } from 'react-leaflet'
 import styled from 'styled-components/macro'
 
@@ -8,36 +8,23 @@ import { project } from '../reducers/project'
 
 const MapWrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: 300px;
 `
 
 export const LeafletMap = () => {
-  const [position, setPosition] = useState({ lat: 59.32496507200476, lng: 18.070742255316343 })
-
+  const position = useSelector(store => store.project.position)
+  const dispatch = useDispatch()
   const markerRef = useRef(null)
   const ZOOM_LEVEL = 15
 
   const handleChangePosition = ({ lat, lng }) => {
-    setPosition({ lat: lat, lng: lng })
+    dispatch(project.actions.setPosition({ lat: lat, lng: lng }))
   }
-
-  const eventHandlers = useMemo(
-    () => ({
-      dragend() {
-        const marker = markerRef.current
-        if (marker != null) {
-          let newPosition = marker.getLatLng()
-          handleChangePosition({ lat: newPosition.lat, lng: newPosition.lng })
-        }
-      },
-    }),
-    []
-  )
 
   const MapEvents = () => {
     useMapEvents({
       click(e) {
-        setPosition({ lat: e.latlng.lat, lng: e.latlng.lng })
+        handleChangePosition({ lat: e.latlng.lat, lng: e.latlng.lng })
       },
     })
     return false
@@ -62,13 +49,23 @@ export const LeafletMap = () => {
             <TileLayer attribution={mapProviders.ESRI.attribution} url={mapProviders.ESRI.url} />
           </LayersControl.BaseLayer>
         </LayersControl>
-        <Marker draggable position={position} ref={markerRef} eventHandlers={eventHandlers} />
+        <Marker
+          draggable
+          position={position}
+          ref={markerRef}
+          eventHandlers={{
+            dragend: () => {
+              const marker = markerRef.current
+              if (marker != null) {
+                let newPosition = marker.getLatLng()
+                handleChangePosition({ lat: newPosition.lat, lng: newPosition.lng })
+                console.log('move position', newPosition)
+              }
+            },
+          }}
+        />
         <MapEvents />
       </MapContainer>
-
-      <p>
-        Latitude: {position.lat}, Longitude: {position.lng}
-      </p>
     </MapWrapper>
   )
 }

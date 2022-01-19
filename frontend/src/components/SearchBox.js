@@ -50,7 +50,7 @@ const ListItem = styled.li`
 export const SearchBox = () => {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState([])
-  const position = useSelector(store => store.project.location)
+  const position = useSelector(store => store.project.position)
   const dispatch = useDispatch()
 
   const onSubmit = e => {
