@@ -3,6 +3,7 @@ import cors from 'cors'
 import mongoose from 'mongoose'
 import crypto from 'crypto'
 import bcrypt from 'bcrypt'
+import axios from 'axios'
 
 const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost/solproj'
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, family: 4 })
@@ -105,9 +106,15 @@ app.post('/signin', async (req, res) => {
   }
 })
 
-app.get('/thoughts', authenticateUser)
-app.get('/thoughts', (req, res) => {
-  res.send('here are thoughts')
+// proxy to get PVGIS calculations
+// app.get('/pvgis', authenticateUser)
+app.get('/pvgis', async (req, res) => {
+  try {
+    const response = await axios.get(`https://re.jrc.ec.europa.eu/api/PVcalc?${req.body.query}`)
+    res.send(response.data)
+  } catch (error) {
+    res.json(error)
+  }
 })
 
 // Start the server
