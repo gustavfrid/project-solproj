@@ -17,7 +17,7 @@ const SearchInput = styled.input`
 `
 const ResultList = styled.ul`
   position: absolute;
-  display: inherit;
+  display: ${props => (props.showResults ? 'inherit' : 'none')};
   background: white;
   box-sizing: border-box;
   border: 1px solid black;
@@ -27,9 +27,9 @@ const ResultList = styled.ul`
   list-style-type: none;
   margin: 0;
   padding: 5px;
-  ${SearchInput}:focus + & {
+  /* ${SearchInput}:focus + & {
     display: inherit;
-  }
+  } */
 `
 const ListItem = styled.li`
   white-space: nowrap;
@@ -47,6 +47,7 @@ const ListItem = styled.li`
 export const SearchBox = () => {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState([])
+  const [showResults, setShowResults] = useState(false)
   const position = useSelector(store => store.project.position)
   const dispatch = useDispatch()
 
@@ -64,18 +65,20 @@ export const SearchBox = () => {
           })
         }
         setResults(res)
+        setShowResults(true)
       })
+  }
+
+  const onSelectResult = result => {
+    dispatch(project.actions.setPosition({ lat: result.lat, lng: result.lon }))
+    setShowResults(false)
   }
 
   const ResultsList = () => {
     return (
-      <ResultList>
+      <ResultList showResults={showResults}>
         {results?.map(result => (
-          <ListItem
-            key={result.place_id}
-            onClick={() =>
-              dispatch(project.actions.setPosition({ lat: result.lat, lng: result.lon }))
-            }>
+          <ListItem key={result.place_id} onClick={() => onSelectResult(result)}>
             {result.display_name}
           </ListItem>
         ))}

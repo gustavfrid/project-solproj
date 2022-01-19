@@ -11,7 +11,7 @@ export const PvForm = () => {
   const [systemAzimuth, setSystemAzimuth] = useState('')
   const [systemInclination, setSystemInclination] = useState('')
 
-  const handleSubmit = e => {
+  const onSubmitForm = e => {
     e.preventDefault()
     const form = new FormData(e.target)
     const formData = Object.fromEntries(form.entries())
@@ -19,7 +19,7 @@ export const PvForm = () => {
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={onSubmitForm}>
       <label htmlFor='systemSize'>System size</label>
       <input
         id='systemSize'
