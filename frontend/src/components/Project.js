@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { ProjectName } from './ProjectName'
 import { LeafletMap } from './LeafletMap'
 import { GeoLocate } from './GeoLocate'
 import { SearchBox } from './SearchBox'
@@ -14,6 +15,8 @@ export const Project = () => {
   return (
     <div>
       <h2>Create New Project</h2>
+      <h3>Project name</h3>
+      <ProjectName />
       <h3>Select location</h3>
       <LeafletMap />
       <Container>

@@ -11,7 +11,7 @@ export const setupStore = preloadedState => {
     compose
   const store = createStore(
     rootReducer,
-    preloadedState, //if persisted state, not so stable...
+    // preloadedState, //if persisted state, not so stable...
     composedEnhancers(applyMiddleware(thunkMiddleware))
   )
 

@@ -1,5 +1,8 @@
 import { useState } from 'react'
+import { useDispatch, batch } from 'react-redux'
 import styled from 'styled-components'
+
+import { project } from '../reducers/project'
 
 const Form = styled.form`
   display: flex;
@@ -10,11 +13,17 @@ export const PvForm = () => {
   const [systemSize, setSystemSize] = useState('')
   const [systemAzimuth, setSystemAzimuth] = useState('')
   const [systemInclination, setSystemInclination] = useState('')
+  const dispatch = useDispatch()
 
   const onSubmitForm = e => {
     e.preventDefault()
     const form = new FormData(e.target)
     const formData = Object.fromEntries(form.entries())
+    batch(() => {
+      dispatch(project.actions.setSystemSize(formData.systemSize))
+      dispatch(project.actions.setSystemAzimuth(formData.systemAzimuth))
+      dispatch(project.actions.setSystemInclination(formData.systemInclination))
+    })
     console.log('form submitted', formData)
   }
 
