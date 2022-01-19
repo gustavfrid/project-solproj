@@ -29,12 +29,12 @@ export const project = createSlice({
       state.systemInclination = action.payload
     },
     setPvgis: (state, action) => {
-      state.pvgis = { ...action.payload }
+      state.pvgis = action.payload
     },
   },
 })
 
-export const calculateEnergy = query => {
+export const calculateEnergy = () => {
   return (dispatch, getState) => {
     const options = {
       method: 'post',
@@ -42,23 +42,27 @@ export const calculateEnergy = query => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        lat: getState().project.position.lat,
-        lon: getState().project.position.lng,
-        raddatabase: 'PVGIS-ERA5',
-        peakpower: getState().project.systemSize,
-        pvtechchoice: 'crystSi',
-        mountingplace: 'building',
-        loss: 8,
-        angle: getState().project.systemInclination,
-        aspect: getState().project.systemAzimuth,
-        outputformat: 'json',
+        api: 'seriescalc', // seriescalc (for hourly data), PVcalc (for monthly data)
+        duration: { startyear: 2016, endyear: 2016 },
+        query: {
+          lat: getState().project.position.lat,
+          lon: getState().project.position.lng,
+          raddatabase: 'PVGIS-ERA5',
+          peakpower: getState().project.systemSize,
+          pvtechchoice: 'crystSi',
+          mountingplace: 'building',
+          loss: 8,
+          angle: getState().project.systemInclination,
+          aspect: getState().project.systemAzimuth,
+          outputformat: 'json',
+        },
       }),
     }
 
     fetch(API_URL('pvgis'), options)
       .then(res => res.json())
       .then(res => {
-        dispatch(project.actions.setPvgis({ energy: '100' }))
+        dispatch(project.actions.setPvgis('res'))
         console.log(res)
       })
   }

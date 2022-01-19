@@ -24,7 +24,7 @@ export const PvForm = () => {
       dispatch(project.actions.setSystemAzimuth(formData.systemAzimuth))
       dispatch(project.actions.setSystemInclination(formData.systemInclination))
     })
-    dispatch(calculateEnergy('lat=45&lon=8&peakpower=1&loss=14&outputformat=json'))
+    dispatch(calculateEnergy())
     console.log('form submitted', formData)
   }
 
