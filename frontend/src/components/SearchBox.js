@@ -5,9 +5,6 @@ import styled from 'styled-components/macro'
 import { project } from '../reducers/project'
 import { API_URL_NOMINATIM } from '../utils/constants'
 
-const LocationWrapper = styled.div`
-  display: flex;
-`
 const SearchWrapper = styled.div`
   position: relative;
   flex-grow: 1;
@@ -25,7 +22,7 @@ const ResultList = styled.ul`
   box-sizing: border-box;
   border: 1px solid black;
   border-radius: 5px;
-  width: 98%;
+  width: 100%;
   top: 26px;
   list-style-type: none;
   margin: 0;
@@ -87,18 +84,16 @@ export const SearchBox = () => {
   }
 
   return (
-    <LocationWrapper>
-      <SearchWrapper>
-        <SearchForm onSubmit={onSubmit}>
-          <SearchInput
-            type='text'
-            placeholder='search location'
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-          />
-          <ResultsList />
-        </SearchForm>
-      </SearchWrapper>
-    </LocationWrapper>
+    <SearchWrapper>
+      <SearchForm onSubmit={onSubmit}>
+        <SearchInput
+          type='text'
+          placeholder='search location'
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+        />
+        <ResultsList />
+      </SearchForm>
+    </SearchWrapper>
   )
 }
