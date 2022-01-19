@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
+import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components/macro'
 
+import { project } from '../reducers/project'
 import { API_URL_NOMINATIM } from '../utils/constants'
-import LocateSvg from '../assets/LocateIcon.svg'
 
 const LocationWrapper = styled.div`
   display: flex;
@@ -19,7 +20,7 @@ const SearchInput = styled.input`
 `
 const ResultList = styled.ul`
   position: absolute;
-  display: none;
+  display: inherit;
   background: white;
   box-sizing: border-box;
   border: 1px solid black;
@@ -45,15 +46,12 @@ const ListItem = styled.li`
     cursor: pointer;
   }
 `
-const LocateIcon = styled.img`
-  width: 20px;
-  height: 20px;
-  align-items: center;
-`
 
-export const SearchBox = ({ position, setPosition }) => {
+export const SearchBox = () => {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState([])
+  const position = useSelector(store => store.project.location)
+  const dispatch = useDispatch()
 
   const onSubmit = e => {
     e.preventDefault()
@@ -72,19 +70,15 @@ export const SearchBox = ({ position, setPosition }) => {
       })
   }
 
-  const onLocate = () => {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      setPosition({ lat: position.coords.latitude, lng: position.coords.longitude })
-    })
-  }
-
   const ResultsList = () => {
     return (
       <ResultList>
         {results?.map(result => (
           <ListItem
             key={result.place_id}
-            onClick={() => setPosition({ lat: result.lat, lng: result.lon })}>
+            onClick={() =>
+              dispatch(project.actions.setPosition({ lat: result.lat, lng: result.lon }))
+            }>
             {result.display_name}
           </ListItem>
         ))}
@@ -94,7 +88,6 @@ export const SearchBox = ({ position, setPosition }) => {
 
   return (
     <LocationWrapper>
-      <LocateIcon src={LocateSvg} onClick={onLocate} />
       <SearchWrapper>
         <SearchForm onSubmit={onSubmit}>
           <SearchInput

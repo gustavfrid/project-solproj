@@ -1,9 +1,10 @@
 import React, { useState, useRef, useMemo } from 'react'
-
+import { useDispatch, useSelector } from 'react-redux'
 import { MapContainer, TileLayer, Marker, LayersControl, useMapEvents, useMap } from 'react-leaflet'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
+
 import { mapProviders } from '../utils/mapProviders'
-import { SearchBox } from './SearchBox'
+import { project } from '../reducers/project'
 
 const MapWrapper = styled.div`
   width: 100%;
@@ -12,6 +13,7 @@ const MapWrapper = styled.div`
 
 export const LeafletMap = () => {
   const [position, setPosition] = useState({ lat: 59.32496507200476, lng: 18.070742255316343 })
+
   const markerRef = useRef(null)
   const ZOOM_LEVEL = 15
 
@@ -63,7 +65,7 @@ export const LeafletMap = () => {
         <Marker draggable position={position} ref={markerRef} eventHandlers={eventHandlers} />
         <MapEvents />
       </MapContainer>
-      <SearchBox setPosition={setPosition} position={position} />
+
       <p>
         Latitude: {position.lat}, Longitude: {position.lng}
       </p>
