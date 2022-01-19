@@ -35,14 +35,23 @@ export const project = createSlice({
 })
 
 export const calculateEnergy = query => {
-  return dispatch => {
+  return (dispatch, getState) => {
     const options = {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        query: query,
+        lat: getState().project.position.lat,
+        lon: getState().project.position.lng,
+        raddatabase: 'PVGIS-ERA5',
+        peakpower: getState().project.systemSize,
+        pvtechchoice: 'crystSi',
+        mountingplace: 'building',
+        loss: 8,
+        angle: getState().project.systemInclination,
+        aspect: getState().project.systemAzimuth,
+        outputformat: 'json',
       }),
     }
 

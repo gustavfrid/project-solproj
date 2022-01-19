@@ -109,12 +109,18 @@ app.post('/signin', async (req, res) => {
 // proxy to get PVGIS calculations
 // app.get('/pvgis', authenticateUser)
 app.post('/pvgis', async (req, res) => {
-  console.log(req.body.query)
+  let query = []
+  for (let key in req.body) {
+    if (req.body.hasOwnProperty(key)) {
+      query.push(key + '=' + req.body[key])
+    }
+  }
+  let pvgisQuery = query.join('&')
   try {
-    const response = await axios.get(`https://re.jrc.ec.europa.eu/api/PVcalc?${req.body.query}`)
+    const response = await axios.get(`https://re.jrc.ec.europa.eu/api/seriescalc?${pvgisQuery}`)
     res.send(response.data)
   } catch (error) {
-    res.json(error)
+    res.send(error.response.data)
   }
 })
 
