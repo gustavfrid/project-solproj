@@ -108,7 +108,8 @@ app.post('/signin', async (req, res) => {
 
 // proxy to get PVGIS calculations
 // app.get('/pvgis', authenticateUser)
-app.get('/pvgis', async (req, res) => {
+app.post('/pvgis', async (req, res) => {
+  console.log(req.body.query)
   try {
     const response = await axios.get(`https://re.jrc.ec.europa.eu/api/PVcalc?${req.body.query}`)
     res.send(response.data)

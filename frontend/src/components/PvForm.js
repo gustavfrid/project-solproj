@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useDispatch, batch } from 'react-redux'
 import styled from 'styled-components'
 
-import { project } from '../reducers/project'
+import { project, calculateEnergy } from '../reducers/project'
 
 const Form = styled.form`
   display: flex;
@@ -24,6 +24,7 @@ export const PvForm = () => {
       dispatch(project.actions.setSystemAzimuth(formData.systemAzimuth))
       dispatch(project.actions.setSystemInclination(formData.systemInclination))
     })
+    dispatch(calculateEnergy('lat=45&lon=8&peakpower=1&loss=14&outputformat=json'))
     console.log('form submitted', formData)
   }
 
