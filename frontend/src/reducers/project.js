@@ -5,7 +5,7 @@ import { API_URL } from '../utils/constants'
 export const project = createSlice({
   name: 'project',
   initialState: {
-    position: { lat: 59.32496507200476, lng: 18.070742255316343 },
+    location: { lat: 59.32496507200476, lng: 18.070742255316343 },
     projectName: '',
     systemSize: '',
     systemAzimuth: '',
@@ -13,8 +13,8 @@ export const project = createSlice({
     pvgis: '',
   },
   reducers: {
-    setPosition: (state, action) => {
-      state.position = { ...action.payload }
+    setLocation: (state, action) => {
+      state.location = { ...action.payload }
     },
     setProjectName: (state, action) => {
       state.projectName = action.payload
@@ -45,8 +45,8 @@ export const calculateEnergy = () => {
         api: 'seriescalc', // seriescalc (for hourly data), PVcalc (for monthly data)
         duration: { startyear: 2016, endyear: 2016 },
         query: {
-          lat: getState().project.position.lat,
-          lon: getState().project.position.lng,
+          lat: getState().project.location.lat,
+          lon: getState().project.location.lng,
           raddatabase: 'PVGIS-ERA5',
           peakpower: getState().project.systemSize,
           pvtechchoice: 'crystSi',
@@ -54,6 +54,7 @@ export const calculateEnergy = () => {
           loss: 8,
           angle: getState().project.systemInclination,
           aspect: getState().project.systemAzimuth,
+          pvcalculation: 1,
           outputformat: 'json',
         },
       }),

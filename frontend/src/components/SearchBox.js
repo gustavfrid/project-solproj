@@ -48,7 +48,7 @@ export const SearchBox = () => {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState([])
   const [showResults, setShowResults] = useState(false)
-  const position = useSelector(store => store.project.position)
+  const location = useSelector(store => store.project.position)
   const dispatch = useDispatch()
 
   const onSubmit = e => {
@@ -60,8 +60,8 @@ export const SearchBox = () => {
           res.push({
             place_id: 'no_place',
             display_name: 'No results',
-            lat: position.lat,
-            lon: position.lng,
+            lat: location.lat,
+            lon: location.lng,
           })
         }
         setResults(res)
@@ -70,7 +70,7 @@ export const SearchBox = () => {
   }
 
   const onSelectResult = result => {
-    dispatch(project.actions.setPosition({ lat: result.lat, lng: result.lon }))
+    dispatch(project.actions.setLocation({ lat: result.lat, lng: result.lon }))
     setShowResults(false)
   }
 

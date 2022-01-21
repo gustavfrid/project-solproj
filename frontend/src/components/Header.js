@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 import Sun from '../assets/sun.png'
@@ -7,6 +7,13 @@ const HeaderContainer = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 5px;
+`
+const LinkContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
   margin: 5px;
 `
 const Logo = styled.img`
@@ -18,10 +25,14 @@ export const Header = () => {
     <HeaderContainer>
       <Logo src={Sun} alt='logo' />
       <h1>SolProj</h1>
-      <nav>
-        <Link to='map'>Map</Link>
-        <Link to='project'>Project</Link>
-      </nav>
+
+      <LinkContainer>
+        <NavLink to='/maps/MapLeafletDraw'>Leaflet-Draw</NavLink>
+        <NavLink to='/maps/MapLeafletGeoman'>Leaflet-Geoman</NavLink>
+        <NavLink to='/maps/MapReactLeaflet'>React-Leaflet</NavLink>
+        <NavLink to='/maps/MapMapbox'>MapMapbox</NavLink>
+        MapMapbox
+      </LinkContainer>
     </HeaderContainer>
   )
 }

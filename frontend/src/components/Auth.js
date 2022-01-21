@@ -30,7 +30,7 @@ export const Auth = () => {
 
   useEffect(() => {
     if (accessToken) {
-      navigate('/main/project')
+      navigate('/maps/MapMapbox')
     }
   }, [accessToken, navigate])
 

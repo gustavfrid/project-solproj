@@ -12,11 +12,11 @@ export const GeoLocate = () => {
   const dispatch = useDispatch()
 
   const onLocate = () => {
-    navigator.geolocation.getCurrentPosition(position => {
+    navigator.geolocation.getCurrentPosition(location => {
       dispatch(
-        project.actions.setPosition({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
+        project.actions.setLocation({
+          lat: location.coords.latitude,
+          lng: location.coords.longitude,
         })
       )
     })

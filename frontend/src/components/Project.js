@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 import { ProjectName } from './ProjectName'
-import { LeafletMap } from './LeafletMap'
+import { LeafletMap } from './MapReactLeaflet'
 import { GeoLocate } from './GeoLocate'
 import { SearchBox } from './SearchBox'
 import { PvForm } from './PvForm'

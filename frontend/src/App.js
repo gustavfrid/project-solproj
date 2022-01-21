@@ -7,8 +7,12 @@ import { RequireAuth } from './utils/RequireAuth'
 import { Start } from './components/Start'
 import { Auth } from './components/Auth'
 import { NotFound } from './components/NotFound'
-import { Project } from './components/Project'
-import { LeafletMap } from './components/LeafletMap'
+// import { Project } from './components/Project'
+import { MapLeafletGeoman } from './components/Maps/MapLeafletGeoman'
+import { MapLeafletDraw } from './components/Maps/MapLeafletDraw'
+import { MapReactLeaflet } from './components/Maps/MapReactLeaflet'
+import { MapMapbox } from './components/Maps/MapMapbox'
+
 import { Layout } from './components/Layout'
 
 // Retrieve localstorage as initial state
@@ -34,9 +38,11 @@ export const App = () => {
           <Route path='/' element={<Start />} />
           <Route path='/login' element={<Auth />} />
           <Route element={<RequireAuth />}>
-            <Route path='/main' element={<Layout />}>
-              <Route path='project' element={<Project />} />
-              <Route path='map' element={<LeafletMap />} />
+            <Route path='maps' element={<Layout />}>
+              <Route path='MapLeafletDraw' element={<MapLeafletDraw />} />
+              <Route path='MapLeafletGeoman' element={<MapLeafletGeoman />} />
+              <Route path='MapReactLeaflet' element={<MapReactLeaflet />} />
+              <Route path='MapMapbox' element={<MapMapbox />} />
             </Route>
           </Route>
           <Route path='*' element={<NotFound />} />
