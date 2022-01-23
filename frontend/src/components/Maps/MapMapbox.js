@@ -25,8 +25,7 @@ const Sidebar = styled.div`
   z-index: 1;
 `
 
-mapboxgl.accessToken =
-  'pk.eyJ1IjoiZ3VzdGF2ZnJpZCIsImEiOiJja3lvZjBoYzAwbDJjMnZzMTdxa3ZwcmUxIn0.Xk9zOfPlgmfCBwJRHv2b6Q'
+mapboxgl.accessToken = process.env.REACT_APP_NOT_SECRET_CODE
 
 export const MapMapbox = () => {
   const location = useSelector(store => store.project.location)
@@ -34,7 +33,8 @@ export const MapMapbox = () => {
   const map = useRef(null)
   const [lng, setLng] = useState(location.lng)
   const [lat, setLat] = useState(location.lat)
-  const [area, setArea] = useState('0 m2')
+  // const [area, setArea] = useState('0 m2')
+  const [areas, setAreas] = useState([])
   const [zoom, setZoom] = useState(16)
 
   useEffect(() => {
@@ -60,17 +60,20 @@ export const MapMapbox = () => {
     const updateArea = e => {
       const data = draw.getAll()
 
-      console.log('hej')
+      console.log('updateArea', data.features)
       if (data.features.length > 0) {
-        const area = turf.area(data.features[0])
+        const features = data.features.map(feature => Math.round(turf.area(feature) * 100) / 100)
+        setAreas(features)
+        // const area = turf.area(data)
 
         // Restrict the area to 2 decimal points.
-        const rounded_area = Math.round(area * 100) / 100
-        setArea(rounded_area + ' m2')
-      } else {
-        if (e.type !== 'draw.delete') setArea('Click the map to draw a polygon.')
+        // const rounded_area = Math.round(area * 100) / 100
+        // setArea(rounded_area + ' m2')
       }
-      if (e.type === 'draw.delete') setArea('0 m2')
+      // else {
+      //   if (e.type !== 'draw.delete') setArea('Click the map to draw a polygon.')
+      // }
+      // if (e.type === 'draw.delete') setArea('0 m2')
     }
     map.current.on('draw.create', updateArea)
     map.current.on('draw.delete', updateArea)
@@ -90,7 +93,7 @@ export const MapMapbox = () => {
     <div>
       <MapContainer ref={mapContainer}>
         <Sidebar>
-          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom} | Area: {area}
+          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom} | {areas.map(area => `Area: ${area} `)}
         </Sidebar>
       </MapContainer>
     </div>
