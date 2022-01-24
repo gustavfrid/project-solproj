@@ -35,7 +35,7 @@ export const MapMapbox = () => {
   const [lat, setLat] = useState(location.lat)
   // const [area, setArea] = useState('0 m2')
   const [areas, setAreas] = useState([])
-  const [zoom, setZoom] = useState(16)
+  const [zoom, setZoom] = useState(17)
 
   useEffect(() => {
     if (map.current) return // initialize map only once

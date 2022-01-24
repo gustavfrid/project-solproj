@@ -63,7 +63,7 @@ export const calculateEnergy = () => {
     fetch(API_URL('pvgis'), options)
       .then(res => res.json())
       .then(res => {
-        dispatch(project.actions.setPvgis('res'))
+        dispatch(project.actions.setPvgis(res))
         console.log(res)
       })
   }

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 import { ProjectName } from './ProjectName'
-import { LeafletMap } from './MapReactLeaflet'
+import { MapMapbox } from './MapMapbox'
 import { GeoLocate } from './GeoLocate'
 import { SearchBox } from './SearchBox'
 import { PvForm } from './PvForm'
@@ -18,7 +18,7 @@ export const Project = () => {
       <h3>Project name</h3>
       <ProjectName />
       <h3>Select location</h3>
-      <LeafletMap />
+      <MapMapbox />
       <Container>
         <GeoLocate />
         <SearchBox />
