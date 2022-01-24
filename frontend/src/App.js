@@ -1,19 +1,18 @@
-import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { Provider } from 'react-redux'
+import React from "react"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { Provider } from "react-redux"
 
-import { setupStore } from './store/setupStore'
-import { RequireAuth } from './utils/RequireAuth'
-import { Start } from './components/Start'
-import { Auth } from './components/Auth'
-import { NotFound } from './components/NotFound'
-import { Project } from './components/Project'
-import { MapMapbox } from './components/MapMapbox'
-
-import { Layout } from './components/Layout'
+import { setupStore } from "./store/setupStore"
+import { RequireAuth } from "./utils/RequireAuth"
+import { Start } from "./components/Start"
+import { Auth } from "./components/Auth"
+import { NotFound } from "./components/NotFound"
+import { Project } from "./components/ProjectEditor/Project"
+import { MapMapbox } from "./components/Location/MapMapbox"
+import { Layout } from "./components/Layout/Layout"
 
 // Retrieve localstorage as initial state
-const persistedStateJSON = localStorage.getItem('solprojReduxState')
+const persistedStateJSON = localStorage.getItem("solprojReduxState")
 let persistedState = {}
 
 if (persistedStateJSON) {
@@ -24,7 +23,7 @@ const store = setupStore(persistedState)
 
 // Store the state in localstorage when Redux state change
 store.subscribe(() => {
-  localStorage.setItem('solprojReduxState', JSON.stringify(store.getState()))
+  localStorage.setItem("solprojReduxState", JSON.stringify(store.getState()))
 })
 
 export const App = () => {

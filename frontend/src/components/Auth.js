@@ -25,7 +25,7 @@ export const Auth = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const accessToken = useSelector(store => store.user.accessToken)
+  const accessToken = useSelector((store) => store.user.accessToken)
   //const loading = useSelector(store => store.user.loading)
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export const Auth = () => {
     }
   }
 
-  const onSubmit = event => {
+  const onSubmit = (event) => {
     event.preventDefault()
     dispatch(user.actions.setLoading(true))
 
@@ -56,8 +56,8 @@ export const Auth = () => {
         password: passwordInput,
       }),
     })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         console.log('signup/signin response', data)
         if (data.success) {
           batch(() => {
@@ -90,7 +90,7 @@ export const Auth = () => {
           type='text'
           placeholder='username'
           value={nameInput}
-          onChange={e => {
+          onChange={(e) => {
             setNameInput(e.target.value)
           }}
         />
@@ -100,13 +100,15 @@ export const Auth = () => {
           type='password'
           placeholder='password'
           value={passwordInput}
-          onChange={e => {
+          onChange={(e) => {
             setPasswordInput(e.target.value)
           }}
         />
         <button type='submit'>{formState}</button>
         <p onClick={onChangeFormState}>
-          {formState === 'signin' ? 'Create an account? Signup!' : 'Already user? Sign in!'}
+          {formState === 'signin'
+            ? 'Create an account? Signup!'
+            : 'Already user? Sign in!'}
         </p>
       </FormContainer>
     </Container>

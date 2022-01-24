@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
-import Sun from '../assets/sun.png'
+import Sun from '../../assets/sun.png'
 
 const HeaderContainer = styled.nav`
   display: flex;
@@ -27,7 +27,8 @@ export const Header = () => {
       <h1>SolProj</h1>
 
       <LinkContainer>
-        <NavLink to='/maps/MapMapbox'>MapMapbox</NavLink>
+        <NavLink to='/main/MapMapbox'>MapMapbox</NavLink>
+        <NavLink to='/main/MapMapbox'>MapMapbox</NavLink>
       </LinkContainer>
     </HeaderContainer>
   )

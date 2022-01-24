@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import styled from 'styled-components'
-import { project } from '../reducers/project'
+import { project } from '../../reducers/project'
 
 const Form = styled.form`
   display: flex;
@@ -13,7 +13,7 @@ export const ProjectName = () => {
   const [projectName, setProjectName] = useState('')
   const dispatch = useDispatch()
 
-  const onSubmitForm = e => {
+  const onSubmitForm = (e) => {
     e.preventDefault()
     const form = new FormData(e.target)
     const formData = Object.fromEntries(form.entries())
@@ -29,7 +29,7 @@ export const ProjectName = () => {
         type='text'
         placeholder='Project Name'
         value={projectName}
-        onChange={e => {
+        onChange={(e) => {
           setProjectName(e.target.value)
         }}
       />

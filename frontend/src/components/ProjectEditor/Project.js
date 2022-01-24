@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 
 import { ProjectName } from './ProjectName'
-import { MapMapbox } from './MapMapbox'
-import { GeoLocate } from './GeoLocate'
-import { SearchBox } from './SearchBox'
+import { MapMapbox } from '../Location/MapMapbox'
+import { GeoLocate } from '../Location/GeoLocate'
+import { SearchBox } from '../Location/SearchBox'
 import { PvForm } from './PvForm'
 
 const Container = styled.div`

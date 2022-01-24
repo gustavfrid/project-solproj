@@ -28,7 +28,7 @@ const Sidebar = styled.div`
 mapboxgl.accessToken = process.env.REACT_APP_NOT_SECRET_CODE
 
 export const MapMapbox = () => {
-  const location = useSelector(store => store.project.location)
+  const location = useSelector((store) => store.project.location)
   const mapContainer = useRef(null)
   const map = useRef(null)
   const [lng, setLng] = useState(location.lng)
@@ -57,12 +57,14 @@ export const MapMapbox = () => {
       defaultMode: 'draw_polygon',
     })
     map.current.addControl(draw)
-    const updateArea = e => {
+    const updateArea = (e) => {
       const data = draw.getAll()
 
       console.log('updateArea', data.features)
       if (data.features.length > 0) {
-        const features = data.features.map(feature => Math.round(turf.area(feature) * 100) / 100)
+        const features = data.features.map(
+          (feature) => Math.round(turf.area(feature) * 100) / 100
+        )
         setAreas(features)
         // const area = turf.area(data)
 
@@ -93,7 +95,8 @@ export const MapMapbox = () => {
     <div>
       <MapContainer ref={mapContainer}>
         <Sidebar>
-          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom} | {areas.map(area => `Area: ${area} `)}
+          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom} |{' '}
+          {areas.map((area) => `Area: ${area} `)}
         </Sidebar>
       </MapContainer>
     </div>

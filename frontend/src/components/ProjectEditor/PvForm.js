@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useDispatch, batch } from 'react-redux'
 import styled from 'styled-components'
 
-import { project, calculateEnergy } from '../reducers/project'
+import { project, calculateEnergy } from '../../reducers/project'
 
 const Form = styled.form`
   display: flex;
@@ -15,7 +15,7 @@ export const PvForm = () => {
   const [systemInclination, setSystemInclination] = useState('')
   const dispatch = useDispatch()
 
-  const onSubmitForm = e => {
+  const onSubmitForm = (e) => {
     e.preventDefault()
     const form = new FormData(e.target)
     const formData = Object.fromEntries(form.entries())
@@ -37,7 +37,7 @@ export const PvForm = () => {
         type='number'
         placeholder='System size kW'
         value={systemSize}
-        onChange={e => {
+        onChange={(e) => {
           setSystemSize(e.target.value)
         }}
       />
@@ -48,7 +48,7 @@ export const PvForm = () => {
         type='number'
         placeholder='The direction of the system'
         value={systemAzimuth}
-        onChange={e => {
+        onChange={(e) => {
           setSystemAzimuth(e.target.value)
         }}
       />
@@ -59,7 +59,7 @@ export const PvForm = () => {
         type='number'
         placeholder='The inclination of the system'
         value={systemInclination}
-        onChange={e => {
+        onChange={(e) => {
           setSystemInclination(e.target.value)
         }}
       />
