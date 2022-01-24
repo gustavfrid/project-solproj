@@ -27,11 +27,7 @@ export const Header = () => {
       <h1>SolProj</h1>
 
       <LinkContainer>
-        <NavLink to='/maps/MapLeafletDraw'>Leaflet-Draw</NavLink>
-        <NavLink to='/maps/MapLeafletGeoman'>Leaflet-Geoman</NavLink>
-        <NavLink to='/maps/MapReactLeaflet'>React-Leaflet</NavLink>
         <NavLink to='/maps/MapMapbox'>MapMapbox</NavLink>
-        MapMapbox
       </LinkContainer>
     </HeaderContainer>
   )

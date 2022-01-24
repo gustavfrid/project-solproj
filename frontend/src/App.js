@@ -8,10 +8,7 @@ import { Start } from './components/Start'
 import { Auth } from './components/Auth'
 import { NotFound } from './components/NotFound'
 // import { Project } from './components/Project'
-import { MapLeafletGeoman } from './components/Maps/MapLeafletGeoman'
-import { MapLeafletDraw } from './components/Maps/MapLeafletDraw'
-import { MapReactLeaflet } from './components/Maps/MapReactLeaflet'
-import { MapMapbox } from './components/Maps/MapMapbox'
+import { MapMapbox } from './components/MapMapbox'
 
 import { Layout } from './components/Layout'
 
@@ -39,9 +36,6 @@ export const App = () => {
           <Route path='/login' element={<Auth />} />
           <Route element={<RequireAuth />}>
             <Route path='maps' element={<Layout />}>
-              <Route path='MapLeafletDraw' element={<MapLeafletDraw />} />
-              <Route path='MapLeafletGeoman' element={<MapLeafletGeoman />} />
-              <Route path='MapReactLeaflet' element={<MapReactLeaflet />} />
               <Route path='MapMapbox' element={<MapMapbox />} />
             </Route>
           </Route>
