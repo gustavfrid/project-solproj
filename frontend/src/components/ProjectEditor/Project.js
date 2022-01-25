@@ -1,17 +1,14 @@
-import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
+
+import { saveProject } from '../../reducers/project'
 
 import { ProjectName } from './ProjectName'
 import { MapMapbox } from '../Location/MapMapbox'
-import { GeoLocate } from '../Location/GeoLocate'
-import { SearchBox } from '../Location/SearchBox'
 import { PvForm } from './PvForm'
 
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-`
-
 export const Project = () => {
+  const dispatch = useDispatch()
+
   return (
     <div>
       <h2>Create New Project</h2>
@@ -19,12 +16,9 @@ export const Project = () => {
       <ProjectName />
       <h3>Select location</h3>
       <MapMapbox />
-      <Container>
-        <GeoLocate />
-        <SearchBox />
-      </Container>
       <h3>System setup</h3>
       <PvForm />
+      <button onClick={() => dispatch(saveProject())}>Save project</button>
     </div>
   )
 }

@@ -5,8 +5,18 @@ import { API_URL } from '../utils/constants'
 export const project = createSlice({
   name: 'project',
   initialState: {
-    location: { lat: 59.32496507200476, lng: 18.070742255316343 },
+    projectId: '',
     projectName: '',
+    location: {
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [18.070742255316343, 59.32496507200476],
+      },
+      properties: {
+        name: 'center',
+      },
+    },
     systemSize: '',
     systemAzimuth: '',
     systemInclination: '',
@@ -40,6 +50,7 @@ export const calculateEnergy = () => {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: getState().user.accessToken,
       },
       body: JSON.stringify({
         api: 'seriescalc', // seriescalc (for hourly data), PVcalc (for monthly data)
@@ -61,10 +72,30 @@ export const calculateEnergy = () => {
     }
 
     fetch(API_URL('pvgis'), options)
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         dispatch(project.actions.setPvgis(res))
         console.log(res)
       })
+  }
+}
+
+export const saveProject = () => {
+  return (dispatch, getState) => {
+    console.log(getState().project)
+    const options = {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: getState().user.accessToken,
+      },
+      body: JSON.stringify({
+        project: getState().project,
+      }),
+    }
+
+    fetch(API_URL('project'), options)
+      .then((res) => res.json())
+      .then((res) => console.log(res))
   }
 }

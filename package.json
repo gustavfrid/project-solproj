@@ -3,5 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "postinstall": "npm install --prefix backend"
+  },
+  "dependencies": {
+    "@mapbox/mapbox-gl-geocoder": "^4.7.4"
   }
 }

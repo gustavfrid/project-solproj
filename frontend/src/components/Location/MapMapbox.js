@@ -1,13 +1,16 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import mapboxgl from '!mapbox-gl' // eslint-disable-line import/no-webpack-loader-syntax
 import * as turf from '@turf/turf'
 import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import styled from 'styled-components'
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 
 // css modules for mapbox
 import 'mapbox-gl/dist/mapbox-gl.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
+// css module for geocoding
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
 const MapContainer = styled.div`
   height: 500px;
@@ -31,6 +34,7 @@ export const MapMapbox = () => {
   const location = useSelector((store) => store.project.location)
   const mapContainer = useRef(null)
   const map = useRef(null)
+  const dispatch = useDispatch()
   const [lng, setLng] = useState(location.lng)
   const [lat, setLat] = useState(location.lat)
   // const [area, setArea] = useState('0 m2')
@@ -42,7 +46,7 @@ export const MapMapbox = () => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/satellite-v9',
-      center: [lng, lat],
+      center: location.geometry.coordinates,
       zoom: zoom,
     })
     const draw = new MapboxDraw({
@@ -54,29 +58,66 @@ export const MapMapbox = () => {
       },
       // Set mapbox-gl-draw to draw by default.
       // The user does not have to click the polygon control button first.
-      defaultMode: 'draw_polygon',
+      // defaultMode: 'draw_polygon',
     })
+
+    // Add the draw control to the map
     map.current.addControl(draw)
+
+    const marker = new mapboxgl.Marker({ draggable: true }) // initialize a new marker
+      .setLngLat(location.geometry.coordinates) // Marker [lng, lat] coordinates
+      .addTo(map.current) // Add the marker to the map
+
+    const onDragEnd = () => {
+      const lngLat = marker.getLngLat()
+
+      setLng(lngLat.lng.toFixed(4))
+      setLat(lngLat.lat.toFixed(4))
+    }
+    marker.on('dragend', onDragEnd)
+
     const updateArea = (e) => {
       const data = draw.getAll()
 
-      console.log('updateArea', data.features)
+      console.log(
+        'updateArea: ',
+        e.type,
+        'data:',
+        JSON.parse(JSON.stringify(data))
+      )
       if (data.features.length > 0) {
         const features = data.features.map(
           (feature) => Math.round(turf.area(feature) * 100) / 100
         )
         setAreas(features)
-        // const area = turf.area(data)
-
-        // Restrict the area to 2 decimal points.
-        // const rounded_area = Math.round(area * 100) / 100
-        // setArea(rounded_area + ' m2')
       }
-      // else {
-      //   if (e.type !== 'draw.delete') setArea('Click the map to draw a polygon.')
-      // }
-      // if (e.type === 'draw.delete') setArea('0 m2')
     }
+
+    const geocoder = new MapboxGeocoder({
+      // Initialize the geocoder
+      accessToken: mapboxgl.accessToken, // Set the access token
+      mapboxgl: mapboxgl, // Set the mapbox-gl instance
+      marker: false, // Do not use the default marker style
+      placeholder: 'Search location', // Placeholder text for the search bar
+      country: ['se'], // Boundary
+    })
+
+    const fullscreenControl = new mapboxgl.FullscreenControl()
+    const geolocateControl = new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      // When active the map will receive updates to the device's location as it changes.
+      trackUserLocation: true,
+      // Draw an arrow next to the location dot to indicate which direction the device is heading.
+      showUserHeading: true,
+    })
+
+    // Add the geocoder to the map
+    map.current.addControl(geocoder, 'bottom-right') // Add the geocoder to the map
+    map.current.addControl(fullscreenControl) // Add the fullscreen to the map
+    map.current.addControl(geolocateControl, 'bottom-right') // Add the geolocate to the map
+
     map.current.on('draw.create', updateArea)
     map.current.on('draw.delete', updateArea)
     map.current.on('draw.update', updateArea)
@@ -89,6 +130,10 @@ export const MapMapbox = () => {
       setLat(map.current.getCenter().lat.toFixed(4))
       setZoom(map.current.getZoom().toFixed(2))
     })
+
+    map.current.on('load', () => {
+      console.log('map loaded')
+    })
   })
 
   return (
@@ -96,7 +141,7 @@ export const MapMapbox = () => {
       <MapContainer ref={mapContainer}>
         <Sidebar>
           Longitude: {lng} | Latitude: {lat} | Zoom: {zoom} |{' '}
-          {areas.map((area) => `Area: ${area} `)}
+          {areas.map((area) => `Area: ${area} m2`)}
         </Sidebar>
       </MapContainer>
     </div>

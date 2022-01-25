@@ -6,10 +6,14 @@ import bcrypt from 'bcrypt'
 import axios from 'axios'
 
 const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost/solproj'
-mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, family: 4 })
+mongoose.connect(mongoUrl, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  family: 4,
+})
 mongoose.Promise = Promise
 
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   username: {
     type: String,
     unique: true,
@@ -25,7 +29,47 @@ const UserSchema = new mongoose.Schema({
   },
 })
 
-const User = mongoose.model('User', UserSchema)
+const User = mongoose.model('User', userSchema)
+
+const pointSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    enum: ['Point'],
+    required: true,
+  },
+  coordinates: {
+    type: [Number],
+    required: true,
+  },
+})
+
+const polygonSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    enum: ['Polygon'],
+    required: true,
+  },
+  coordinates: {
+    type: [[[Number]]], // Array of arrays of arrays of numbers
+    required: true,
+  },
+})
+
+const ProjectSchema = new mongoose.Schema({
+  projectName: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  location: {
+    type: pointSchema,
+    required: true,
+  },
+  systemSize: Number,
+  systemAzimuth: Number,
+  systemInclination: Number,
+  pvgis: '',
+})
 
 // Defines the port the app will run on. Defaults to 8080, but can be
 // overridden when starting the server. For example:
@@ -41,6 +85,7 @@ app.use(express.json())
 // check is accesstoken was sent with the request
 const authenticateUser = async (req, res, next) => {
   const accessToken = req.header('Authorization')
+
   try {
     const user = await User.findOne({ accessToken })
     if (user) {
@@ -83,13 +128,11 @@ app.post('/signup', async (req, res) => {
 
 app.post('/signin', async (req, res) => {
   const { username, password } = req.body
-  // console.log(req.body)
 
   try {
     const user = await User.findOne({ username })
-    // console.log(user)
+
     if (user && bcrypt.compareSync(password, user.password)) {
-      // console.log('password correct')
       res.status(200).json({
         response: {
           userId: user._id,
@@ -107,7 +150,7 @@ app.post('/signin', async (req, res) => {
 })
 
 // proxy to get PVGIS calculations
-// app.get('/pvgis', authenticateUser)
+app.post('/pvgis', authenticateUser)
 app.post('/pvgis', async (req, res) => {
   const { query, api, duration } = req.body
 
@@ -122,11 +165,24 @@ app.post('/pvgis', async (req, res) => {
     pvgisQuery = `${pvgisQuery}&startyear=${duration.startyear}&endyear=${duration.endyear}`
   }
   try {
-    const response = await axios.get(`https://re.jrc.ec.europa.eu/api/${pvgisQuery}`)
+    const response = await axios.get(
+      `https://re.jrc.ec.europa.eu/api/${pvgisQuery}`
+    )
     res.send(response.data)
   } catch (error) {
     res.send(error.response.data)
   }
+})
+
+app.post('/project', authenticateUser)
+app.post('/project', async (req, res) => {
+  // const {} = req.body
+  console.log(req.body)
+  // try {
+  //   res.send(response.data)
+  // } catch (error) {
+  //   res.send(error.response.data)
+  // }
 })
 
 // Start the server
