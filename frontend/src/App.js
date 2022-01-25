@@ -1,18 +1,19 @@
-import React from "react"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { Provider } from "react-redux"
+import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Provider } from 'react-redux'
 
-import { setupStore } from "./store/setupStore"
-import { RequireAuth } from "./utils/RequireAuth"
-import { Start } from "./components/Start"
-import { Auth } from "./components/Auth"
-import { NotFound } from "./components/NotFound"
-import { Project } from "./components/ProjectEditor/Project"
-import { MapMapbox } from "./components/Location/MapMapbox"
-import { Layout } from "./components/Layout/Layout"
+import { setupStore } from './store/setupStore'
+import { RequireAuth } from './utils/RequireAuth'
+import { Start } from './components/Start'
+import { Auth } from './components/Auth'
+import { NotFound } from './components/NotFound'
+import { Project } from './components/ProjectEditor/Project'
+import { MapMapbox } from './components/Location/MapMapbox'
+import { Layout } from './components/Layout/Layout'
+import { ProjectList } from './components/ProjectList'
 
 // Retrieve localstorage as initial state
-const persistedStateJSON = localStorage.getItem("solprojReduxState")
+const persistedStateJSON = localStorage.getItem('solprojReduxState')
 let persistedState = {}
 
 if (persistedStateJSON) {
@@ -23,7 +24,7 @@ const store = setupStore(persistedState)
 
 // Store the state in localstorage when Redux state change
 store.subscribe(() => {
-  localStorage.setItem("solprojReduxState", JSON.stringify(store.getState()))
+  localStorage.setItem('solprojReduxState', JSON.stringify(store.getState()))
 })
 
 export const App = () => {
@@ -37,6 +38,7 @@ export const App = () => {
             <Route path='main' element={<Layout />}>
               <Route path='Project' element={<Project />} />
               <Route path='MapMapbox' element={<MapMapbox />} />
+              <Route path='ProjectList' element={<ProjectList />} />
             </Route>
           </Route>
           <Route path='*' element={<NotFound />} />

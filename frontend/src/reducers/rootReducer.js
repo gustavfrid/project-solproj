@@ -3,6 +3,7 @@ import { combineReducers } from '@reduxjs/toolkit'
 import { user } from './user'
 import { ui } from './ui'
 import { project } from './project'
+import { projectList } from './projects'
 import { map } from './map'
 
 export const rootReducer = combineReducers({
@@ -10,4 +11,5 @@ export const rootReducer = combineReducers({
   ui: ui.reducer,
   project: project.reducer,
   map: map.reducer,
+  projectList: projectList.reducer,
 })

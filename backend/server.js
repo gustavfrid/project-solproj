@@ -208,7 +208,19 @@ app.post('/project', async (req, res) => {
       success: true,
     })
   } catch (error) {
-    console.log(error)
+    res.status(400).json({ response: error, success: false })
+  }
+})
+
+app.get('/project', authenticateUser)
+app.get('/project', async (req, res) => {
+  try {
+    const projectList = await Project.find()
+    res.status(201).json({
+      response: projectList,
+      success: true,
+    })
+  } catch (error) {
     res.status(400).json({ response: error, success: false })
   }
 })

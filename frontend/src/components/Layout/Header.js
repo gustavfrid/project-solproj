@@ -29,6 +29,7 @@ export const Header = () => {
       <LinkContainer>
         <NavLink to='/main/Project'>Project</NavLink>
         <NavLink to='/main/MapMapbox'>MapMapbox</NavLink>
+        <NavLink to='/main/ProjectList'>Project List</NavLink>
       </LinkContainer>
     </HeaderContainer>
   )
