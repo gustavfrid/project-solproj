@@ -23,10 +23,8 @@ export const ProjectList = () => {
   const projectList = useSelector((store) => store.projectList.projectList)
 
   useEffect(() => {
-    console.log('project list mounted')
     dispatch(getProjectList())
-    console.log('projectlist reponse', projectList)
-  }, [dispatch, projectList])
+  }, [dispatch])
 
   return (
     <ListWrapper>
