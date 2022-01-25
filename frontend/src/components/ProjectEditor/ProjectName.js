@@ -1,28 +1,20 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import styled from 'styled-components'
 import { project } from '../../reducers/project'
 
-const Form = styled.form`
+const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
 
 export const ProjectName = () => {
-  const [projectName, setProjectName] = useState('')
+  const projectName = useSelector((store) => store.project.projectName)
   const dispatch = useDispatch()
 
-  const onSubmitForm = (e) => {
-    e.preventDefault()
-    const form = new FormData(e.target)
-    const formData = Object.fromEntries(form.entries())
-    dispatch(project.actions.setProjectName(formData.projectName))
-    console.log('form submitted', formData)
-  }
-
   return (
-    <Form onSubmit={onSubmitForm}>
+    <InputWrapper>
       <input
         id='projectName'
         name='projectName'
@@ -30,9 +22,9 @@ export const ProjectName = () => {
         placeholder='Project Name'
         value={projectName}
         onChange={(e) => {
-          setProjectName(e.target.value)
+          dispatch(project.actions.setProjectName(e.target.value))
         }}
       />
-    </Form>
+    </InputWrapper>
   )
 }

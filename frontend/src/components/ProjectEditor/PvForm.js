@@ -18,6 +18,7 @@ export const PvForm = () => {
   const onSubmitForm = (e) => {
     e.preventDefault()
     const form = new FormData(e.target)
+    console.log(form)
     const formData = Object.fromEntries(form.entries())
     batch(() => {
       dispatch(project.actions.setSystemSize(formData.systemSize))

@@ -6,6 +6,8 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import styled from 'styled-components'
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 
+import { project } from '../../reducers/project'
+
 // css modules for mapbox
 import 'mapbox-gl/dist/mapbox-gl.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
@@ -35,8 +37,8 @@ export const MapMapbox = () => {
   const mapContainer = useRef(null)
   const map = useRef(null)
   const dispatch = useDispatch()
-  const [lng, setLng] = useState(location.lng)
-  const [lat, setLat] = useState(location.lat)
+  const [lng, setLng] = useState(location.coordinates.lng)
+  const [lat, setLat] = useState(location.coordinates.lat)
   // const [area, setArea] = useState('0 m2')
   const [areas, setAreas] = useState([])
   const [zoom, setZoom] = useState(17)
@@ -46,7 +48,7 @@ export const MapMapbox = () => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/satellite-v9',
-      center: location.geometry.coordinates,
+      center: location.coordinates,
       zoom: zoom,
     })
     const draw = new MapboxDraw({
@@ -65,12 +67,12 @@ export const MapMapbox = () => {
     map.current.addControl(draw)
 
     const marker = new mapboxgl.Marker({ draggable: true }) // initialize a new marker
-      .setLngLat(location.geometry.coordinates) // Marker [lng, lat] coordinates
+      .setLngLat(location.coordinates) // Marker [lng, lat] coordinates
       .addTo(map.current) // Add the marker to the map
 
     const onDragEnd = () => {
       const lngLat = marker.getLngLat()
-
+      onChangeProjectLocation([lngLat.lng, lngLat.lat])
       setLng(lngLat.lng.toFixed(4))
       setLat(lngLat.lat.toFixed(4))
     }
@@ -79,16 +81,9 @@ export const MapMapbox = () => {
     const updateArea = (e) => {
       const data = draw.getAll()
 
-      console.log(
-        'updateArea: ',
-        e.type,
-        'data:',
-        JSON.parse(JSON.stringify(data))
-      )
+      console.log('updateArea: ', e.type, 'data:', JSON.parse(JSON.stringify(data)))
       if (data.features.length > 0) {
-        const features = data.features.map(
-          (feature) => Math.round(turf.area(feature) * 100) / 100
-        )
+        const features = data.features.map((feature) => Math.round(turf.area(feature) * 100) / 100)
         setAreas(features)
       }
     }
@@ -100,6 +95,14 @@ export const MapMapbox = () => {
       marker: false, // Do not use the default marker style
       placeholder: 'Search location', // Placeholder text for the search bar
       country: ['se'], // Boundary
+    })
+
+    geocoder.on('result', (event) => {
+      console.log('result event', event.result.geometry)
+      console.log('marker data', marker)
+      onChangeProjectLocation(event.result.geometry.coordinates)
+      marker.setLngLat(event.result.geometry.coordinates)
+      // map.current.getSource('single-point').setData(event.result.geometry)
     })
 
     const fullscreenControl = new mapboxgl.FullscreenControl()
@@ -132,16 +135,39 @@ export const MapMapbox = () => {
     })
 
     map.current.on('load', () => {
-      console.log('map loaded')
+      console.log('load', map.current)
+      map.current.addSource('single-point', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+      })
+
+      map.current.addLayer({
+        id: 'point',
+        source: 'single-point',
+        type: 'circle',
+        paint: {
+          'circle-radius': 10,
+          'circle-color': '#448ee4',
+        },
+      })
+
+      // Listen for the `result` event from the Geocoder // `result` event is triggered when a user makes a selection
+      //  Add a marker at the result's coordinates
     })
   })
+
+  const onChangeProjectLocation = (coordinates) => {
+    dispatch(project.actions.setLocation(coordinates))
+  }
 
   return (
     <div>
       <MapContainer ref={mapContainer}>
         <Sidebar>
-          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom} |{' '}
-          {areas.map((area) => `Area: ${area} m2`)}
+          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom} | {areas.map((area) => `Area: ${area} m2`)}
         </Sidebar>
       </MapContainer>
     </div>

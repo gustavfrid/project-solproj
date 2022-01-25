@@ -5,6 +5,8 @@ import crypto from 'crypto'
 import bcrypt from 'bcrypt'
 import axios from 'axios'
 
+import prices from './large_data_sets/dayahead_prices_entsoe.json'
+
 const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost/solproj'
 mongoose.connect(mongoUrl, {
   useNewUrlParser: true,
@@ -31,6 +33,19 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema)
 
+const dayAheadPriceSchema = new mongoose.Schema({
+  // SE1: [mongoose.Schema.Types.Decimal128],
+  // SE2: [mongoose.Schema.Types.Decimal128],
+  // SE3: [mongoose.Schema.Types.Decimal128],
+  // SE4: [mongoose.Schema.Types.Decimal128],
+  SE1: [Number],
+  SE2: [Number],
+  SE3: [Number],
+  SE4: [Number],
+})
+
+const DayAheadPrice = mongoose.model('DayAheadPrice', dayAheadPriceSchema)
+
 const pointSchema = new mongoose.Schema({
   type: {
     type: String,
@@ -41,6 +56,7 @@ const pointSchema = new mongoose.Schema({
     type: [Number],
     required: true,
   },
+  // properties: {}
 })
 
 const polygonSchema = new mongoose.Schema({
@@ -68,8 +84,9 @@ const ProjectSchema = new mongoose.Schema({
   systemSize: Number,
   systemAzimuth: Number,
   systemInclination: Number,
-  pvgis: '',
+  pvgis: [Number],
 })
+const Project = mongoose.model('Project', ProjectSchema)
 
 // Defines the port the app will run on. Defaults to 8080, but can be
 // overridden when starting the server. For example:
@@ -98,6 +115,7 @@ const authenticateUser = async (req, res, next) => {
   }
 }
 
+// ----------------------------------------------------------------------------
 // Start defining your routes here
 app.get('/', (req, res) => {
   res.send('Welcome to solproj API')
@@ -165,9 +183,7 @@ app.post('/pvgis', async (req, res) => {
     pvgisQuery = `${pvgisQuery}&startyear=${duration.startyear}&endyear=${duration.endyear}`
   }
   try {
-    const response = await axios.get(
-      `https://re.jrc.ec.europa.eu/api/${pvgisQuery}`
-    )
+    const response = await axios.get(`https://re.jrc.ec.europa.eu/api/${pvgisQuery}`)
     res.send(response.data)
   } catch (error) {
     res.send(error.response.data)
@@ -176,13 +192,55 @@ app.post('/pvgis', async (req, res) => {
 
 app.post('/project', authenticateUser)
 app.post('/project', async (req, res) => {
-  // const {} = req.body
-  console.log(req.body)
-  // try {
-  //   res.send(response.data)
-  // } catch (error) {
-  //   res.send(error.response.data)
-  // }
+  const { projectName, systemSize, systemAzimuth, systemInclination, pvgis, location } = req.body.project
+
+  try {
+    const newProject = await new Project({
+      projectName,
+      location: location,
+      systemSize,
+      systemAzimuth,
+      systemInclination,
+      pvgis,
+    }).save()
+    res.status(201).json({
+      response: newProject,
+      success: true,
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(400).json({ response: error, success: false })
+  }
+})
+
+// app.get('/data', authenticateUser)
+app.get('/data', async (req, res) => {
+  const { priceZone } = req.body
+
+  if (priceZone) {
+    try {
+      const HourlyPrices = await DayAheadPrice.findById('61f05445117212bba8d1064b').select(priceZone)
+      res.status(200).json({
+        response: HourlyPrices,
+        success: true,
+      })
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({ response: error, success: false })
+    }
+  }
+})
+
+app.post('/setup', async (req, res) => {
+  const { SE1, SE2, SE3, SE4 } = prices
+
+  try {
+    const newPrices = await new DayAheadPrice({ SE1, SE2, SE3, SE4 }).save()
+    // console.log(newPrices)
+    res.status(201).json({ success: true })
+  } catch (error) {
+    res.status(400).json({ success: false })
+  }
 })
 
 // Start the server

@@ -8,14 +8,8 @@ export const project = createSlice({
     projectId: '',
     projectName: '',
     location: {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [18.070742255316343, 59.32496507200476],
-      },
-      properties: {
-        name: 'center',
-      },
+      type: 'Point',
+      coordinates: [18.070742255316343, 59.32496507200476],
     },
     systemSize: '',
     systemAzimuth: '',
@@ -23,8 +17,11 @@ export const project = createSlice({
     pvgis: '',
   },
   reducers: {
+    setProjectId: (state, action) => {
+      state.projectId = action.payload
+    },
     setLocation: (state, action) => {
-      state.location = { ...action.payload }
+      state.location.coordinates = action.payload
     },
     setProjectName: (state, action) => {
       state.projectName = action.payload
@@ -56,8 +53,8 @@ export const calculateEnergy = () => {
         api: 'seriescalc', // seriescalc (for hourly data), PVcalc (for monthly data)
         duration: { startyear: 2016, endyear: 2016 },
         query: {
-          lat: getState().project.location.lat,
-          lon: getState().project.location.lng,
+          lat: getState().project.location.coordinates[1],
+          lon: getState().project.location.coordinates[0],
           raddatabase: 'PVGIS-ERA5',
           peakpower: getState().project.systemSize,
           pvtechchoice: 'crystSi',
@@ -74,15 +71,15 @@ export const calculateEnergy = () => {
     fetch(API_URL('pvgis'), options)
       .then((res) => res.json())
       .then((res) => {
-        dispatch(project.actions.setPvgis(res))
-        console.log(res)
+        const production = res.outputs.hourly.map((hour) => hour.P)
+        dispatch(project.actions.setPvgis(production))
+        console.log(production)
       })
   }
 }
 
 export const saveProject = () => {
   return (dispatch, getState) => {
-    console.log(getState().project)
     const options = {
       method: 'post',
       headers: {
@@ -96,6 +93,6 @@ export const saveProject = () => {
 
     fetch(API_URL('project'), options)
       .then((res) => res.json())
-      .then((res) => console.log(res))
+      .then((res) => dispatch(project.actions.setProjectId(res.response._id)))
   }
 }
