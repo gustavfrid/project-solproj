@@ -3,7 +3,7 @@ build
 
 # misc
 .DS_Store
-
+_local_assets
 
 # Logs
 logs
