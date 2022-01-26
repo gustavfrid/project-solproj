@@ -4,6 +4,7 @@ import mongoose from 'mongoose'
 import crypto from 'crypto'
 import bcrypt from 'bcrypt'
 import axios from 'axios'
+import routes from './routes/routes.index'
 
 import prices from './large_data_sets/dayahead_prices_entsoe.json'
 
@@ -72,6 +73,9 @@ const polygonSchema = new mongoose.Schema({
 })
 
 const ProjectSchema = new mongoose.Schema({
+  // owner: {},
+  // created_at: { type: Date, default: new Date() },
+  // updated_at: { type: Date },
   projectName: {
     type: String,
     unique: true,
@@ -214,6 +218,7 @@ app.post('/project', async (req, res) => {
 
 app.get('/project', authenticateUser)
 app.get('/project', async (req, res) => {
+  const { userId } = req.body
   try {
     const projectList = await Project.find()
     res.status(201).json({
@@ -254,6 +259,8 @@ app.post('/setup', async (req, res) => {
     res.status(400).json({ success: false })
   }
 })
+
+app.use('/api', routes)
 
 // Start the server
 app.listen(port, () => {
