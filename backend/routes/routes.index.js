@@ -19,6 +19,6 @@ router.post('/signin', signin)
 router.get('/project', auth, getProjects)
 router.post('/project', auth, createProject)
 
-router.get('/pvgis', auth, calculatePvgis)
+router.post('/pvgis', auth, calculatePvgis)
 
 module.exports = router
