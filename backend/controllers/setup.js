@@ -1,4 +1,4 @@
-import prices from '../large_data_sets/dayahead_prices_entsoe.json'
+import prices from '../_local_assets/dayahead_prices_entsoe.json'
 
 export const setupController = async (req, res, next) => {
   const { SE1, SE2, SE3, SE4 } = prices
