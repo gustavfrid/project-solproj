@@ -1,14 +1,15 @@
 /*
  * call other imported services, or same service but different functions here if you need to
  */
-const testController = async (req, res, next) => {
+export const testController = async (req, res, next) => {
   const { user, content } = req.body
+  let message = (text) => text
   try {
-    let message = (text) => text
-    await message('test ok!')
+    const newMessage = await message('test ok!')
+    console.log(newMessage)
     // other service call (or same service, different function can go here)
     // i.e. - await generateBlogpostPreview()
-    res.sendStatus(201)
+    res.status(201).json({ message: newMessage })
     next()
   } catch (e) {
     console.log(e.message)
@@ -16,6 +17,7 @@ const testController = async (req, res, next) => {
   }
 }
 
-module.exports = {
-  testController,
+export const welcomeController = async (req, res, next) => {
+  res.send('Welcome to solproj API')
+  next()
 }
