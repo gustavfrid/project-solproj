@@ -7,9 +7,8 @@ import { RequireAuth } from './utils/RequireAuth'
 import { Start } from './components/Start'
 import { Auth } from './components/Auth'
 import { NotFound } from './components/NotFound'
-import { Project } from './components/ProjectEditor/Project'
-import { MapMapbox } from './components/Location/MapMapbox'
 import { Layout } from './components/Layout/Layout'
+import { Project } from './components/ProjectEditor/Project'
 import { ProjectList } from './components/ProjectList'
 
 // Retrieve localstorage as initial state
@@ -36,9 +35,8 @@ export const App = () => {
           <Route path='/login' element={<Auth />} />
           <Route element={<RequireAuth />}>
             <Route path='main' element={<Layout />}>
-              <Route path='Project' element={<Project />} />
-              <Route path='MapMapbox' element={<MapMapbox />} />
-              <Route path='ProjectList' element={<ProjectList />} />
+              <Route path='projects' element={<ProjectList />} />
+              <Route path='projects/edit/:id' element={<Project />} />
             </Route>
           </Route>
           <Route path='*' element={<NotFound />} />

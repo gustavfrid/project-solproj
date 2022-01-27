@@ -1,26 +1,8 @@
-import mongoose from 'mongoose'
-import crypto from 'crypto'
 import bcrypt from 'bcrypt'
 
-const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    unique: true,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  accessToken: {
-    type: String,
-    default: () => crypto.randomBytes(128).toString('hex'),
-  },
-})
+import { User, Role } from '../db/userModel'
 
-const User = mongoose.model('User', userSchema)
-
-// check is accesstoken was sent with the request
+// check if accesstoken was sent with the request
 export const auth = async (req, res, next) => {
   const accessToken = req.header('Authorization')
 
@@ -82,6 +64,22 @@ export const signin = async (req, res, next) => {
       res.status(404).json({ response: 'User not found', success: false })
       next()
     }
+  } catch (error) {
+    res.status(400).json({ response: error, success: false })
+  }
+}
+
+export const createRole = async (req, res, next) => {
+  const { description } = req.body
+
+  try {
+    const newRole = await new Role({ description }).save()
+
+    res.status(201).json({
+      response: { newRole },
+      success: true,
+    })
+    next()
   } catch (error) {
     res.status(400).json({ response: error, success: false })
   }

@@ -30,7 +30,7 @@ export const Auth = () => {
 
   useEffect(() => {
     if (accessToken) {
-      navigate('/main/Project')
+      navigate('/main/projects')
     }
   }, [accessToken, navigate])
 
@@ -105,11 +105,7 @@ export const Auth = () => {
           }}
         />
         <button type='submit'>{formState}</button>
-        <p onClick={onChangeFormState}>
-          {formState === 'signin'
-            ? 'Create an account? Signup!'
-            : 'Already user? Sign in!'}
-        </p>
+        <p onClick={onChangeFormState}>{formState === 'signin' ? 'Create an account? Signup!' : 'Already user? Sign in!'}</p>
       </FormContainer>
     </Container>
   )

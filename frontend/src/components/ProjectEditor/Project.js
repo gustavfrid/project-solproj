@@ -1,6 +1,8 @@
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
 
-import { saveProject } from '../../reducers/project'
+import { project, saveProject } from '../../reducers/project'
 
 import { ProjectName } from './ProjectName'
 import { MapMapbox } from '../Location/MapMapbox'
@@ -8,6 +10,17 @@ import { PvForm } from './PvForm'
 
 export const Project = () => {
   const dispatch = useDispatch()
+  let { projectId } = useParams()
+  console.log('project id', projectId)
+
+  useEffect(() => {
+    if (projectId === 'new') {
+      console.log('new project')
+    }
+    // return () => {
+    //   second;
+    // };
+  }, [])
 
   return (
     <div>

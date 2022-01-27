@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
 
-import routes from './routes/routes.index'
+import routes from './routes/routes'
 
 const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost/solproj'
 mongoose.connect(mongoUrl, {

@@ -87,7 +87,26 @@ export const saveProject = () => {
         Authorization: getState().user.accessToken,
       },
       body: JSON.stringify({
-        project: getState().project,
+        project: { owner: getState().userId, ...getState().project },
+      }),
+    }
+    console.log('seding create project', options)
+    fetch(API_URL('project'), options)
+      .then((res) => res.json())
+      .then((res) => dispatch(project.actions.setProjectId(res.response._id)))
+  }
+}
+
+export const getProject = () => {
+  return (dispatch, getState) => {
+    const options = {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: getState().user.accessToken,
+      },
+      body: JSON.stringify({
+        project: {},
       }),
     }
 

@@ -1,37 +1,40 @@
-import mongoose from 'mongoose'
 import axios from 'axios'
+import { HourlyData } from '../db/hourlyDataModel'
+// import prices from '../_local_assets/dayahead_prices_entsoe.json'
 
-const dayAheadPriceSchema = new mongoose.Schema({
-  // SE1: [mongoose.Schema.Types.Decimal128],
-  // SE2: [mongoose.Schema.Types.Decimal128],
-  // SE3: [mongoose.Schema.Types.Decimal128],
-  // SE4: [mongoose.Schema.Types.Decimal128],
-  SE1: [Number],
-  SE2: [Number],
-  SE3: [Number],
-  SE4: [Number],
-})
+export const setupHourlyData = async (req, res, next) => {
+  const { description, data } = req.body
 
-const DayAheadPrice = mongoose.model('DayAheadPrice', dayAheadPriceSchema)
+  try {
+    const newHourlyData = await new HourlyData({ description, data }).save()
+    res.status(201).json({ success: true })
+    next()
+  } catch (error) {
+    res.status(400).json({ response: error, success: false })
+    next()
+  }
+}
 
-export const dataController = async (req, res, next) => {
-  const { priceZone } = req.body
+export const getHourlyData = async (req, res, next) => {
+  const { description } = req.body
 
-  if (priceZone) {
+  if (description) {
     try {
-      const HourlyPrices = await DayAheadPrice.findById('61f05445117212bba8d1064b').select(priceZone)
+      const response = await HourlyData.findOne({ description })
       res.status(200).json({
-        response: HourlyPrices,
+        response,
         success: true,
       })
       next()
     } catch (error) {
       console.log(error)
-      res.status(400).json({ response: error, success: false })
+      res.status(400).json({ error, success: false })
       next()
     }
   }
 }
+
+// TODO: move to a service?
 
 export const calculatePvgis = async (req, res, next) => {
   const { query, api, duration } = req.body
