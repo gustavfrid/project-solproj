@@ -6,7 +6,6 @@ const userSchema = new mongoose.Schema({
   role: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Role',
-    default: 'user',
   },
   password: { type: String, required: true },
   accessToken: {
