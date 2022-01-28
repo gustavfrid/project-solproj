@@ -1,8 +1,7 @@
-import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import styled from 'styled-components'
-import { project } from '../../reducers/project'
+import { project } from '../../reducers/projectReducer'
 
 const InputWrapper = styled.div`
   display: flex;

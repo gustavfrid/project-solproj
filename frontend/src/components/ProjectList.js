@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import moment from 'moment'
 import styled from 'styled-components'
 
 import { getProjectList } from '../reducers/projects'
@@ -32,7 +33,8 @@ export const ProjectList = () => {
       <List>
         {projectList?.map((project) => (
           <ListItem key={project._id}>
-            <Link to={`edit/${project._id}`}>Project name: {project.projectName}</Link> <div>Size: {project.systemSize} kW</div>
+            <Link to={`${project._id}`}>Project name: {project.projectName}</Link>
+            <div>Updated: {moment(project.updatedAt).fromNow()}</div> <div>Size: {project.systemSize} kW</div>
           </ListItem>
         ))}
       </List>

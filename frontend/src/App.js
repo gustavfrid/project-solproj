@@ -8,8 +8,9 @@ import { Start } from './components/Start'
 import { Auth } from './components/Auth'
 import { NotFound } from './components/NotFound'
 import { Layout } from './components/Layout/Layout'
-import { Project } from './components/ProjectEditor/Project'
+import { ProjectEditor } from './components/ProjectEditor/ProjectEditor'
 import { ProjectList } from './components/ProjectList'
+import { LoadingProject } from './components/ProjectEditor/LoadingProject'
 
 // Retrieve localstorage as initial state
 const persistedStateJSON = localStorage.getItem('solprojReduxState')
@@ -36,7 +37,8 @@ export const App = () => {
           <Route element={<RequireAuth />}>
             <Route path='main' element={<Layout />}>
               <Route path='projects' element={<ProjectList />} />
-              <Route path='projects/edit/:id' element={<Project />} />
+              <Route path='projects/:id' element={<ProjectEditor />} />
+              <Route path='projects/loading' element={<LoadingProject />} />
             </Route>
           </Route>
           <Route path='*' element={<NotFound />} />

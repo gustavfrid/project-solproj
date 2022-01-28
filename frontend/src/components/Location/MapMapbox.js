@@ -6,7 +6,7 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import styled from 'styled-components'
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 
-import { project } from '../../reducers/project'
+import { project } from '../../reducers/projectReducer'
 
 // css modules for mapbox
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -31,6 +31,8 @@ const Sidebar = styled.div`
 `
 
 mapboxgl.accessToken = process.env.REACT_APP_NOT_SECRET_CODE
+
+// TODO: make marker into separate component
 
 export const MapMapbox = () => {
   const location = useSelector((store) => store.project.location)
@@ -135,7 +137,6 @@ export const MapMapbox = () => {
     })
 
     map.current.on('load', () => {
-      console.log('load', map.current)
       map.current.addSource('single-point', {
         type: 'geojson',
         data: {

@@ -1,7 +1,7 @@
 import express from 'express'
 import { auth, signin, signup, createRole } from '../controllers/userController'
 import { setupHourlyData, getHourlyData, calculatePvgis } from '../controllers/hourlyDataController'
-import { getProjects, createProject, getProjectById } from '../controllers/projectController'
+import { getProjectList, createProject, updateProject, getProjectById } from '../controllers/projectController'
 
 const router = express.Router()
 
@@ -11,14 +11,15 @@ router.get('/', async (req, res, next) => {
 })
 
 router.post('/setup', setupHourlyData) // setup data seeding
-router.get('/data', auth, getHourlyData)
+router.post('/setup/role', createRole) // setup roles
+router.get('/data', auth, getHourlyData) // get hourly data
 
 router.post('/signup', signup) // create user
 router.post('/signin', signin) // check password & signin
-router.get('/project', auth, getProjects) // get list of projects
-router.post('/project', auth, createProject) // create project
-router.get('/project', auth, getProjectById) // get singel project by id
+router.post('/project', auth, getProjectList) // get list of projects
+router.post('/project/new', auth, createProject) // create project
+router.post('/project/:userId/:projectId', auth, updateProject) // update project
+router.get('/project/:userId/:projectId', auth, getProjectById) // get single project by id
 router.post('/pvgis', auth, calculatePvgis) // calculate energi with pvgis API
-router.post('/setup/role', createRole)
 
 module.exports = router

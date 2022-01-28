@@ -1,8 +1,7 @@
-import { useState } from 'react'
-import { useDispatch, batch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
-import { project, calculateEnergy } from '../../reducers/project'
+import { project, calculateEnergy } from '../../reducers/projectReducer'
 
 const Form = styled.form`
   display: flex;
@@ -10,23 +9,13 @@ const Form = styled.form`
 `
 
 export const PvForm = () => {
-  const [systemSize, setSystemSize] = useState('')
-  const [systemAzimuth, setSystemAzimuth] = useState('')
-  const [systemInclination, setSystemInclination] = useState('')
+  const { systemSize, systemAzimuth, systemInclination } = useSelector((store) => store.project)
+
   const dispatch = useDispatch()
 
   const onSubmitForm = (e) => {
     e.preventDefault()
-    const form = new FormData(e.target)
-    console.log(form)
-    const formData = Object.fromEntries(form.entries())
-    batch(() => {
-      dispatch(project.actions.setSystemSize(formData.systemSize))
-      dispatch(project.actions.setSystemAzimuth(formData.systemAzimuth))
-      dispatch(project.actions.setSystemInclination(formData.systemInclination))
-    })
     dispatch(calculateEnergy())
-    console.log('form submitted', formData)
   }
 
   return (
@@ -39,7 +28,7 @@ export const PvForm = () => {
         placeholder='System size kW'
         value={systemSize}
         onChange={(e) => {
-          setSystemSize(e.target.value)
+          dispatch(project.actions.setSystemSize(e.target.value))
         }}
       />
       <label htmlFor='systemAzimuth'>Direction</label>
@@ -50,7 +39,7 @@ export const PvForm = () => {
         placeholder='The direction of the system'
         value={systemAzimuth}
         onChange={(e) => {
-          setSystemAzimuth(e.target.value)
+          dispatch(project.actions.setSystemAzimuth(e.target.value))
         }}
       />
       <label htmlFor='systemInclination'>Inclination</label>
@@ -61,7 +50,7 @@ export const PvForm = () => {
         placeholder='The inclination of the system'
         value={systemInclination}
         onChange={(e) => {
-          setSystemInclination(e.target.value)
+          dispatch(project.actions.setSystemInclination(e.target.value))
         }}
       />
       <button type='submit'>Calculate</button>

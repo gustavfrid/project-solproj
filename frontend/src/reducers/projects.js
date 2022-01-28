@@ -15,18 +15,19 @@ export const projectList = createSlice({
 export const getProjectList = () => {
   return (dispatch, getState) => {
     const options = {
-      method: 'get',
+      method: 'post',
       headers: {
         'Content-Type': 'application/json',
         Authorization: getState().user.accessToken,
       },
+      body: JSON.stringify({ userId: getState().user.userId }),
     }
 
     fetch(API_URL('project'), options)
       .then((res) => res.json())
       .then((res) => {
-        console.log(res)
         dispatch(projectList.actions.setProjectList(res.response))
       })
+      .catch((err) => console.log(err))
   }
 }

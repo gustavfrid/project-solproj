@@ -27,7 +27,7 @@ export const Header = () => {
       <h1>SolProj</h1>
 
       <LinkContainer>
-        <NavLink to='/main/projects/edit/new'>Create new project</NavLink>
+        <NavLink to='/main/projects/new'>Create new project</NavLink>
         <NavLink to='/main/projects'>Project List</NavLink>
       </LinkContainer>
     </HeaderContainer>

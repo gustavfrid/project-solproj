@@ -2,7 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit'
 
 import { user } from './user'
 import { ui } from './ui'
-import { project } from './project'
+import { project } from './projectReducer'
 import { projectList } from './projects'
 import { map } from './map'
 
