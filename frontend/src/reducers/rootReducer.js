@@ -3,7 +3,7 @@ import { combineReducers } from '@reduxjs/toolkit'
 import { user } from './user'
 import { ui } from './ui'
 import { project } from './projectReducer'
-import { projectList } from './projects'
+import { projectList } from './projectListReducer'
 import { map } from './map'
 
 export const rootReducer = combineReducers({
