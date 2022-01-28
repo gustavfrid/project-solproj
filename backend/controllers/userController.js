@@ -27,6 +27,7 @@ export const signup = async (req, res, next) => {
     const newUser = await new User({
       username,
       password: bcrypt.hashSync(password, salt), //, salt
+      role: '61f1a947794ba48500cb4f4b',
     }).save()
 
     res.status(201).json({
