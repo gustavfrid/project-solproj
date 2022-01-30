@@ -45,6 +45,7 @@ const ProjectSchema = new mongoose.Schema({
   systemSize: Number,
   systemAzimuth: Number,
   systemInclination: Number,
+  yearlyLoad: Number,
   pvgis: {},
 })
 

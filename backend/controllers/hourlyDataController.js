@@ -34,11 +34,11 @@ export const setupHourlyData = async (req, res, next) => {
 }
 
 export const getHourlyData = async (req, res, next) => {
-  const { description } = req.body
+  const { name } = req.params
 
-  if (description) {
+  if (name) {
     try {
-      const response = await HourlyData.findOne({ description })
+      const response = await HourlyData.findOne({ name })
       res.status(200).json({
         response,
         success: true,

@@ -15,7 +15,8 @@ export const getProjectList = async (req, res, next) => {
 }
 
 export const createProject = async (req, res, next) => {
-  const { projectName, systemSize, systemAzimuth, systemInclination, pvgis, location, owner } = req.body.project
+  const { projectName, systemSize, systemAzimuth, systemInclination, yearlyLoad, pvgis, location, owner } =
+    req.body.project
   console.log('[createProject]: started')
   try {
     const newProject = await new Project({
@@ -25,6 +26,7 @@ export const createProject = async (req, res, next) => {
       systemSize,
       systemAzimuth,
       systemInclination,
+      yearlyLoad,
       pvgis,
     }).save()
     console.log('created project', newProject)

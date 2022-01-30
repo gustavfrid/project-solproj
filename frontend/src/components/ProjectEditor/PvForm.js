@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
-import { project, calculateEnergy } from '../../reducers/projectReducer'
+import { project, calculateEnergy, getHourlyData } from '../../reducers/projectReducer'
 
 const Form = styled.form`
   display: flex;
@@ -9,13 +9,14 @@ const Form = styled.form`
 `
 
 export const PvForm = () => {
-  const { systemSize, systemAzimuth, systemInclination } = useSelector((store) => store.project)
+  const { systemSize, systemAzimuth, systemInclination, yearlyLoad } = useSelector((store) => store.project)
 
   const dispatch = useDispatch()
 
   const onSubmitForm = (e) => {
     e.preventDefault()
     dispatch(calculateEnergy())
+    dispatch(getHourlyData('domestic', 'loadProfile'))
   }
 
   return (
@@ -51,6 +52,17 @@ export const PvForm = () => {
         value={systemInclination}
         onChange={(e) => {
           dispatch(project.actions.setSystemInclination(e.target.value))
+        }}
+      />
+      <label htmlFor='yearlyLoad'>Yearly electricity consumption</label>
+      <input
+        id='yearlyLoad'
+        name='yearlyLoad'
+        type='number'
+        placeholder='Your yearly kWh'
+        value={yearlyLoad}
+        onChange={(e) => {
+          dispatch(project.actions.setYearlyLoad(e.target.value))
         }}
       />
       <button type='submit'>Calculate</button>

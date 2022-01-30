@@ -11,7 +11,7 @@ import { BarChart } from './BarChart'
 import { LineChart } from './LineChart'
 
 export const ProjectEditor = () => {
-  const { pvgis } = useSelector((store) => store.project)
+  const { pvgis, load } = useSelector((store) => store.project)
   console.log('[ProjectEditor]: pvgis', pvgis)
   const dispatch = useDispatch()
   let navigate = useNavigate()
@@ -48,7 +48,7 @@ export const ProjectEditor = () => {
       <h3>System setup</h3>
       <PvForm />
       <button onClick={() => onSaveProject()}>{id === 'new' ? 'Create project' : 'Save project'}</button>
-      {pvgis && <BarChart dataSeries={pvgis} />}
+      {pvgis && <BarChart dataSeries={{ pvgis, load }} />}
       {/* {pvgis && <LineChart dataSeries={pvgis} />} */}
     </div>
   )

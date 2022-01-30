@@ -15,7 +15,10 @@ const initialState = {
   systemSize: '',
   systemAzimuth: '',
   systemInclination: '',
+  yearlyLoad: '',
   pvgis: '',
+  load: '',
+  price: '',
 }
 
 export const project = createSlice({
@@ -40,14 +43,19 @@ export const project = createSlice({
     setSystemInclination: (state, action) => {
       state.systemInclination = action.payload
     },
+    setYearlyLoad: (state, action) => {
+      state.yearlyLoad = action.payload
+    },
     setPvgis: (state, action) => {
       state.pvgis = action.payload
     },
+    setLoad: (state, action) => {
+      state.load = action.payload
+    },
+    setPrice: (state, action) => {
+      state.price = action.payload
+    },
     reset: (state) => (state = initialState),
-    // setProjectFromDb: (state, action) => {
-    //   console.log('[setProjectFromDb]: ', action.payload)
-    //   state = { ...action.payload }
-    // },
   },
 })
 
@@ -99,6 +107,45 @@ export const calculateEnergy = () => {
         dispatch(
           project.actions.setPvgis({ hourly: hourlyProduction, daily: dailyProduction, monthly: monthlyProduction })
         )
+        dispatch(ui.actions.setLoading(false))
+      })
+  }
+}
+
+export const getHourlyData = (name, type) => {
+  return (dispatch, getState) => {
+    dispatch(ui.actions.setLoading(true))
+
+    const yearlyLoad = getState().project.yearlyLoad
+
+    const options = {
+      method: 'get',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: getState().user.accessToken,
+      },
+    }
+
+    fetch(API_URL(`data/${name}`), options)
+      .then((res) => res.json())
+      .then((res) => {
+        // console.log('get data', res)
+
+        let hourlyData = res.response.data
+        let dailyData = []
+        let monthlyData = []
+        if (type === 'loadProfile') {
+          hourlyData = res.response.data.map((item) => item * yearlyLoad)
+        }
+        dailyData = hoursToDays(hourlyData)
+        if (type === 'loadProfile') {
+          dispatch(project.actions.setLoad({ hourly: hourlyData, daily: dailyData, monthly: monthlyData }))
+          // console.log('data saved:', type)
+        }
+        if (type === 'spotPrice') {
+          dispatch(project.actions.setPrice({ hourly: hourlyData, daily: dailyData, monthly: monthlyData }))
+        }
+
         dispatch(ui.actions.setLoading(false))
       })
   }
@@ -169,8 +216,10 @@ export const getProject = (projectId) => {
           dispatch(project.actions.setSystemSize(res.response.systemSize))
           dispatch(project.actions.setSystemAzimuth(res.response.systemAzimuth))
           dispatch(project.actions.setSystemInclination(res.response.systemInclination))
+          dispatch(project.actions.setYearlyLoad(res.response.yearlyLoad))
           dispatch(project.actions.setPvgis(res.response.pvgis))
         })
+        dispatch(getHourlyData('domestic', 'loadProfile'))
       })
   }
 }

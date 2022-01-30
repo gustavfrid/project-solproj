@@ -4,9 +4,11 @@ import { Bar } from 'react-chartjs-2'
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 export const BarChart = ({ dataSeries }) => {
-  console.log('[BarCHart]: ', dataSeries)
-  const { daily, hourly, monthly } = dataSeries
-  const dataSerie = daily
+  //   console.log('[BarCHart]: ', dataSeries)
+  const loadDaily = dataSeries.load.daily
+  const pvgisDaily = dataSeries.pvgis.daily
+  //   const { daily, hourly, monthly } = dataSeries
+  //   const dataSerie = daily
   const options = {
     responsive: true,
     plugins: {
@@ -24,27 +26,32 @@ export const BarChart = ({ dataSeries }) => {
           callback: function (val, index) {
             return (index + 1) % 2 === 0 ? this.getLabelForValue(val) : ''
           },
-          color: 'red',
+          //   color: 'red',
         },
       },
     },
   }
   let labels = []
-  if (dataSerie.length <= 12) {
-    labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  } else {
-    labels = Array.from({ length: 365 }, (_, i) => i + 1) //.map((val) => (val % 30 === 0 ? val : ''))
-    console.log(labels)
-    console.log(labels.map((val) => (val % 30 === 0 ? val : '')))
-  }
+  //   if (dataSerie.length <= 12) {
+  //     labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  //   } else {
+  labels = Array.from({ length: 365 }, (_, i) => i + 1) //.map((val) => (val % 30 === 0 ? val : ''))
+  //     console.log(labels)
+  //     console.log(labels.map((val) => (val % 30 === 0 ? val : '')))
+  //   }
 
   const data = {
     labels,
     datasets: [
       {
-        label: 'PVGIS',
-        data: dataSerie,
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        label: 'Production',
+        data: pvgisDaily,
+        backgroundColor: 'rgba(244, 162, 4, 0.8)',
+      },
+      {
+        label: 'Consumtion',
+        data: loadDaily,
+        backgroundColor: 'rgba(100, 82, 82, 0.5)',
       },
     ],
   }
