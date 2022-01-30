@@ -3,61 +3,27 @@ import { useDispatch, useSelector, batch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
-import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import InputLabel from '@mui/material/InputLabel'
-import InputAdornment from '@mui/material/InputAdornment'
-import FormControl from '@mui/material/FormControl'
-// import Visibility from '@mui/icons-material/Visibility'
-// import VisibilityOff from '@mui/icons-material/VisibilityOff'
-
 import { user } from '../reducers/user'
 import { API_URL } from '../utils/constants'
 
+import { Signup } from './Auth/Signup'
+
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 20px;
   height: 100vh;
-`
-const FormContainer = styled.form`
-  display: flex;
-  flex-direction: column;
-  width: 200px;
 `
 
 export const Auth = () => {
-  const [nameInput, setNameInput] = useState('')
-  const [passwordInput, setPasswordInput] = useState('')
   const [formState, setFormState] = useState('signin')
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const accessToken = useSelector((store) => store.user.accessToken)
   //const loading = useSelector(store => store.user.loading)
-
-  // ----------------------mui test
-  const [values, setValues] = useState({
-    password: '',
-    showPassword: false,
-  })
-
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value })
-  }
-
-  const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    })
-  }
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault()
-  }
-  // ----------------------mui test
 
   useEffect(() => {
     if (accessToken) {
@@ -73,8 +39,7 @@ export const Auth = () => {
     }
   }
 
-  const onSubmit = (event) => {
-    event.preventDefault()
+  const handleSubmit = (values) => {
     dispatch(user.actions.setLoading(true))
 
     fetch(API_URL(formState), {
@@ -82,10 +47,7 @@ export const Auth = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        username: nameInput,
-        password: passwordInput,
-      }),
+      body: JSON.stringify(values),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -106,68 +68,15 @@ export const Auth = () => {
           })
         }
       })
-      .then(setNameInput(''))
-      .then(setPasswordInput(''))
       .finally(dispatch(user.actions.setLoading(false)))
   }
 
   return (
     <Container>
-      <FormContainer onSubmit={onSubmit}>
-        <h1>{formState === 'signin' ? 'Sign in' : 'Sign up '}</h1>
-        <label htmlFor='nameInput'>Username</label>
-        <input
-          id='nameInput'
-          type='text'
-          placeholder='username'
-          value={nameInput}
-          onChange={(e) => {
-            setNameInput(e.target.value)
-          }}
-        />
-        <label htmlFor='passwordInput'>Password</label>
-        <input
-          id='passwordInput'
-          type='password'
-          placeholder='password'
-          value={passwordInput}
-          onChange={(e) => {
-            setPasswordInput(e.target.value)
-          }}
-        />
-        <button type='submit'>{formState}</button>
-        <p onClick={onChangeFormState}>
-          {formState === 'signin' ? 'Create an account? Signup!' : 'Already user? Sign in!'}
-        </p>
-      </FormContainer>
-      <TextField
-        error
-        id='outlined-error-helper-text'
-        label='Error'
-        defaultValue='Hello World'
-        helperText='Incorrect entry.'
-      />{' '}
-      <FormControl sx={{ m: 1, width: '25ch' }} variant='outlined'>
-        <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
-        <OutlinedInput
-          id='outlined-adornment-password'
-          type={values.showPassword ? 'text' : 'password'}
-          value={values.password}
-          onChange={handleChange('password')}
-          endAdornment={
-            <InputAdornment position='end'>
-              <IconButton
-                aria-label='toggle password visibility'
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge='end'>
-                {values.showPassword ? 'v' : 'm'}
-              </IconButton>
-            </InputAdornment>
-          }
-          label='Password'
-        />
-      </FormControl>
+      <Signup handleSubmit={handleSubmit} formState={formState} />
+      <div onClick={onChangeFormState}>
+        {formState === 'signup' ? 'Already have an account? Signin!' : 'New user? Signup!'}
+      </div>
     </Container>
   )
 }
