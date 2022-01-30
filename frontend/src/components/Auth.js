@@ -9,7 +9,8 @@ import OutlinedInput from '@mui/material/OutlinedInput'
 import InputLabel from '@mui/material/InputLabel'
 import InputAdornment from '@mui/material/InputAdornment'
 import FormControl from '@mui/material/FormControl'
-import Visibility from '@mui/icons-material/Visibility'
+// import Visibility from '@mui/icons-material/Visibility'
+// import VisibilityOff from '@mui/icons-material/VisibilityOff'
 
 import { user } from '../reducers/user'
 import { API_URL } from '../utils/constants'
@@ -35,6 +36,28 @@ export const Auth = () => {
   const navigate = useNavigate()
   const accessToken = useSelector((store) => store.user.accessToken)
   //const loading = useSelector(store => store.user.loading)
+
+  // ----------------------mui test
+  const [values, setValues] = useState({
+    password: '',
+    showPassword: false,
+  })
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value })
+  }
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    })
+  }
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault()
+  }
+  // ----------------------mui test
 
   useEffect(() => {
     if (accessToken) {
@@ -138,7 +161,7 @@ export const Auth = () => {
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
                 edge='end'>
-                {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                {values.showPassword ? 'v' : 'm'}
               </IconButton>
             </InputAdornment>
           }
