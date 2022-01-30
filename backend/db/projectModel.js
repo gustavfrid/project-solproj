@@ -45,7 +45,7 @@ const ProjectSchema = new mongoose.Schema({
   systemSize: Number,
   systemAzimuth: Number,
   systemInclination: Number,
-  pvgis: [Number],
+  pvgis: {},
 })
 
 export const Project = mongoose.model('Project', ProjectSchema)

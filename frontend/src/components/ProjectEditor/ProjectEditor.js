@@ -7,9 +7,12 @@ import { project, createProject, getProject, updateProject } from '../../reducer
 import { ProjectName } from './ProjectName'
 import { MapMapbox } from '../Location/MapMapbox'
 import { PvForm } from './PvForm'
+import { BarChart } from './BarChart'
+import { LineChart } from './LineChart'
 
 export const ProjectEditor = () => {
-  const { projectId } = useSelector((store) => store.project)
+  const { pvgis } = useSelector((store) => store.project)
+  console.log('[ProjectEditor]: pvgis', pvgis)
   const dispatch = useDispatch()
   let navigate = useNavigate()
   let { id } = useParams()
@@ -45,6 +48,8 @@ export const ProjectEditor = () => {
       <h3>System setup</h3>
       <PvForm />
       <button onClick={() => onSaveProject()}>{id === 'new' ? 'Create project' : 'Save project'}</button>
+      {pvgis && <BarChart dataSeries={pvgis} />}
+      {/* {pvgis && <LineChart dataSeries={pvgis} />} */}
     </div>
   )
 }

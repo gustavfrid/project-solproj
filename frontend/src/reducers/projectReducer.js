@@ -3,6 +3,7 @@ import { batch } from 'react-redux'
 
 import { API_URL } from '../utils/constants'
 import { ui } from './ui'
+import { hoursToDays } from '../utils/dataHandlers'
 
 const initialState = {
   projectId: 'new',
@@ -53,36 +54,51 @@ export const project = createSlice({
 export const calculateEnergy = () => {
   return (dispatch, getState) => {
     dispatch(ui.actions.setLoading(true))
+
+    const pvgisOptions = {
+      api: 'seriescalc', // seriescalc (for hourly data), PVcalc (for monthly data)
+      duration: { startyear: 2015, endyear: 2015 },
+      query: {
+        lat: getState().project.location.coordinates[1],
+        lon: getState().project.location.coordinates[0],
+        raddatabase: 'PVGIS-ERA5',
+        peakpower: getState().project.systemSize,
+        pvtechchoice: 'crystSi',
+        mountingplace: 'building',
+        loss: 8,
+        angle: getState().project.systemInclination,
+        aspect: getState().project.systemAzimuth,
+        pvcalculation: 1,
+        outputformat: 'json',
+      },
+    }
+
     const options = {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
         Authorization: getState().user.accessToken,
       },
-      body: JSON.stringify({
-        api: 'seriescalc', // seriescalc (for hourly data), PVcalc (for monthly data)
-        duration: { startyear: 2016, endyear: 2016 },
-        query: {
-          lat: getState().project.location.coordinates[1],
-          lon: getState().project.location.coordinates[0],
-          raddatabase: 'PVGIS-ERA5',
-          peakpower: getState().project.systemSize,
-          pvtechchoice: 'crystSi',
-          mountingplace: 'building',
-          loss: 8,
-          angle: getState().project.systemInclination,
-          aspect: getState().project.systemAzimuth,
-          pvcalculation: 1,
-          outputformat: 'json',
-        },
-      }),
+      body: JSON.stringify(pvgisOptions),
     }
 
     fetch(API_URL('pvgis'), options)
       .then((res) => res.json())
       .then((res) => {
-        const production = res.outputs.hourly.map((hour) => hour.P)
-        dispatch(project.actions.setPvgis(production))
+        console.log(res)
+        let hourlyProduction = []
+        let dailyProduction = []
+        let monthlyProduction = []
+        if (pvgisOptions.api === 'seriescalc') {
+          hourlyProduction = res.outputs.hourly.map((hour) => hour.P)
+          dailyProduction = hoursToDays(hourlyProduction)
+        } else if (pvgisOptions.api === 'PVcalc') {
+          monthlyProduction = res.outputs.monthly.fixed.map((month) => month.E_m)
+        }
+
+        dispatch(
+          project.actions.setPvgis({ hourly: hourlyProduction, daily: dailyProduction, monthly: monthlyProduction })
+        )
         dispatch(ui.actions.setLoading(false))
       })
   }
