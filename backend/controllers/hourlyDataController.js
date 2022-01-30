@@ -1,6 +1,24 @@
 import axios from 'axios'
 import { HourlyData } from '../db/hourlyDataModel'
-// import prices from '../_local_assets/dayahead_prices_entsoe.json'
+import seedData from '../_local_assets/seed_data.json'
+
+// insert data to db
+if (process.env.RESET_DB) {
+  const seedDatabase = async () => {
+    await HourlyData.deleteMany({})
+
+    seedData.forEach((item) => {
+      try {
+        const newHourlyData = new HourlyData(item).save()
+        console.log('[seeded]: ', newHourlyData.type + ' : ' + newHourlyData.name)
+      } catch (error) {
+        console.log('[seeding error]: ', item.type + ' : ' + item.name, error)
+      }
+    })
+  }
+
+  seedDatabase()
+}
 
 export const setupHourlyData = async (req, res, next) => {
   const { description, data } = req.body

@@ -1,7 +1,9 @@
 import mongoose from 'mongoose'
 
 const hourlyDataSchema = new mongoose.Schema({
-  description: { type: String, required: true, unique: true },
+  name: { type: String, required: true, unique: true },
+  type: { type: String },
+  year: Number,
   data: [Number],
 })
 
