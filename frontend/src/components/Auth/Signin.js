@@ -9,7 +9,7 @@ const Form = styled.form`
   gap: 10px;
 `
 
-export const Signup = ({ handleSubmit }) => {
+export const Signin = ({ handleSubmit }) => {
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -49,7 +49,7 @@ export const Signup = ({ handleSubmit }) => {
           helperText={formik.touched.password && formik.errors.password ? formik.errors.password : null}
         />
         <Button type='submit' variant='contained'>
-          signup
+          signin
         </Button>
       </Form>
     </Stack>

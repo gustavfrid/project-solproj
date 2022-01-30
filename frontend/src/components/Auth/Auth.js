@@ -3,10 +3,11 @@ import { useDispatch, useSelector, batch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { user } from '../reducers/user'
-import { API_URL } from '../utils/constants'
+import { user } from '../../reducers/user'
+import { API_URL } from '../../utils/constants'
 
-import { Signup } from './Auth/Signup'
+import { Signup } from './Signup'
+import { Signin } from './Signin'
 
 const Container = styled.div`
   display: flex;
@@ -73,7 +74,8 @@ export const Auth = () => {
 
   return (
     <Container>
-      <Signup handleSubmit={handleSubmit} formState={formState} />
+      {formState === 'signup' && <Signup handleSubmit={handleSubmit} />}
+      {formState === 'signin' && <Signin handleSubmit={handleSubmit} />}
       <div onClick={onChangeFormState}>
         {formState === 'signup' ? 'Already have an account? Signin!' : 'New user? Signup!'}
       </div>
