@@ -157,7 +157,7 @@ export const createProject = () => {
         Authorization: getState().user.accessToken,
       },
       body: JSON.stringify({
-        project: { owner: getState().user.userId, ...getState().project },
+        project: { owner: getState().user.userId, ...getState().project, load: '' },
       }),
     }
 
@@ -179,9 +179,11 @@ export const updateProject = (projectId) => {
         Authorization: getState().user.accessToken,
       },
       body: JSON.stringify({
-        project: { owner: getState().user.userId, ...getState().project },
+        project: { owner: getState().user.userId, ...getState().project, load: '' },
       }),
     }
+
+    console.log('updateProject', options)
     fetch(API_URL(`project/${getState().user.userId}/${projectId}`), options)
       .then((res) => res.json())
       .then((res) => console.log('project saved', res))

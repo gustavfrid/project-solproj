@@ -1,27 +1,36 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
+import { Button } from '@mui/material'
+import styled from 'styled-components'
 
 import { project, createProject, getProject, updateProject } from '../../reducers/projectReducer'
-
-import { ProjectName } from './ProjectName'
 import { MapMapbox } from '../Location/MapMapbox'
 import { PvForm } from './PvForm'
 import { BarChart } from './BarChart'
-// import { LineChart } from './LineChart'
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 40px;
+  gap: 20px;
+`
 
 export const ProjectEditor = () => {
-  const { pvgis, load } = useSelector((store) => store.project)
+  const { pvgis, load, projectId, projectName } = useSelector((store) => store.project)
   const dispatch = useDispatch()
   let navigate = useNavigate()
   let { id } = useParams()
 
   useEffect(() => {
     if (id === 'new') {
+      console.log('reset project')
       dispatch(project.actions.reset())
-    } else {
-      dispatch(getProject(id))
     }
+    console.log('project editor mounted')
+    // else {
+    //   dispatch(getProject(id))
+    // }
   }, [id, dispatch])
 
   const onSaveProject = () => {
@@ -32,18 +41,17 @@ export const ProjectEditor = () => {
       dispatch(updateProject(id))
     }
   }
+
   return (
-    <div>
-      <h2>Create New Project</h2>
-      <h3>Project name</h3>
-      <ProjectName />
+    <Container>
+      <h2>{projectId === 'new' ? 'Create New Project' : projectName}</h2>
       <h3>Select location</h3>
       <MapMapbox />
-      <h3>System setup</h3>
       <PvForm />
-      <button onClick={() => onSaveProject()}>{id === 'new' ? 'Create project' : 'Save project'}</button>
+      <Button variant='contained' onClick={() => onSaveProject()}>
+        {id === 'new' ? 'Create project' : 'Save project'}
+      </Button>
       {pvgis && <BarChart dataSeries={{ pvgis, load }} />}
-      {/* {pvgis && <LineChart dataSeries={pvgis} />} */}
-    </div>
+    </Container>
   )
 }

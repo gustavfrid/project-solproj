@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch, batch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
 import styled from 'styled-components'
 import TextField from '@mui/material/TextField'
@@ -15,6 +15,7 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 
 import { getProjectList } from '../reducers/projectListReducer'
+import { project, getHourlyData } from '../reducers/projectReducer'
 
 const ListWrapper = styled.div`
   display: flex;
@@ -26,14 +27,6 @@ const ListWrapper = styled.div`
   margin: 0 auto;
   gap: 50px;
 `
-const List = styled.ul`
-  list-style-type: none;
-  width: 500px;
-`
-const ListItem = styled.li`
-  display: flex;
-  justify-content: space-between;
-`
 
 export const ProjectList = () => {
   const dispatch = useDispatch()
@@ -44,6 +37,23 @@ export const ProjectList = () => {
   useEffect(() => {
     dispatch(getProjectList())
   }, [dispatch])
+
+  const handleSelectProject = (selected) => {
+    console.log(selected)
+    batch(() => {
+      dispatch(project.actions.setProjectId(project._id))
+      dispatch(project.actions.setLocation(selected.location.coordinates))
+      dispatch(project.actions.setProjectName(selected.projectName))
+      dispatch(project.actions.setSystemSize(selected.systemSize))
+      dispatch(project.actions.setSystemAzimuth(selected.systemAzimuth))
+      dispatch(project.actions.setSystemInclination(selected.systemInclination))
+      dispatch(project.actions.setYearlyLoad(selected.yearlyLoad))
+      dispatch(project.actions.setPvgis(selected.pvgis))
+    })
+    dispatch(getHourlyData('domestic', 'loadProfile'))
+
+    navigate(`/main/projects/${selected._id}`)
+  }
 
   return (
     <ListWrapper>
@@ -57,14 +67,6 @@ export const ProjectList = () => {
         sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label='Search project' />}
       />
-      {/* <List>
-        {projectList?.slice(0, 5).map((project) => (
-          <ListItem key={project._id}>
-            <Link to={`${project._id}`}>Project name: {project.projectName}</Link>
-            <div>{moment(project.updatedAt).fromNow()}</div>
-          </ListItem>
-        ))}
-      </List> */}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 600 }} size='small' aria-label='a dense table'>
           <TableHead>
@@ -82,7 +84,7 @@ export const ProjectList = () => {
                 key={project._id}
                 hover
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                onClick={() => navigate(`/main/projects/${project._id}`)}>
+                onClick={() => handleSelectProject(project)}>
                 <TableCell component='th' scope='row'>
                   {project.projectName}
                 </TableCell>

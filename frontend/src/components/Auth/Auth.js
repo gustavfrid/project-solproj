@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector, batch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { Card } from '@mui/material'
+
 import styled from 'styled-components'
 
-import { user } from '../../reducers/user'
+import HeroImage from '../../assets/hero_img.jpg'
+import { user } from '../../reducers/userReducer'
 import { API_URL } from '../../utils/constants'
 
 import { Signup } from './Signup'
@@ -14,8 +17,11 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
   height: 100vh;
+  /* background-image: url(${(props) => props.img});
+  background-position: center; // Center the image
+  background-repeat: no-repeat; // Do not repeat the image
+  background-size: cover; // Resize the background image to cover the entire container */
 `
 
 export const Auth = () => {
@@ -72,12 +78,14 @@ export const Auth = () => {
   }
 
   return (
-    <Container>
-      {formState === 'signup' && <Signup handleSubmit={handleSubmit} />}
-      {formState === 'signin' && <Signin handleSubmit={handleSubmit} />}
-      <div onClick={onChangeFormState}>
-        {formState === 'signup' ? 'Already have an account? Signin!' : 'New user? Signup!'}
-      </div>
+    <Container mg={HeroImage}>
+      <Card sx={{ padding: '20px' }} elevation={24}>
+        {formState === 'signup' && <Signup handleSubmit={handleSubmit} />}
+        {formState === 'signin' && <Signin handleSubmit={handleSubmit} />}
+        <div onClick={onChangeFormState}>
+          {formState === 'signup' ? 'Already have an account? Signin!' : 'New user? Signup!'}
+        </div>
+      </Card>
     </Container>
   )
 }

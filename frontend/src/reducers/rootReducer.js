@@ -1,6 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit'
 
-import { user } from './user'
+import { user } from './userReducer'
 import { ui } from './ui'
 import { project } from './projectReducer'
 import { projectList } from './projectListReducer'
