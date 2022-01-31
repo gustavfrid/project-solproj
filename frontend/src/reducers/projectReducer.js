@@ -93,7 +93,6 @@ export const calculateEnergy = () => {
     fetch(API_URL('pvgis'), options)
       .then((res) => res.json())
       .then((res) => {
-        console.log(res)
         let hourlyProduction = []
         let dailyProduction = []
         let monthlyProduction = []
@@ -129,8 +128,6 @@ export const getHourlyData = (name, type) => {
     fetch(API_URL(`data/${name}`), options)
       .then((res) => res.json())
       .then((res) => {
-        // console.log('get data', res)
-
         let hourlyData = res.response.data
         let dailyData = []
         let monthlyData = []
@@ -140,7 +137,6 @@ export const getHourlyData = (name, type) => {
         dailyData = hoursToDays(hourlyData)
         if (type === 'loadProfile') {
           dispatch(project.actions.setLoad({ hourly: hourlyData, daily: dailyData, monthly: monthlyData }))
-          // console.log('data saved:', type)
         }
         if (type === 'spotPrice') {
           dispatch(project.actions.setPrice({ hourly: hourlyData, daily: dailyData, monthly: monthlyData }))
@@ -186,10 +182,9 @@ export const updateProject = (projectId) => {
         project: { owner: getState().user.userId, ...getState().project },
       }),
     }
-    console.log('reducer updateProject, options', options)
     fetch(API_URL(`project/${getState().user.userId}/${projectId}`), options)
       .then((res) => res.json())
-      .then((res) => console.log(res))
+      .then((res) => console.log('project saved', res))
       .catch((err) => console.log(err))
   }
 }
@@ -203,12 +198,10 @@ export const getProject = (projectId) => {
         Authorization: getState().user.accessToken,
       },
     }
-    console.log(options)
 
     fetch(API_URL(`project/${getState().user.userId}/${projectId}`), options)
       .then((res) => res.json())
       .then((res) => {
-        console.log('[getProject]: ', res.response)
         batch(() => {
           dispatch(project.actions.setProjectId(res.response._id))
           dispatch(project.actions.setLocation(res.response.location.coordinates))

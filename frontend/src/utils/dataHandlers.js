@@ -5,6 +5,6 @@ export const hoursToDays = (data) => {
     const day = dataSeries.splice(0, 24).reduce((a, b) => a + b, 0)
     result.push(day)
   }
-  console.log('[hoursToDays], result: ', result)
+  // console.log('[hoursToDays], result: ', result)
   return result
 }

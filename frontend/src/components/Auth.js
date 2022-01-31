@@ -58,7 +58,6 @@ export const Auth = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log('signup/signin response', data)
         if (data.success) {
           batch(() => {
             dispatch(user.actions.setUserId(data.response.userId))
@@ -105,7 +104,9 @@ export const Auth = () => {
           }}
         />
         <button type='submit'>{formState}</button>
-        <p onClick={onChangeFormState}>{formState === 'signin' ? 'Create an account? Signup!' : 'Already user? Sign in!'}</p>
+        <p onClick={onChangeFormState}>
+          {formState === 'signin' ? 'Create an account? Signup!' : 'Already user? Sign in!'}
+        </p>
       </FormContainer>
     </Container>
   )
