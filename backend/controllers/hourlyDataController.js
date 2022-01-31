@@ -45,7 +45,6 @@ export const getHourlyData = async (req, res, next) => {
       })
       next()
     } catch (error) {
-      console.log(error)
       res.status(400).json({ error, success: false })
       next()
     }

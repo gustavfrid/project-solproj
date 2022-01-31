@@ -20,7 +20,6 @@ export const auth = async (req, res, next) => {
 
 export const signup = async (req, res, next) => {
   const { username, password } = req.body
-  console.log('signup')
   try {
     const salt = bcrypt.genSaltSync()
 
@@ -40,7 +39,6 @@ export const signup = async (req, res, next) => {
     })
     next()
   } catch (error) {
-    console.log('signup fail')
     res.status(400).json({ response: error, success: false })
   }
 }
