@@ -52,7 +52,6 @@ export const Auth = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log('signup/signin response', data)
         if (data.success) {
           batch(() => {
             dispatch(user.actions.setUserId(data.response.userId))

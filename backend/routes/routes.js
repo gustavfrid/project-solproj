@@ -12,7 +12,7 @@ router.get('/', async (req, res, next) => {
 
 router.post('/setup', setupHourlyData) // setup data seeding
 router.post('/setup/role', createRole) // setup roles
-router.get('/data', auth, getHourlyData) // get hourly data
+router.get('/data/:name', auth, getHourlyData) // get hourly data
 
 router.post('/signup', signup) // create user
 router.post('/signin', signin) // check password & signin

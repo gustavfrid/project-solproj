@@ -7,21 +7,19 @@ import { project, createProject, getProject, updateProject } from '../../reducer
 import { ProjectName } from './ProjectName'
 import { MapMapbox } from '../Location/MapMapbox'
 import { PvForm } from './PvForm'
+import { BarChart } from './BarChart'
+// import { LineChart } from './LineChart'
 
 export const ProjectEditor = () => {
-  const { projectId } = useSelector((store) => store.project)
+  const { pvgis, load } = useSelector((store) => store.project)
   const dispatch = useDispatch()
   let navigate = useNavigate()
   let { id } = useParams()
 
-  console.log('project id', id)
-
   useEffect(() => {
     if (id === 'new') {
-      console.log('new project', id)
       dispatch(project.actions.reset())
     } else {
-      console.log('hej params:', id)
       dispatch(getProject(id))
     }
   }, [id, dispatch])
@@ -31,7 +29,6 @@ export const ProjectEditor = () => {
       dispatch(createProject())
       navigate('/main/projects/loading') // navigating to a loading site, could be handled by loader in ui?
     } else {
-      console.log('onSaveProject with project id:', id)
       dispatch(updateProject(id))
     }
   }
@@ -45,6 +42,8 @@ export const ProjectEditor = () => {
       <h3>System setup</h3>
       <PvForm />
       <button onClick={() => onSaveProject()}>{id === 'new' ? 'Create project' : 'Save project'}</button>
+      {pvgis && <BarChart dataSeries={{ pvgis, load }} />}
+      {/* {pvgis && <LineChart dataSeries={pvgis} />} */}
     </div>
   )
 }

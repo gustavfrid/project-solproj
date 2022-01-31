@@ -9,14 +9,13 @@ export const getProjectList = async (req, res, next) => {
       success: true,
     })
   } catch (error) {
-    console.log(error)
     res.status(400).json({ response: error, success: false })
   }
 }
 
 export const createProject = async (req, res, next) => {
-  const { projectName, systemSize, systemAzimuth, systemInclination, pvgis, location, owner } = req.body.project
-  console.log('[createProject]: started')
+  const { projectName, systemSize, systemAzimuth, systemInclination, yearlyLoad, pvgis, location, owner } =
+    req.body.project
   try {
     const newProject = await new Project({
       owner,
@@ -25,9 +24,9 @@ export const createProject = async (req, res, next) => {
       systemSize,
       systemAzimuth,
       systemInclination,
+      yearlyLoad,
       pvgis,
     }).save()
-    console.log('created project', newProject)
     res.status(201).json({
       response: newProject,
       success: true,
@@ -40,7 +39,6 @@ export const createProject = async (req, res, next) => {
 export const updateProject = async (req, res, next) => {
   const { projectId } = req.params
   const { projectName, systemSize, systemAzimuth, systemInclination, pvgis, location } = req.body.project
-  console.log('[updateProject]')
   try {
     const updatedProject = await Project.findByIdAndUpdate(
       projectId,
@@ -61,7 +59,6 @@ export const updateProject = async (req, res, next) => {
       success: true,
     })
   } catch (error) {
-    console.log('[updateProject] error', error)
     res.status(400).json({ response: error, success: false })
   }
 }
@@ -69,7 +66,6 @@ export const updateProject = async (req, res, next) => {
 export const getProjectById = async (req, res, next) => {
   const { projectId, userId } = req.params
 
-  console.log('[getProjectById]')
   try {
     const project = await Project.findOne({ _id: projectId, owner: userId })
     res.status(201).json({
