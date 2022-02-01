@@ -1,16 +1,9 @@
 import { useDispatch, batch, useSelector } from 'react-redux'
-import styled from 'styled-components'
-import { useFormik } from 'formik'
+import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
-import { TextField, Button, Stack } from '@mui/material'
+import { Stack, Button, Input, FormControl, FormLabel, FormErrorMessage } from '@chakra-ui/react'
 
 import { project, calculateEnergy, getHourlyData } from '../../reducers/projectReducer'
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`
 
 export const PvForm = () => {
   const { projectName, systemSize, systemAzimuth, systemInclination, yearlyLoad } = useSelector(
@@ -18,27 +11,6 @@ export const PvForm = () => {
   )
 
   const dispatch = useDispatch()
-
-  const formik = useFormik({
-    enableReinitialize: true,
-    initialValues: {
-      projectName,
-      systemSize,
-      systemAzimuth,
-      systemInclination,
-      yearlyLoad,
-    },
-    validationSchema: Yup.object({
-      projectName: Yup.string().required('Required'),
-      systemSize: Yup.number(),
-      systemAzimuth: Yup.number(),
-      systemInclination: Yup.number(),
-      yearlyLoad: Yup.number(),
-    }),
-    onSubmit: (values) => {
-      handleSubmit(values)
-    },
-  })
 
   const handleSubmit = (values) => {
     console.log(values)
@@ -56,68 +28,82 @@ export const PvForm = () => {
   return (
     <Stack spacing={2} direction='column'>
       <h3>System configuration</h3>
-      <Form onSubmit={formik.handleSubmit}>
-        <TextField
-          id='projectName'
-          name='projectName'
-          type='text'
-          label='Project Name'
-          error={formik.touched.projectName && formik.errors.projectName ? true : false}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.projectName}
-          helperText={formik.touched.projectName && formik.errors.projectName ? formik.errors.projectName : ''}
-        />
-        <TextField
-          id='systemSize'
-          name='systemSize'
-          type='number'
-          label='System Size kW'
-          error={formik.touched.systemSize && formik.errors.systemSize ? true : false}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.systemSize}
-          helperText={formik.touched.systemSize && formik.errors.systemSize ? formik.errors.systemSize : ''}
-        />
-        <TextField
-          id='systemAzimuth'
-          name='systemAzimuth'
-          type='number'
-          label='System Azimuth degrees'
-          error={formik.touched.systemAzimuth && formik.errors.systemAzimuth ? true : false}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.systemAzimuth}
-          helperText={formik.touched.systemAzimuth && formik.errors.systemAzimuth ? formik.errors.systemAzimuth : ''}
-        />
-        <TextField
-          id='systemInclination'
-          name='systemInclination'
-          type='number'
-          label='System Inclination degrees'
-          error={formik.touched.systemInclination && formik.errors.systemInclination ? true : false}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.systemInclination}
-          helperText={
-            formik.touched.systemInclination && formik.errors.systemInclination ? formik.errors.systemInclination : ''
-          }
-        />
-        <TextField
-          id='yearlyLoad'
-          name='yearlyLoad'
-          type='number'
-          label='Yearly electricity consumption kWh/year'
-          error={formik.touched.yearlyLoad && formik.errors.yearlyLoad ? true : false}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.yearlyLoad}
-          helperText={formik.touched.yearlyLoad && formik.errors.yearlyLoad ? formik.errors.yearlyLoad : ''}
-        />
-        <Button type='submit' variant='contained'>
-          Calculate
-        </Button>
-      </Form>
+      <Formik
+        enableReinitialize={true}
+        initialValues={{
+          projectName,
+          systemSize,
+          systemAzimuth,
+          systemInclination,
+          yearlyLoad,
+        }}
+        validationSchema={Yup.object({
+          projectName: Yup.string().required('Required'),
+          systemSize: Yup.number(),
+          systemAzimuth: Yup.number(),
+          systemInclination: Yup.number(),
+          yearlyLoad: Yup.number(),
+        })}
+        onSubmit={(values, actions) => {
+          handleSubmit(values)
+        }}>
+        {(props) => (
+          <Form>
+            <Stack spacing='24px'>
+              <Field name='projectName'>
+                {({ field, form }) => (
+                  <FormControl variant='floating' isInvalid={form.errors.projectName && form.touched.projectName}>
+                    <Input {...field} id='projectName' placeholder=' ' />
+                    <FormLabel htmlFor='projectName'>Project Name</FormLabel>
+                    <FormErrorMessage>{form.errors.projectName}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Field name='systemSize'>
+                {({ field, form }) => (
+                  <FormControl variant='floating' isInvalid={form.errors.systemSize && form.touched.systemSize}>
+                    <Input {...field} id='systemSize' placeholder=' ' />
+                    <FormLabel htmlFor='systemSize'>System Size kW</FormLabel>
+                    <FormErrorMessage>{form.errors.systemSize}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Field name='systemAzimuth'>
+                {({ field, form }) => (
+                  <FormControl variant='floating' isInvalid={form.errors.systemAzimuth && form.touched.systemAzimuth}>
+                    <Input {...field} id='systemAzimuth' placeholder=' ' />
+                    <FormLabel htmlFor='systemAzimuth'>System Azimuth -180 - 180degrees</FormLabel>
+                    <FormErrorMessage>{form.errors.systemAzimuth}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Field name='systemInclination'>
+                {({ field, form }) => (
+                  <FormControl
+                    variant='floating'
+                    isInvalid={form.errors.systemInclination && form.touched.systemInclination}>
+                    <Input {...field} id='systemInclination' placeholder=' ' />
+                    <FormLabel htmlFor='systemInclination'>System Inclination 0 -90 degrees</FormLabel>
+                    <FormErrorMessage>{form.errors.systemInclination}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Field name='yearlyLoad'>
+                {({ field, form }) => (
+                  <FormControl variant='floating' isInvalid={form.errors.yearlyLoad && form.touched.yearlyLoad}>
+                    <Input {...field} id='yearlyLoad' placeholder=' ' />
+                    <FormLabel htmlFor='yearlyLoad'>Yearly electricity consumption kWh</FormLabel>
+                    <FormErrorMessage>{form.errors.yearlyLoad}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Button mt={4} colorScheme='yellow' isLoading={props.isSubmitting} type='submit'>
+                Calculate
+              </Button>
+            </Stack>
+          </Form>
+        )}
+      </Formik>
     </Stack>
   )
 }

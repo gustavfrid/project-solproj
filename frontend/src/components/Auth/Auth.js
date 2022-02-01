@@ -1,31 +1,29 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector, batch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Card } from '@mui/material'
-
-import styled from 'styled-components'
+import {
+  Center,
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from '@chakra-ui/react'
 
 import HeroImage from '../../assets/hero_img.jpg'
 import { user } from '../../reducers/userReducer'
 import { API_URL } from '../../utils/constants'
-
-import { Signup } from './Signup'
 import { Signin } from './Signin'
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  /* background-image: url(${(props) => props.img});
-  background-position: center; // Center the image
-  background-repeat: no-repeat; // Do not repeat the image
-  background-size: cover; // Resize the background image to cover the entire container */
-`
-
 export const Auth = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const [formState, setFormState] = useState('signin')
+
+  const initialRef = useRef()
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -36,7 +34,8 @@ export const Auth = () => {
     if (accessToken) {
       navigate('/main/projects')
     }
-  }, [accessToken, navigate])
+    onOpen()
+  }, [accessToken, navigate, onOpen])
 
   const onChangeFormState = () => {
     if (formState === 'signin') {
@@ -78,14 +77,22 @@ export const Auth = () => {
   }
 
   return (
-    <Container mg={HeroImage}>
-      <Card sx={{ padding: '20px' }} elevation={24}>
-        {formState === 'signup' && <Signup handleSubmit={handleSubmit} />}
-        {formState === 'signin' && <Signin handleSubmit={handleSubmit} />}
-        <div onClick={onChangeFormState}>
-          {formState === 'signup' ? 'Already have an account? Signin!' : 'New user? Signup!'}
-        </div>
-      </Card>
-    </Container>
+    <Center h='100vh' bgImage={HeroImage} bgPosition='center' bgRepeat='no-repeat' bgSize='cover'>
+      <Modal closeOnOverlayClick={false} isOpen={isOpen} initialFocusRef={initialRef} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>{formState === 'signin' ? 'Sign In!' : 'Create account!'}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <Signin handleSubmit={handleSubmit} onClose={onClose} formState={formState} initialRef={initialRef} />
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={onChangeFormState}>
+              {formState === 'signup' ? 'Already have an account? Signin!' : 'New user? Signup!'}
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </Center>
   )
 }

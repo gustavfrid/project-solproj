@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Button } from '@mui/material'
+import { Button } from '@chakra-ui/react'
+
 import styled from 'styled-components'
 
 import { project, createProject, getProject, updateProject } from '../../reducers/projectReducer'

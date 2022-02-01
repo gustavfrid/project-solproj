@@ -1,33 +1,21 @@
 import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
-import { Button } from '@mui/material'
+import { Center, Stack, Heading, Button } from '@chakra-ui/react'
 
 import HeroImage from '../assets/hero_img.jpg'
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-image: url(${(props) => props.img});
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Do not repeat the image */
-  background-size: cover; /* Resize the background image to cover the entire container */
-`
-const Header = styled.h1`
-  font-family: 'Roboto', sans-serif;
-  font-size: 50px;
-`
 
 export const Start = () => {
   const navigate = useNavigate()
   return (
-    <Container img={HeroImage}>
-      <Header>{'Welcome to SolProj'.toUpperCase()}</Header>
-      <Button variant='contained' onClick={() => navigate('/login')}>
-        Start
-      </Button>
-    </Container>
+    <Center h='100vh' bgImage={HeroImage} bgPosition='center' bgRepeat='no-repeat' bgSize='cover'>
+      <Stack align='center' spacing='10'>
+        <Heading as='h1' size='4xl'>
+          {'Welcome to SolProj'.toUpperCase()}
+        </Heading>
+
+        <Button variant='solid' size='lg' w='30%' onClick={() => navigate('/login')}>
+          Start
+        </Button>
+      </Stack>
+    </Center>
   )
 }

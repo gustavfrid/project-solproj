@@ -2,32 +2,11 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
-import styled from 'styled-components'
-import {
-  TextField,
-  Autocomplete,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from '@mui/material'
+import { Box, Divider, HStack, IconButton, Center } from '@chakra-ui/react'
+import { DeleteIcon } from '@chakra-ui/icons'
 
 import { projectList, getProjectList } from '../reducers/projectListReducer'
 import { project, getHourlyData, deleteProject } from '../reducers/projectReducer'
-
-const ListWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 800px;
-  width: 600px;
-  margin: 0 auto;
-  gap: 50px;
-`
 
 export const ProjectList = () => {
   const dispatch = useDispatch()
@@ -62,46 +41,24 @@ export const ProjectList = () => {
   }
 
   return (
-    <ListWrapper>
-      <Autocomplete
-        disablePortal
-        autoHighlight
-        onChange={(e, newValue) => handleSelectProject(newValue)}
-        id='combo-box-demo'
-        options={projects}
-        getOptionLabel={(option) => option.projectName}
-        sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label='Search project' />}
-      />
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 600 }} size='small' aria-label='a dense table'>
-          <TableHead>
-            <TableRow>
-              <TableCell>Project name</TableCell>
-              <TableCell align='right'>Power</TableCell>
-              <TableCell align='right'>Azimuth</TableCell>
-              <TableCell align='right'>Inclination</TableCell>
-              <TableCell align='right'>Changed</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {projects?.slice(0, 5).map((project) => (
-              <TableRow key={project._id} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component='th' scope='row' onClick={() => handleSelectProject(project)}>
-                  {project.projectName}
-                </TableCell>
-                <TableCell align='right'>{project.systemSize}</TableCell>
-                <TableCell align='right'>{project.systemAzimuth}</TableCell>
-                <TableCell align='right'>{project.systemInclination}</TableCell>
-                <TableCell align='right'>{moment(project.updatedAt).fromNow()}</TableCell>
-                <TableCell align='right' onClick={() => handleDeleteProject(project._id)}>
-                  X
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </ListWrapper>
+    <Center>
+      <HStack size='sm' spacing={2}>
+        {projects?.map((project) => (
+          <HStack key={project._id}>
+            <Box onClick={() => handleSelectProject(project)}>{project.projectName}</Box>
+            <Divider orientation='vertical' />
+            <Box>{project.systemSize}</Box>
+            <Divider orientation='vertical' />
+            <Box>{moment(project.updatedAt).fromNow()}</Box>
+            <Divider orientation='vertical' />
+            <IconButton
+              onClick={() => handleDeleteProject(project._id)}
+              aria-label='Delete project'
+              icon={<DeleteIcon />}
+            />
+          </HStack>
+        ))}
+      </HStack>
+    </Center>
   )
 }
