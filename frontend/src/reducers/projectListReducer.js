@@ -1,13 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 import { API_URL } from '../utils/constants'
+import { project } from './projectReducer'
 
 export const projectList = createSlice({
   name: 'projectList',
-  initialState: { projectList: [] },
+  initialState: { projects: [] },
   reducers: {
     setProjectList: (state, action) => {
-      state.projectList = action.payload
+      state.projects = action.payload
+    },
+    deletProjectFromList: (state, action) => {
+      const newProjects = state.projects.filter((project) => project._id !== action.payload)
+      state.projects = newProjects
     },
   },
 })

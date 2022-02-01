@@ -55,7 +55,7 @@ export const PvForm = () => {
 
   return (
     <Stack spacing={2} direction='column'>
-      <h3>System setup</h3>
+      <h3>System configuration</h3>
       <Form onSubmit={formik.handleSubmit}>
         <TextField
           id='projectName'

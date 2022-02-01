@@ -5,6 +5,7 @@
     "postinstall": "npm install --prefix backend"
   },
   "dependencies": {
-    "@mapbox/mapbox-gl-geocoder": "^4.7.4"
+    "@mapbox/mapbox-gl-geocoder": "^4.7.4",
+    "@mui/icons-material": "^5.3.1"
   }
 }

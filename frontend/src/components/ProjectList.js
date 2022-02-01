@@ -3,19 +3,20 @@ import { useSelector, useDispatch, batch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
 import styled from 'styled-components'
-import TextField from '@mui/material/TextField'
-import Autocomplete from '@mui/material/Autocomplete'
+import {
+  TextField,
+  Autocomplete,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from '@mui/material'
 
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
-
-import { getProjectList } from '../reducers/projectListReducer'
-import { project, getHourlyData } from '../reducers/projectReducer'
+import { projectList, getProjectList } from '../reducers/projectListReducer'
+import { project, getHourlyData, deleteProject } from '../reducers/projectReducer'
 
 const ListWrapper = styled.div`
   display: flex;
@@ -32,7 +33,7 @@ export const ProjectList = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const projectList = useSelector((store) => store.projectList.projectList)
+  const projects = useSelector((store) => store.projectList.projects)
 
   useEffect(() => {
     dispatch(getProjectList())
@@ -55,14 +56,19 @@ export const ProjectList = () => {
     navigate(`/main/projects/${selected._id}`)
   }
 
+  const handleDeleteProject = (id) => {
+    dispatch(deleteProject(id))
+    dispatch(projectList.actions.deletProjectFromList(id))
+  }
+
   return (
     <ListWrapper>
       <Autocomplete
         disablePortal
         autoHighlight
-        onChange={(e, newValue) => navigate(`/main/projects/${newValue._id}`)}
+        onChange={(e, newValue) => handleSelectProject(newValue)}
         id='combo-box-demo'
-        options={projectList}
+        options={projects}
         getOptionLabel={(option) => option.projectName}
         sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label='Search project' />}
@@ -79,19 +85,18 @@ export const ProjectList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {projectList?.slice(0, 5).map((project) => (
-              <TableRow
-                key={project._id}
-                hover
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                onClick={() => handleSelectProject(project)}>
-                <TableCell component='th' scope='row'>
+            {projects?.slice(0, 5).map((project) => (
+              <TableRow key={project._id} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                <TableCell component='th' scope='row' onClick={() => handleSelectProject(project)}>
                   {project.projectName}
                 </TableCell>
                 <TableCell align='right'>{project.systemSize}</TableCell>
                 <TableCell align='right'>{project.systemAzimuth}</TableCell>
                 <TableCell align='right'>{project.systemInclination}</TableCell>
                 <TableCell align='right'>{moment(project.updatedAt).fromNow()}</TableCell>
+                <TableCell align='right' onClick={() => handleDeleteProject(project._id)}>
+                  X
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

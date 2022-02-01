@@ -76,3 +76,16 @@ export const getProjectById = async (req, res, next) => {
     res.status(400).json({ response: error, success: false })
   }
 }
+
+export const deletProject = async (req, res, next) => {
+  const { projectId, userId } = req.params
+  try {
+    const response = await Project.deleteOne({ _id: projectId, owner: userId })
+    res.status(201).json({
+      response,
+      success: true,
+    })
+  } catch (error) {
+    res.status(400).json({ response: error, success: false })
+  }
+}

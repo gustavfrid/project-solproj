@@ -1,7 +1,13 @@
 import express from 'express'
 import { auth, signin, signup, createRole } from '../controllers/userController'
 import { setupHourlyData, getHourlyData, calculatePvgis } from '../controllers/hourlyDataController'
-import { getProjectList, createProject, updateProject, getProjectById } from '../controllers/projectController'
+import {
+  getProjectList,
+  createProject,
+  updateProject,
+  getProjectById,
+  deletProject,
+} from '../controllers/projectController'
 
 const router = express.Router()
 
@@ -16,10 +22,13 @@ router.get('/data/:name', auth, getHourlyData) // get hourly data
 
 router.post('/signup', signup) // create user
 router.post('/signin', signin) // check password & signin
+
 router.post('/project', auth, getProjectList) // get list of projects
 router.post('/project/new', auth, createProject) // create project
 router.post('/project/:userId/:projectId', auth, updateProject) // update project
 router.get('/project/:userId/:projectId', auth, getProjectById) // get single project by id
+router.delete('/project/:userId/:projectId', auth, deletProject) // delete project
+
 router.post('/pvgis', auth, calculatePvgis) // calculate energi with pvgis API
 
 module.exports = router

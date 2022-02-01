@@ -218,3 +218,21 @@ export const getProject = (projectId) => {
       })
   }
 }
+
+export const deleteProject = (projectId) => {
+  return (dispatch, getState) => {
+    const options = {
+      method: 'delete',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: getState().user.accessToken,
+      },
+    }
+
+    console.log('deleteProject', options)
+    fetch(API_URL(`project/${getState().user.userId}/${projectId}`), options)
+      .then((res) => res.json())
+      .then((res) => console.log('project saved', res))
+      .catch((err) => console.log(err))
+  }
+}
