@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-
 import { API_URL } from '../utils/constants'
-import { project } from './projectReducer'
 
 export const projectList = createSlice({
   name: 'projectList',

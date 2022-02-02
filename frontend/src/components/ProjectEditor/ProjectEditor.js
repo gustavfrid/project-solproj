@@ -5,7 +5,7 @@ import { Button } from '@chakra-ui/react'
 
 import styled from 'styled-components'
 
-import { project, createProject, getProject, updateProject } from '../../reducers/projectReducer'
+import { project, createProject, updateProject } from '../../reducers/projectReducer'
 import { MapMapbox } from '../Location/MapMapbox'
 import { PvForm } from './PvForm'
 import { BarChart } from './BarChart'
@@ -25,13 +25,8 @@ export const ProjectEditor = () => {
 
   useEffect(() => {
     if (id === 'new') {
-      console.log('reset project')
       dispatch(project.actions.reset())
     }
-    console.log('project editor mounted')
-    // else {
-    //   dispatch(getProject(id))
-    // }
   }, [id, dispatch])
 
   const onSaveProject = () => {
