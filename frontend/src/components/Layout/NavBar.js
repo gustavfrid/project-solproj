@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, NavLink } from 'react-router-dom'
 import { IconButton, Button, Flex, Image } from '@chakra-ui/react' //MenuItem
-import { HamburgerIcon, CloseIcon, LockIcon, PlusSquareIcon, RepeatIcon } from '@chakra-ui/icons'
+import { HamburgerIcon, CloseIcon, LockIcon, AddIcon, RepeatIcon, ChevronLeftIcon } from '@chakra-ui/icons'
 
 import {
   Menu,
@@ -63,7 +63,7 @@ export const NavBar = () => {
       <Image ml={2} w='40px' src={Sun} alt='logo' />
 
       <Flex align='center' ml='auto'>
-        <Flex display={['none', 'none', 'flex', 'flex']}>
+        <Flex display={['none', 'flex', 'flex', 'flex']}>
           <MenuItems />
         </Flex>
 
@@ -85,47 +85,24 @@ export const NavBar = () => {
             variant='ghost'
             size='lg'
             mr={2}
-            display={['flex', 'flex', 'none', 'none']}
+            display={['flex', 'none', 'none', 'none']}
           />
           <MenuList>
-            <MenuItem icon={<PlusSquareIcon />} onClick={() => navigate('/main/projects/new')}>
+            <MenuItem icon={<AddIcon />} onClick={() => navigate('/main/projects/new')}>
               New Project
             </MenuItem>
+            <MenuItem icon={<ChevronLeftIcon />} onClick={() => navigate('/main/projects')}>
+              Project List
+            </MenuItem>
             <MenuItem icon={<RepeatIcon />} onClick={handleProjectRefresh}>
-              Open Closed Tab
+              Refresh Projects
             </MenuItem>
             <MenuItem icon={<LockIcon />} onClick={handleSignout}>
-              Open File...
+              Sign Out!
             </MenuItem>
           </MenuList>
         </Menu>
         {/* <Switch color='green' isChecked={colorMode === 'dark'} onChange={toggleColorMode} alignSelf='center' /> */}
-      </Flex>
-
-      <Flex
-        w='100vw'
-        zIndex='dropdown'
-        h='100vh'
-        pos='fixed'
-        top='0'
-        left='0'
-        overflowY='auto'
-        flexDir='column'
-        bg='white'
-        display={displayMenu}>
-        <Flex justify='flex-end'>
-          <IconButton
-            mt={2}
-            mr={2}
-            aria-label='Close menu'
-            size='lg'
-            onClick={() => setDisplayMenu('none')}
-            icon={<CloseIcon />}
-          />
-        </Flex>
-        <Flex flexDir='column' align='center'>
-          <MenuItems />
-        </Flex>
       </Flex>
     </Flex>
   )
