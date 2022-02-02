@@ -30,7 +30,7 @@ const Sidebar = styled.div`
   z-index: 1;
 `
 
-mapboxgl.accessToken = process.env.REACT_APP_NOT_SECRET_CODE
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 
 // TODO: make marker into separate component
 
