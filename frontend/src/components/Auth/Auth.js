@@ -82,7 +82,7 @@ export const Auth = () => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{formState === 'signin' ? 'Sign In!' : 'Create account!'}</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton onClick={() => navigate('/')} />
           <ModalBody pb={6}>
             <Signin handleSubmit={handleSubmit} onClose={onClose} formState={formState} initialRef={initialRef} />
           </ModalBody>

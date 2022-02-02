@@ -23,6 +23,10 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
+app.get('/', (req, res) => {
+  res.send('Welcome to solproj backend, api served through /api')
+})
+
 app.use('/api', routes)
 
 // Start the server
