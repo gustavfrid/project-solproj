@@ -13,7 +13,6 @@ export const PvForm = () => {
   const dispatch = useDispatch()
 
   const handleSubmit = (values) => {
-    console.log(values)
     batch(() => {
       dispatch(project.actions.setProjectName(values.projectName))
       dispatch(project.actions.setSystemSize(values.systemSize))

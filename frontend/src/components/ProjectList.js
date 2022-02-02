@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
-import { Box, Divider, HStack, IconButton, Center } from '@chakra-ui/react'
+import { Table, Thead, Tbody, Tr, Th, Td, TableCaption, IconButton, Center } from '@chakra-ui/react'
 import { DeleteIcon } from '@chakra-ui/icons'
 
 import { projectList, getProjectList } from '../reducers/projectListReducer'
@@ -19,7 +19,6 @@ export const ProjectList = () => {
   }, [dispatch])
 
   const handleSelectProject = (selected) => {
-    console.log(selected)
     batch(() => {
       dispatch(project.actions.setProjectId(project._id))
       dispatch(project.actions.setLocation(selected.location.coordinates))
@@ -41,24 +40,34 @@ export const ProjectList = () => {
   }
 
   return (
-    <Center>
-      <HStack size='sm' spacing={2}>
-        {projects?.map((project) => (
-          <HStack key={project._id}>
-            <Box onClick={() => handleSelectProject(project)}>{project.projectName}</Box>
-            <Divider orientation='vertical' />
-            <Box>{project.systemSize}</Box>
-            <Divider orientation='vertical' />
-            <Box>{moment(project.updatedAt).fromNow()}</Box>
-            <Divider orientation='vertical' />
-            <IconButton
-              onClick={() => handleDeleteProject(project._id)}
-              aria-label='Delete project'
-              icon={<DeleteIcon />}
-            />
-          </HStack>
-        ))}
-      </HStack>
+    <Center h='90vh'>
+      <Table size='sm'>
+        <TableCaption>Recent projects</TableCaption>
+        <Thead>
+          <Tr>
+            <Th>Project Name</Th>
+            <Th isNumeric>System Size</Th>
+            <Th>Updated</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {projects?.slice(0, 5).map((project) => (
+            <Tr key={project._id}>
+              <Td onClick={() => handleSelectProject(project)}>{project.projectName}</Td>
+              <Td isNumeric>{project.systemSize}</Td>
+              <Td>{moment(project.updatedAt).fromNow()}</Td>
+              <Td>
+                <IconButton
+                  size='sm'
+                  onClick={() => handleDeleteProject(project._id)}
+                  aria-label='Delete project'
+                  icon={<DeleteIcon />}
+                />
+              </Td>
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
     </Center>
   )
 }
