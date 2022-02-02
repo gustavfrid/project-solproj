@@ -5,7 +5,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { theme } from './Theme'
 
 import { setupStore } from './store/setupStore'
-import { RequireAuth } from './utils/RequireAuth'
+import { RequireAuth } from './components/Auth/RequireAuth'
 import { Start } from './components/Start'
 import { Auth } from './components/Auth/Auth'
 import { NotFound } from './components/NotFound'

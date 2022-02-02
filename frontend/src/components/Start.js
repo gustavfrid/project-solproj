@@ -8,7 +8,7 @@ export const Start = () => {
   return (
     <Center h='100vh' bgImage={HeroImage} bgPosition='center' bgRepeat='no-repeat' bgSize='cover'>
       <Stack align='center' spacing='10'>
-        <Heading as='h1' size='4xl'>
+        <Heading as='h1' textAlign='center' fontSize={{ base: '35px', md: '48px', lg: '62px' }}>
           {'Welcome to SolProj'.toUpperCase()}
         </Heading>
 
