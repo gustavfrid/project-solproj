@@ -147,8 +147,8 @@ export const MapMapbox = () => {
     map.current.on('draw.create', updateArea)
     map.current.on('draw.delete', updateArea)
     map.current.on('draw.update', updateArea)
-    return () => map.current.remove()
-  }, [])
+    // return () => map.current.remove()
+  })
 
   useEffect(() => {
     if (!map.current) return // wait for map to initialize

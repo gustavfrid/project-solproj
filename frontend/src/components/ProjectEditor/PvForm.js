@@ -1,8 +1,9 @@
 import { useDispatch, batch, useSelector } from 'react-redux'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
-import { Stack, Button, Input, FormControl, FormLabel, FormErrorMessage } from '@chakra-ui/react'
+import { Stack, Button, Input, FormControl, FormLabel, FormErrorMessage, SliderMark, Box } from '@chakra-ui/react'
 
+import { CustomSlider } from './Slider'
 import { project, calculateEnergy, getHourlyData } from '../../reducers/projectReducer'
 
 export const PvForm = () => {
@@ -33,6 +34,7 @@ export const PvForm = () => {
           projectName,
           systemSize,
           systemAzimuth,
+          systemAzimuthSlider: 0,
           systemInclination,
           yearlyLoad,
         }}
@@ -44,7 +46,8 @@ export const PvForm = () => {
           yearlyLoad: Yup.number(),
         })}
         onSubmit={(values, actions) => {
-          handleSubmit(values)
+          alert(JSON.stringify(values, null, 2))
+          // handleSubmit(values)
         }}>
         {(props) => (
           <Form>
@@ -67,16 +70,36 @@ export const PvForm = () => {
                   </FormControl>
                 )}
               </Field>
-              <Field name='systemAzimuth'>
-                {({ field, form }) => (
-                  <FormControl variant='floating' isInvalid={form.errors.systemAzimuth && form.touched.systemAzimuth}>
-                    <Input {...field} id='systemAzimuth' placeholder=' ' />
-                    <FormLabel htmlFor='systemAzimuth'>System Azimuth -180 - 180degrees</FormLabel>
-                    <FormErrorMessage>{form.errors.systemAzimuth}</FormErrorMessage>
-                  </FormControl>
-                )}
-              </Field>
-              <Field name='systemInclination'>
+              <CustomSlider
+                name='systemAzimuth'
+                aria-label='Azimuth slider'
+                defaultValue={0}
+                min={-180}
+                max={180}
+                markers={[
+                  { v: -180, ml: -3 },
+                  { v: -90, ml: -3 },
+                  { v: 0, ml: -1 },
+                  { v: 90, ml: -2 },
+                  { v: 180, ml: -4 },
+                ]}
+              />
+              <CustomSlider
+                name='systemInclination'
+                aria-label='Inclination slider'
+                defaultValue={0}
+                min={0}
+                max={90}
+                markers={[
+                  { v: 0, ml: -1 },
+                  { v: 15, ml: -2 },
+                  { v: 30, ml: -2 },
+                  { v: 40, ml: -2 },
+                  { v: 90, ml: -2 },
+                ]}
+                step={[]}
+              />
+              {/* <Field name='systemInclination'>
                 {({ field, form }) => (
                   <FormControl
                     variant='floating'
@@ -86,7 +109,7 @@ export const PvForm = () => {
                     <FormErrorMessage>{form.errors.systemInclination}</FormErrorMessage>
                   </FormControl>
                 )}
-              </Field>
+              </Field> */}
               <Field name='yearlyLoad'>
                 {({ field, form }) => (
                   <FormControl variant='floating' isInvalid={form.errors.yearlyLoad && form.touched.yearlyLoad}>
