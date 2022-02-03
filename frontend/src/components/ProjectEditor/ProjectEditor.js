@@ -5,7 +5,7 @@ import { Button, Stack, useToast } from '@chakra-ui/react'
 import { project, createProject, updateProject } from '../../reducers/projectReducer'
 import { MapMapbox } from '../Location/MapMapbox'
 import { PvForm } from './PvForm'
-import { BarChart } from './BarChart'
+import { BarChart } from '../Charts/BarChart'
 
 export const ProjectEditor = () => {
   const { pvgis, load, projectId, projectName } = useSelector((store) => store.project)
