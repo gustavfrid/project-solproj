@@ -47,8 +47,8 @@ export const PvForm = () => {
           yearlyLoad: Yup.number(),
         })}
         onSubmit={(values, actions) => {
-          alert(JSON.stringify(values, null, 2))
-          // handleSubmit(values)
+          // alert(JSON.stringify(values, null, 2))
+          handleSubmit(values)
         }}>
         {(props) => (
           <Form>

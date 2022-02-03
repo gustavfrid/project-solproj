@@ -1,25 +1,18 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Button } from '@chakra-ui/react'
-import styled from 'styled-components'
+import { Button, Stack, useToast } from '@chakra-ui/react'
 import { project, createProject, updateProject } from '../../reducers/projectReducer'
 import { MapMapbox } from '../Location/MapMapbox'
 import { PvForm } from './PvForm'
 import { BarChart } from './BarChart'
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 40px;
-  gap: 20px;
-`
 
 export const ProjectEditor = () => {
   const { pvgis, load, projectId, projectName } = useSelector((store) => store.project)
   const dispatch = useDispatch()
   let navigate = useNavigate()
   let { id } = useParams()
+  const toast = useToast()
 
   useEffect(() => {
     if (id === 'new') {
@@ -31,22 +24,28 @@ export const ProjectEditor = () => {
     if (id === 'new') {
       dispatch(createProject())
       navigate('/main/projects/loading') // navigating to a loading site, could be handled by loader in ui?
+
+      //TODO: set toast according to response from backend
+      toast({
+        title: `Success project created!`,
+        status: 'success',
+        isClosable: true,
+      })
     } else {
       dispatch(updateProject(id))
     }
   }
 
   return (
-    <Container>
+    <Stack flexDir='column' margin={8} spacing={'20px'} dir='column'>
       <h2>{projectId === 'new' ? 'Create New Project' : projectName}</h2>
       <h3>Select location</h3>
       <MapMapbox />
       <PvForm />
-
       <Button variant='contained' onClick={() => onSaveProject()}>
         {id === 'new' ? 'Create project' : 'Save project'}
       </Button>
       {pvgis && <BarChart dataSeries={{ pvgis, load }} />}
-    </Container>
+    </Stack>
   )
 }

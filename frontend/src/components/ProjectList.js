@@ -42,49 +42,47 @@ export const ProjectList = () => {
   return (
     <Flex justify='center'>
       <Center h='90vh' w='80vw'>
-        <Box w='100%' border='1px solid' borderColor='gray.400' borderRadius='md' padding={2}>
-          {projects.length === 0 ? (
-            <Link to='/main/projects/new'>No projects, create a new one!</Link>
-          ) : (
-            <Table size='sm'>
-              <TableCaption>Recent projects</TableCaption>
-              <Thead>
-                <Tr>
-                  <Th>Project Name</Th>
-                  <Th isNumeric>System Size</Th>
-                  <Th>Updated</Th>
-                  <Th>Edit</Th>
-                  <Th>Delete</Th>
+        {projects.length === 0 ? (
+          <Link to='/main/projects/new'>No projects, create a new one!</Link>
+        ) : (
+          <Table size='sm'>
+            <TableCaption>Recent projects</TableCaption>
+            <Thead>
+              <Tr>
+                <Th>Project Name</Th>
+                <Th isNumeric>System Size</Th>
+                <Th>Updated</Th>
+                <Th>Edit</Th>
+                <Th>Delete</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {projects?.slice(0, 5).map((project) => (
+                <Tr key={project._id}>
+                  <Td onClick={() => handleSelectProject(project)}>{project.projectName}</Td>
+                  <Td isNumeric>{project.systemSize}</Td>
+                  <Td>{moment(project.updatedAt).fromNow(true)}</Td>
+                  <Td>
+                    <IconButton
+                      size='sm'
+                      onClick={() => handleSelectProject(project)}
+                      aria-label='Edit project'
+                      icon={<EditIcon />}
+                    />
+                  </Td>
+                  <Td>
+                    <IconButton
+                      size='sm'
+                      onClick={() => handleDeleteProject(project._id)}
+                      aria-label='Delete project'
+                      icon={<DeleteIcon />}
+                    />
+                  </Td>
                 </Tr>
-              </Thead>
-              <Tbody>
-                {projects?.slice(0, 5).map((project) => (
-                  <Tr key={project._id}>
-                    <Td onClick={() => handleSelectProject(project)}>{project.projectName}</Td>
-                    <Td isNumeric>{project.systemSize}</Td>
-                    <Td>{moment(project.updatedAt).fromNow(true)}</Td>
-                    <Td>
-                      <IconButton
-                        size='sm'
-                        onClick={() => handleSelectProject(project)}
-                        aria-label='Edit project'
-                        icon={<EditIcon />}
-                      />
-                    </Td>
-                    <Td>
-                      <IconButton
-                        size='sm'
-                        onClick={() => handleDeleteProject(project._id)}
-                        aria-label='Delete project'
-                        icon={<DeleteIcon />}
-                      />
-                    </Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          )}
-        </Box>
+              ))}
+            </Tbody>
+          </Table>
+        )}
       </Center>
     </Flex>
   )

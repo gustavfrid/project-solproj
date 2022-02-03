@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import mapboxgl from '!mapbox-gl' // eslint-disable-line import/no-webpack-loader-syntax
 import * as turf from '@turf/turf'
 import MapboxDraw from '@mapbox/mapbox-gl-draw'
+import { AspectRatio, Flex } from '@chakra-ui/react'
 import styled from 'styled-components'
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 
@@ -15,10 +16,11 @@ import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
 const MapContainer = styled.div`
-  height: 500px;
+  height: 100%;
 `
 const Sidebar = styled.div`
   position: absolute;
+  /* max-height: 10%; */
   padding: 6px 12px;
   top: 0;
   left: 0;
@@ -164,12 +166,10 @@ export const MapMapbox = () => {
   }
 
   return (
-    <div>
-      <MapContainer ref={mapContainer}>
-        <Sidebar>
-          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom} | {areas.map((area) => `Area: ${area} m2`)}
-        </Sidebar>
-      </MapContainer>
-    </div>
+    <Flex height={['400px', '600px']} ref={mapContainer}>
+      <Sidebar>
+        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom} | {areas.map((area) => `Area: ${area} m2`)}
+      </Sidebar>
+    </Flex>
   )
 }

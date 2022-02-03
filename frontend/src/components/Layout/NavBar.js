@@ -2,9 +2,7 @@ import { useDispatch } from 'react-redux'
 import { useNavigate, NavLink } from 'react-router-dom'
 import { IconButton, Button, Flex, Image } from '@chakra-ui/react'
 import { HamburgerIcon, LockIcon, AddIcon, RepeatIcon, ChevronLeftIcon } from '@chakra-ui/icons'
-
-import { Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react'
-
+import { Menu, MenuButton, MenuList, MenuItem, Text } from '@chakra-ui/react'
 import { user } from '../../reducers/userReducer'
 import { project } from '../../reducers/projectReducer'
 import Sun from '../../assets/sun.png'
@@ -49,7 +47,9 @@ export const NavBar = () => {
   return (
     <Flex h='50px' align='center'>
       <Image ml={2} w='40px' src={Sun} alt='logo' />
-
+      <Text fontSize='2xl' ml={3}>
+        SolProj
+      </Text>
       <Flex align='center' ml='auto'>
         <Flex display={['none', 'flex', 'flex', 'flex']}>
           <MenuItems />
