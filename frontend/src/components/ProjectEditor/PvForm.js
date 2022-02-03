@@ -97,7 +97,6 @@ export const PvForm = () => {
                   { v: 40, ml: -2 },
                   { v: 90, ml: -2 },
                 ]}
-                step={[]}
               />
               {/* <Field name='systemInclination'>
                 {({ field, form }) => (

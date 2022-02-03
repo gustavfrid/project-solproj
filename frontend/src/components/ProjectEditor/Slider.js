@@ -30,8 +30,8 @@ export const CustomSlider = ({ children, ...props }) => {
         value={field.value}
         mb='4'
         mt='1'
-        focusThumbOnChange={false}
-        // onFocusCapture={() => setShowTooltip(true)}
+        // focusThumbOnChange={false}
+        // onFocus={() => setShowTooltip(true)}
         // onFocusOut={() => setShowTooltip(false)}
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
