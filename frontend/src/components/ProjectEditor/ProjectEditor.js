@@ -2,12 +2,10 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Button } from '@chakra-ui/react'
-
 import styled from 'styled-components'
 
 import { project, createProject, updateProject } from '../../reducers/projectReducer'
 import { MapMapbox } from '../Location/MapMapbox'
-import { MapboxSearch } from '../Location/MapboxSearch'
 import { PvForm } from './PvForm'
 import { BarChart } from './BarChart'
 
@@ -44,9 +42,7 @@ export const ProjectEditor = () => {
       <h2>{projectId === 'new' ? 'Create New Project' : projectName}</h2>
       <h3>Select location</h3>
       <MapMapbox />
-      {/* <MapboxSearch /> */}
       <PvForm />
-
       <Button variant='contained' onClick={() => onSaveProject()}>
         {id === 'new' ? 'Create project' : 'Save project'}
       </Button>

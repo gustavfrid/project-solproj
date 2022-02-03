@@ -1,20 +1,8 @@
-import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, NavLink } from 'react-router-dom'
 import { IconButton, Button, Flex, Image } from '@chakra-ui/react' //MenuItem
-import { HamburgerIcon, CloseIcon, LockIcon, AddIcon, RepeatIcon, ChevronLeftIcon } from '@chakra-ui/icons'
-
-import {
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuDivider,
-} from '@chakra-ui/react'
-
+import { HamburgerIcon, LockIcon, AddIcon, RepeatIcon, ChevronLeftIcon } from '@chakra-ui/icons'
+import { Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react'
 import { user } from '../../reducers/userReducer'
 import { project } from '../../reducers/projectReducer'
 import Sun from '../../assets/sun.png'
@@ -22,9 +10,6 @@ import Sun from '../../assets/sun.png'
 export const NavBar = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [displayMenu, setDisplayMenu] = useState('none')
-  // const toggle = () => setIsOpen(!isOpen)
-  // const { colorMode, toggleColorMode } = useColorMode()
 
   const handleSignout = () => {
     dispatch(user.actions.reset())
@@ -40,17 +25,17 @@ export const NavBar = () => {
     return (
       <>
         <NavLink to='/main/projects/new'>
-          <Button variant='ghost' aria-label='Project List' w='100%' onClick={() => setDisplayMenu('none')}>
+          <Button variant='ghost' aria-label='Project List' w='100%'>
             New Project
           </Button>
         </NavLink>
         <NavLink onClick={() => dispatch(project.actions.reset())} to='/main/projects'>
-          <Button variant='ghost' aria-label='Project List' w='100%' onClick={() => setDisplayMenu('none')}>
+          <Button variant='ghost' aria-label='Project List' w='100%'>
             Project List
           </Button>
         </NavLink>
         <NavLink onClick={() => handleSignout()} to='/'>
-          <Button variant='ghost' aria-label='Project List' w='100%' onClick={() => setDisplayMenu('none')}>
+          <Button variant='ghost' aria-label='Project List' w='100%'>
             Sign Out
           </Button>
         </NavLink>
@@ -66,16 +51,6 @@ export const NavBar = () => {
         <Flex display={['none', 'flex', 'flex', 'flex']}>
           <MenuItems />
         </Flex>
-
-        {/* <IconButton
-          aria-label='Open menu'
-          variant='ghost'
-          size='lg'
-          mr={2}
-          icon={<HamburgerIcon />}
-          display={['flex', 'flex', 'none', 'none']}
-          onClick={() => setDisplayMenu('flex')}
-        /> */}
 
         <Menu>
           <MenuButton
