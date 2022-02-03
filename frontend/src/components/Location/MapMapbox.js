@@ -117,25 +117,6 @@ export const MapMapbox = () => {
       // Draw an arrow next to the location dot to indicate which direction the device is heading.
       showUserHeading: true,
     })
-
-    // Add the geocoder to the map
-    map.current.addControl(geocoder, 'bottom-right') // Add the geocoder to the map
-    map.current.addControl(fullscreenControl) // Add the fullscreen to the map
-    map.current.addControl(geolocateControl, 'bottom-right') // Add the geolocate to the map
-
-    map.current.on('draw.create', updateArea)
-    map.current.on('draw.delete', updateArea)
-    map.current.on('draw.update', updateArea)
-  })
-
-  useEffect(() => {
-    if (!map.current) return // wait for map to initialize
-    map.current.on('move', () => {
-      setLng(map.current.getCenter().lng.toFixed(4))
-      setLat(map.current.getCenter().lat.toFixed(4))
-      setZoom(map.current.getZoom().toFixed(2))
-    })
-
     map.current.on('load', () => {
       map.current.addSource('single-point', {
         type: 'geojson',
@@ -157,6 +138,24 @@ export const MapMapbox = () => {
 
       // Listen for the `result` event from the Geocoder // `result` event is triggered when a user makes a selection
       //  Add a marker at the result's coordinates
+    })
+    // Add the geocoder to the map
+    map.current.addControl(geocoder, 'bottom-right') // Add the geocoder to the map
+    map.current.addControl(fullscreenControl) // Add the fullscreen to the map
+    map.current.addControl(geolocateControl, 'bottom-right') // Add the geolocate to the map
+
+    map.current.on('draw.create', updateArea)
+    map.current.on('draw.delete', updateArea)
+    map.current.on('draw.update', updateArea)
+    return () => map.current.remove()
+  }, [])
+
+  useEffect(() => {
+    if (!map.current) return // wait for map to initialize
+    map.current.on('move', () => {
+      setLng(map.current.getCenter().lng.toFixed(4))
+      setLat(map.current.getCenter().lat.toFixed(4))
+      setZoom(map.current.getZoom().toFixed(2))
     })
   })
 
