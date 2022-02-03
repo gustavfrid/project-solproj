@@ -6,20 +6,16 @@ import {
   SliderThumb,
   SliderMark,
   HStack,
-  FormLabel,
-  FormErrorMessage,
-  Flex,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-  Box,
   Tooltip,
 } from '@chakra-ui/react'
 
 export const CustomSlider = ({ children, ...props }) => {
-  const [field, meta, helpers] = useField({ ...props })
+  const [field, , helpers] = useField({ ...props })
   const { max, min } = props
   const [showTooltip, setShowTooltip] = useState(false)
 
@@ -30,9 +26,6 @@ export const CustomSlider = ({ children, ...props }) => {
         value={field.value}
         mb='4'
         mt='1'
-        // focusThumbOnChange={false}
-        // onFocus={() => setShowTooltip(true)}
-        // onFocusOut={() => setShowTooltip(false)}
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         onChange={(v) => helpers.setValue(v)}>
@@ -40,7 +33,6 @@ export const CustomSlider = ({ children, ...props }) => {
         <Tooltip hasArrow bg='teal.500' color='white' placement='top' isOpen={showTooltip} label={field.value}>
           <SliderThumb />
         </Tooltip>
-
         {props.markers.map((marker) => (
           <SliderMark key={marker.v} value={marker.v} mt='2' ml={marker.ml} fontSize='sm'>
             {marker.v}

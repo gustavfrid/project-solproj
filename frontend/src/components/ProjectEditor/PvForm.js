@@ -1,9 +1,10 @@
 import { useDispatch, batch, useSelector } from 'react-redux'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
-import { Stack, Button, Input, FormControl, FormLabel, FormErrorMessage, SliderMark, Box } from '@chakra-ui/react'
+import { Stack, Button, Input, FormControl, FormLabel, FormErrorMessage, HStack, Center, Flex } from '@chakra-ui/react'
 
-import { CustomSlider } from './Slider'
+import { CustomSlider } from './CustomSlider'
+import { AdjustbleAngle, AdjustbleArrow } from '../../assets/CustomIcons'
 import { project, calculateEnergy, getHourlyData } from '../../reducers/projectReducer'
 
 export const PvForm = () => {
@@ -51,7 +52,7 @@ export const PvForm = () => {
         }}>
         {(props) => (
           <Form>
-            <Stack spacing='24px'>
+            <Stack spacing='20px'>
               <Field name='projectName'>
                 {({ field, form }) => (
                   <FormControl variant='floating' isInvalid={form.errors.projectName && form.touched.projectName}>
@@ -70,20 +71,30 @@ export const PvForm = () => {
                   </FormControl>
                 )}
               </Field>
-              <CustomSlider
-                name='systemAzimuth'
-                aria-label='Azimuth slider'
-                defaultValue={0}
-                min={-180}
-                max={180}
-                markers={[
-                  { v: -180, ml: -3 },
-                  { v: -90, ml: -3 },
-                  { v: 0, ml: -1 },
-                  { v: 90, ml: -2 },
-                  { v: 180, ml: -4 },
-                ]}
-              />
+              <Flex flexDir='column'>
+                <Center>
+                  <AdjustbleArrow angle={props.values.systemAzimuth} boxSize={20} />
+                </Center>
+                <CustomSlider
+                  name='systemAzimuth'
+                  aria-label='Azimuth slider'
+                  defaultValue={0}
+                  min={-180}
+                  max={180}
+                  markers={[
+                    { v: -180, ml: -3 },
+                    { v: -90, ml: -3 },
+                    { v: 0, ml: -1 },
+                    { v: 90, ml: -2 },
+                    { v: 180, ml: -4 },
+                  ]}
+                />
+              </Flex>
+              <HStack justify='center'>
+                <AdjustbleAngle angle={props.values.systemInclination} boxSize={20} />
+                <AdjustbleAngle angle={props.values.systemInclination} boxSize={20} />
+                <AdjustbleAngle angle={props.values.systemInclination} boxSize={20} />
+              </HStack>
               <CustomSlider
                 name='systemInclination'
                 aria-label='Inclination slider'
@@ -97,6 +108,7 @@ export const PvForm = () => {
                   { v: 40, ml: -2 },
                   { v: 90, ml: -2 },
                 ]}
+                step={5}
               />
               {/* <Field name='systemInclination'>
                 {({ field, form }) => (
