@@ -8,4 +8,9 @@ export const hoursToDays = (data) => {
   return result
 }
 
+export const calcExportsHourly = (hourlyLoad, hourlyProd) => {
+  const hourlyExportedElectricity = hourlyProd.map((v, i) => v - hourlyLoad[i])
+  return hourlyExportedElectricity
+}
+
 // TODO: add function to sum everything to weeks and days

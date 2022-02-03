@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
 import moment from 'moment'
-import { Table, Thead, Tbody, Tr, Th, Td, TableCaption, IconButton, Center, Flex, Box } from '@chakra-ui/react'
+import { Table, Thead, Tbody, Tr, Th, Td, TableCaption, IconButton, Center, Flex } from '@chakra-ui/react'
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 
 import { projectList, getProjectList } from '../reducers/projectListReducer'
