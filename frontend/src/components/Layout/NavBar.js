@@ -40,17 +40,17 @@ export const NavBar = () => {
     return (
       <>
         <NavLink to='/main/projects/new'>
-          <Button as='a' variant='ghost' aria-label='Project List' w='100%' onClick={() => setDisplayMenu('none')}>
-            Create new project
+          <Button variant='ghost' aria-label='Project List' w='100%' onClick={() => setDisplayMenu('none')}>
+            New Project
           </Button>
         </NavLink>
         <NavLink onClick={() => dispatch(project.actions.reset())} to='/main/projects'>
-          <Button as='a' variant='ghost' aria-label='Project List' w='100%' onClick={() => setDisplayMenu('none')}>
+          <Button variant='ghost' aria-label='Project List' w='100%' onClick={() => setDisplayMenu('none')}>
             Project List
           </Button>
         </NavLink>
         <NavLink onClick={() => handleSignout()} to='/'>
-          <Button as='a' variant='ghost' aria-label='Project List' w='100%' onClick={() => setDisplayMenu('none')}>
+          <Button variant='ghost' aria-label='Project List' w='100%' onClick={() => setDisplayMenu('none')}>
             Sign Out
           </Button>
         </NavLink>
@@ -87,7 +87,7 @@ export const NavBar = () => {
             mr={2}
             display={['flex', 'none', 'none', 'none']}
           />
-          <MenuList>
+          <MenuList zIndex='10'>
             <MenuItem icon={<AddIcon />} onClick={() => navigate('/main/projects/new')}>
               New Project
             </MenuItem>
