@@ -2,9 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Button } from '@chakra-ui/react'
-
 import styled from 'styled-components'
-
 import { project, createProject, updateProject } from '../../reducers/projectReducer'
 import { MapMapbox } from '../Location/MapMapbox'
 import { PvForm } from './PvForm'

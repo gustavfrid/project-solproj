@@ -53,7 +53,6 @@ export const updateProject = async (req, res, next) => {
       },
       { new: true }
     )
-    // console.log('[updateProject] updated project', updatedProject)
     res.status(201).json({
       response: updatedProject,
       success: true,

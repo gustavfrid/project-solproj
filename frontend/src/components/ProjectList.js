@@ -38,7 +38,7 @@ export const ProjectList = () => {
     dispatch(deleteProject(id))
     dispatch(projectList.actions.deletProjectFromList(id))
   }
-
+  // TODO: wrap the table in something to set borders
   return (
     <Flex justify='center'>
       <Center h='90vh' w='80vh'>

@@ -25,7 +25,7 @@ export const theme = extendTheme({
               left: 0,
               zIndex: 2,
               position: 'absolute',
-              backgroundColor: 'white',
+              backgroundColor: 'white', // TODO: make this dynamic depending on theme
               pointerEvents: 'none',
               mx: 3,
               px: 1,
