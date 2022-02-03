@@ -64,7 +64,7 @@ export const NavBar = () => {
             mr={2}
             display={['flex', 'none', 'none', 'none']}
           />
-          <MenuList zIndex='10'>
+          <MenuList zIndex='dropdown'>
             <MenuItem icon={<AddIcon />} onClick={() => navigate('/main/projects/new')}>
               New Project
             </MenuItem>
