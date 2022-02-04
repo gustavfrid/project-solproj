@@ -3,7 +3,7 @@ import { batch } from 'react-redux'
 
 import { API_URL } from '../utils/constants'
 import { ui } from './ui'
-import { hoursToDays, hoursToMonths, hoursToYear } from '../utils/dataHandlers'
+import { hoursToDays, hoursToMonths, hoursToYear, divideArrayByNumber } from '../utils/dataHandlers'
 
 const initialState = {
   projectId: 'new',
@@ -93,7 +93,7 @@ export const calculateEnergy = () => {
     fetch(API_URL('pvgis'), options)
       .then((res) => res.json())
       .then((res) => {
-        const { hourly } = res.data
+        const hourly = res.data.hourly.map((v) => v / 1000) // convert from wh to kWh
         const daily = hoursToDays(hourly)
         const monthly = hoursToMonths(hourly)
         const yearly = hoursToYear(hourly)

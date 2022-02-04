@@ -33,4 +33,9 @@ export const calcExportsHourly = (hourlyLoad, hourlyProd) => {
   return hourlyExportedElectricity
 }
 
+export const divideArrayByNumber = (array, number) => {
+  let dataSeries = [...array]
+  return dataSeries.map((v) => v / number)
+}
+
 // TODO: add function to sum everything to weeks and days
