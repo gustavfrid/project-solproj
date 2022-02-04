@@ -140,7 +140,7 @@ export const getHourlyData = (name, type) => {
           )
         }
         if (type === 'spotPrice') {
-          dispatch(project.actions.setPrice(hourly))
+          dispatch(project.actions.setPrice(hourly.map((v) => (v * 10) / 1000))) // converting from eur/MWh to kr/kWh
           console.log({ hourly })
         }
 
