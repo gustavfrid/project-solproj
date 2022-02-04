@@ -3,7 +3,7 @@ import { batch } from 'react-redux'
 
 import { API_URL } from '../utils/constants'
 import { ui } from './ui'
-import { hoursToDays } from '../utils/dataHandlers'
+import { hoursToDays, hoursToMonths, hoursToYear } from '../utils/dataHandlers'
 
 const initialState = {
   projectId: 'new',
@@ -93,19 +93,10 @@ export const calculateEnergy = () => {
     fetch(API_URL('pvgis'), options)
       .then((res) => res.json())
       .then((res) => {
-        let hourlyProduction = []
-        let dailyProduction = []
-        let monthlyProduction = []
-        if (pvgisOptions.api === 'seriescalc') {
-          hourlyProduction = res.outputs.hourly.map((hour) => hour.P)
-          dailyProduction = hoursToDays(hourlyProduction)
-        } else if (pvgisOptions.api === 'PVcalc') {
-          monthlyProduction = res.outputs.monthly.fixed.map((month) => month.E_m)
-        }
-
-        dispatch(
-          project.actions.setPvgis({ hourly: hourlyProduction, daily: dailyProduction, monthly: monthlyProduction })
-        )
+        const hourlyData = res.data.hourly
+        const dailyData = hoursToDays(hourlyData)
+        const monthlyData = hoursToMonths(hourlyData)
+        dispatch(project.actions.setPvgis({ hourly: hourlyData, daily: dailyData, monthly: monthlyData }))
         dispatch(ui.actions.setLoading(false))
       })
   }
@@ -128,18 +119,29 @@ export const getHourlyData = (name, type) => {
     fetch(API_URL(`data/${name}`), options)
       .then((res) => res.json())
       .then((res) => {
-        let hourlyData = res.response.data
-        let dailyData = []
-        let monthlyData = []
+        let hourlyData = res.data
+        // load must be scaled with yearly electricity consumption, the response data is normalized to 1kWh/year
         if (type === 'loadProfile') {
-          hourlyData = res.response.data.map((item) => item * yearlyLoad)
+          hourlyData = res.data.map((item) => item * yearlyLoad)
         }
-        dailyData = hoursToDays(hourlyData)
+
+        const dailyData = hoursToDays(hourlyData)
+        const monthlyData = hoursToMonths(hourlyData)
+        const yearlyData = hoursToYear(hourlyData)
+
         if (type === 'loadProfile') {
-          dispatch(project.actions.setLoad({ hourly: hourlyData, daily: dailyData, monthly: monthlyData }))
+          dispatch(
+            project.actions.setLoad({
+              hourly: hourlyData,
+              daily: dailyData,
+              monthly: monthlyData,
+              yearly: yearlyData,
+            })
+          )
         }
         if (type === 'spotPrice') {
-          dispatch(project.actions.setPrice({ hourly: hourlyData, daily: dailyData, monthly: monthlyData }))
+          dispatch(project.actions.setPrice(hourlyData))
+          console.log({ hourly: hourlyData })
         }
 
         dispatch(ui.actions.setLoading(false))
@@ -214,7 +216,7 @@ export const getProject = (projectId) => {
           dispatch(project.actions.setYearlyLoad(res.response.yearlyLoad))
           dispatch(project.actions.setPvgis(res.response.pvgis))
         })
-        dispatch(getHourlyData('domestic', 'loadProfile'))
+        dispatch(getHourlyData('townhouse', 'loadProfile'))
       })
   }
 }

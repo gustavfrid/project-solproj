@@ -5,7 +5,7 @@ import { Button, Stack, useToast, Box } from '@chakra-ui/react'
 import { project, createProject, updateProject } from '../../reducers/projectReducer'
 import { MapMapbox } from '../Location/MapMapbox'
 import { PvForm } from './PvForm'
-import { BarChart } from '../Charts/BarChart'
+// import { BarChart } from '../Charts/BarChart'
 import { ReAreaChart } from '../Charts/AreaChart'
 
 export const ProjectEditor = () => {
@@ -46,7 +46,7 @@ export const ProjectEditor = () => {
       <Button variant='contained' onClick={() => onSaveProject()}>
         {id === 'new' ? 'Create project' : 'Save project'}
       </Button>
-      {pvgis && <BarChart dataSeries={{ pvgis, load }} />}
+      {/* {pvgis && <BarChart dataSeries={{ pvgis, load }} />} */}
 
       {pvgis && (
         <Box w='100%' h='300px'>
