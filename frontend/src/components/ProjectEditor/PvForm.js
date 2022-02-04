@@ -23,7 +23,8 @@ export const PvForm = () => {
       dispatch(project.actions.setYearlyLoad(values.yearlyLoad))
     })
     dispatch(calculateEnergy())
-    dispatch(getHourlyData('domestic', 'loadProfile'))
+    dispatch(getHourlyData('townhouse', 'loadProfile'))
+    dispatch(getHourlyData('SE3', 'spotPrice'))
   }
 
   return (

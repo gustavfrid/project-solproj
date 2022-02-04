@@ -16,6 +16,7 @@ export const ProjectList = () => {
 
   useEffect(() => {
     dispatch(getProjectList())
+    dispatch(project.actions.reset())
   }, [dispatch])
 
   const handleSelectProject = (selected) => {

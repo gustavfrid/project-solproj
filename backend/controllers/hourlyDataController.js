@@ -21,7 +21,7 @@ export const getHourlyData = async (req, res, next) => {
     try {
       const response = await HourlyData.findOne({ name })
       res.status(200).json({
-        response,
+        data: response.data,
         success: true,
       })
       next()
@@ -53,7 +53,8 @@ export const calculatePvgis = async (req, res, next) => {
 
   try {
     const response = await axios.get(`https://re.jrc.ec.europa.eu/api/${pvgisQuery}`)
-    res.send(response.data)
+    const hourlyProduction = response.data.outputs.hourly.map((hour) => hour.P)
+    res.send({ data: { hourly: hourlyProduction } })
     next()
   } catch (error) {
     res.send(error.response.data)
