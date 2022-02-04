@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { ChakraProvider } from '@chakra-ui/react'
 import { theme } from './Theme'
 
-import { setupStore } from './store/setupStore'
+import { setupSimpleStore } from './store/setupStore'
 import { RequireAuth } from './components/Auth/RequireAuth'
 import { Start } from './components/Start'
 import { Auth } from './components/Auth/Auth'
@@ -15,19 +15,19 @@ import { ProjectList } from './components/ProjectList'
 import { LoadingProject } from './components/ProjectEditor/LoadingProject'
 
 // Retrieve localstorage as initial state
-const persistedStateJSON = localStorage.getItem('solprojReduxState')
-let persistedState = {}
+// const persistedStateJSON = localStorage.getItem('solprojReduxState')
+// let persistedState = {}
 
-if (persistedStateJSON) {
-  persistedState = JSON.parse(persistedStateJSON)
-}
+// if (persistedStateJSON) {
+//   persistedState = JSON.parse(persistedStateJSON)
+// }
 
-const store = setupStore(persistedState)
+const store = setupSimpleStore //setupStore(persistedState)
 
 // Store the state in localstorage when Redux state change
-store.subscribe(() => {
-  localStorage.setItem('solprojReduxState', JSON.stringify(store.getState()))
-})
+// store.subscribe(() => {
+//   localStorage.setItem('solprojReduxState', JSON.stringify(store.getState()))
+// })
 
 export const App = () => {
   return (

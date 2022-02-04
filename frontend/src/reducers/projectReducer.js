@@ -93,10 +93,11 @@ export const calculateEnergy = () => {
     fetch(API_URL('pvgis'), options)
       .then((res) => res.json())
       .then((res) => {
-        const hourlyData = res.data.hourly
-        const dailyData = hoursToDays(hourlyData)
-        const monthlyData = hoursToMonths(hourlyData)
-        dispatch(project.actions.setPvgis({ hourly: hourlyData, daily: dailyData, monthly: monthlyData }))
+        const { hourly } = res.data
+        const daily = hoursToDays(hourly)
+        const monthly = hoursToMonths(hourly)
+        const yearly = hoursToYear(hourly)
+        dispatch(project.actions.setPvgis({ hourly, daily, monthly, yearly }))
         dispatch(ui.actions.setLoading(false))
       })
   }
@@ -119,29 +120,28 @@ export const getHourlyData = (name, type) => {
     fetch(API_URL(`data/${name}`), options)
       .then((res) => res.json())
       .then((res) => {
-        let hourlyData = res.data
+        let hourly = res.data
         // load must be scaled with yearly electricity consumption, the response data is normalized to 1kWh/year
         if (type === 'loadProfile') {
-          hourlyData = res.data.map((item) => item * yearlyLoad)
+          hourly = res.data.map((item) => item * yearlyLoad)
         }
-
-        const dailyData = hoursToDays(hourlyData)
-        const monthlyData = hoursToMonths(hourlyData)
-        const yearlyData = hoursToYear(hourlyData)
+        const daily = hoursToDays(hourly)
+        const monthly = hoursToMonths(hourly)
+        const yearly = hoursToYear(hourly)
 
         if (type === 'loadProfile') {
           dispatch(
             project.actions.setLoad({
-              hourly: hourlyData,
-              daily: dailyData,
-              monthly: monthlyData,
-              yearly: yearlyData,
+              hourly,
+              daily,
+              monthly,
+              yearly,
             })
           )
         }
         if (type === 'spotPrice') {
-          dispatch(project.actions.setPrice(hourlyData))
-          console.log({ hourly: hourlyData })
+          dispatch(project.actions.setPrice(hourly))
+          console.log({ hourly })
         }
 
         dispatch(ui.actions.setLoading(false))
@@ -185,7 +185,6 @@ export const updateProject = (projectId) => {
       }),
     }
 
-    console.log('updateProject', options)
     fetch(API_URL(`project/${getState().user.userId}/${projectId}`), options)
       .then((res) => res.json())
       .then((res) => console.log('project saved', res))

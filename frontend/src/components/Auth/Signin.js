@@ -50,8 +50,13 @@ export const Signin = ({ formState, onClose, initialRef }) => {
           status: 'success',
           isClosable: true,
         })
+      } else {
+        toast({
+          title: `Welcome back ${data.response.username}!`,
+          status: 'success',
+          isClosable: true,
+        })
       }
-      // console.log(data)
     } catch (error) {
       batch(() => {
         dispatch(user.actions.setUserId(null))
