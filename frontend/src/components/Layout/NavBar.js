@@ -30,8 +30,8 @@ export const NavBar = () => {
             New Project
           </Button>
         </NavLink>
-        <NavLink to='/main/projects'>
-          <Button onClick={() => dispatch(project.actions.reset())} variant='ghost' aria-label='Project List' w='100%'>
+        <NavLink onClick={() => dispatch(project.actions.reset())} to='/main/projects'>
+          <Button variant='ghost' aria-label='Project List' w='100%'>
             Project List
           </Button>
         </NavLink>
