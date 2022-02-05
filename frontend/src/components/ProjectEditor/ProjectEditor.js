@@ -7,6 +7,7 @@ import { MapMapbox } from '../Location/MapMapbox'
 import { PvForm } from './PvForm'
 // import { BarChart } from '../Charts/BarChart'
 import { ReAreaChart } from '../Charts/AreaChart'
+import { ConfigForm } from './ConfigForm/ConfigForm'
 
 export const ProjectEditor = () => {
   const { pvgis, load, projectId, projectName } = useSelector((store) => store.project)
@@ -40,9 +41,11 @@ export const ProjectEditor = () => {
   return (
     <Stack flexDir='column' margin={8} spacing={'20px'} dir='column'>
       <h2>{projectId === 'new' ? 'Create New Project' : projectName}</h2>
-      <h3>Select location</h3>
-      <MapMapbox />
-      <PvForm />
+      {/* <h3>Select location</h3>
+      <MapMapbox /> */}
+      {/* <PvForm /> */}
+
+      <ConfigForm />
       <Button variant='contained' onClick={() => onSaveProject()}>
         {id === 'new' ? 'Create project' : 'Save project'}
       </Button>
