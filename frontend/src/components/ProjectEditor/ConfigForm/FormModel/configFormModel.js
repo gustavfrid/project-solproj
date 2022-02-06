@@ -1,5 +1,5 @@
 export const configFormModel = {
-  formId: 'checkoutForm',
+  formId: 'configForm',
   formField: {
     projectName: {
       name: 'projectName',
@@ -10,6 +10,11 @@ export const configFormModel = {
       name: 'projectSize',
       label: 'Project Size kW',
       requiredErrorMsg: 'Project size is required to estimate production',
+    },
+    systemAzimuth: {
+      name: 'systemAzimuth',
+      label: 'Azimuth slider',
+      requiredErrorMsg: '',
     },
   },
 }
