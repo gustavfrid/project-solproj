@@ -1,6 +1,6 @@
 import { Stack } from '@chakra-ui/react'
 import { InputField } from '../FormFields/InputField'
-import { MapMapbox } from '../../Location/MapMapbox'
+import { MapboxSearch } from '../../Location/MapboxSearch'
 
 export const ProjectInfoForm = (props) => {
   const {
@@ -9,7 +9,7 @@ export const ProjectInfoForm = (props) => {
 
   return (
     <Stack spacing='20px'>
-      <MapMapbox />
+      <MapboxSearch />
       <InputField name={projectName.name} label={projectName.label} />
     </Stack>
   )
