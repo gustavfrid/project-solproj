@@ -1,7 +1,7 @@
 import { useFormikContext } from 'formik'
 import { Stack, Center } from '@chakra-ui/react'
 import { InputField, SliderInputField } from '../FormFields'
-import { AdjustbleArrow, AdjustbleAngle } from '../../../../assets/CustomIcons'
+import { AdjustbleArrow, AdjustbleAngle } from '../../../assets/CustomIcons'
 
 export const ProjectSizingForm = (props) => {
   const {
@@ -12,7 +12,6 @@ export const ProjectSizingForm = (props) => {
   return (
     <Stack spacing='20px'>
       <InputField name={projectSize.name} label={projectSize.label} type='number' />
-
       <Center>
         <AdjustbleArrow angle={values.systemAzimuth} boxSize={20} />
       </Center>

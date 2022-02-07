@@ -166,10 +166,12 @@ export const MapMapbox = () => {
   }
 
   return (
-    <Flex height={['400px', '600px']} ref={mapContainer}>
-      <Sidebar>
-        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom} | {areas.map((area) => `Area: ${area} m2`)}
-      </Sidebar>
-    </Flex>
+    <AspectRatio ratio={4 / 3}>
+      <Flex height={['400px', '600px']} ref={mapContainer}>
+        <Sidebar>
+          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom} | {areas.map((area) => `Area: ${area} m2`)}
+        </Sidebar>
+      </Flex>
+    </AspectRatio>
   )
 }

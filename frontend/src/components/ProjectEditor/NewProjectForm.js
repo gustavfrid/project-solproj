@@ -24,7 +24,7 @@ const renderStepContent = (step, props) => {
   }
 }
 
-export const ConfigForm = () => {
+export const NewProjectForm = () => {
   const { nextStep, prevStep, reset, activeStep } = useSteps({
     initialStep: 0,
   })
