@@ -22,7 +22,7 @@ export const ProjectEditor = () => {
     }
   }, [id, dispatch])
 
-  const onSaveProject = () => {
+  const handleSaveProject = () => {
     if (id === 'new') {
       dispatch(createProject())
       navigate('/main/projects/loading') // navigating to a loading site, could be handled by loader in ui?
@@ -45,8 +45,8 @@ export const ProjectEditor = () => {
       <MapMapbox /> */}
       {/* <PvForm /> */}
 
-      <NewProjectForm />
-      <Button variant='contained' onClick={() => onSaveProject()}>
+      <NewProjectForm handleSaveProject={handleSaveProject} />
+      <Button variant='contained' onClick={() => handleSaveProject()}>
         {id === 'new' ? 'Create project' : 'Save project'}
       </Button>
       {/* {pvgis && <BarChart dataSeries={{ pvgis, load }} />} */}

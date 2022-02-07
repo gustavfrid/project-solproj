@@ -22,6 +22,7 @@ const initialState = {
   systemAzimuth: '',
   systemInclination: '',
   yearlyLoad: '',
+  loadProfile: 'townhouse',
   pvgis: '',
   load: '',
   price: '',
@@ -54,6 +55,9 @@ export const project = createSlice({
     },
     setYearlyLoad: (state, action) => {
       state.yearlyLoad = action.payload
+    },
+    setLoadProfile: (state, action) => {
+      state.loadProfile = action.payload
     },
     setPvgis: (state, action) => {
       state.pvgis = action.payload

@@ -1,6 +1,8 @@
 import { Flex, Heading, Button, Stack } from '@chakra-ui/react'
 import { Step, Steps, useSteps } from 'chakra-ui-steps'
 import { Formik, Form } from 'formik'
+import { useDispatch, batch } from 'react-redux'
+import { project, calculateEnergy, getHourlyData } from '../../reducers/projectReducer'
 
 import { ProjectInfoForm, ProjectSizingForm, ProjectFormSummary } from './Forms'
 
@@ -24,18 +26,30 @@ const renderStepContent = (step, props) => {
   }
 }
 
-export const NewProjectForm = () => {
+export const NewProjectForm = ({ handleSaveProject }) => {
   const { nextStep, prevStep, reset, activeStep } = useSteps({
     initialStep: 0,
   })
+  const dispatch = useDispatch()
 
   const currentValidationSchema = validationSchema[activeStep]
   const isLastStep = activeStep === steps.length - 1
 
   const submitForm = async (values, actions) => {
-    alert(JSON.stringify(values, null, 2))
+    // alert(JSON.stringify(values, null, 2))
     actions.setSubmitting(false)
-
+    batch(() => {
+      dispatch(project.actions.setProjectName(values.projectName))
+      dispatch(project.actions.setSystemSize(values.systemSize))
+      dispatch(project.actions.setSystemAzimuth(values.systemAzimuth))
+      dispatch(project.actions.setSystemInclination(values.systemInclination))
+      dispatch(project.actions.setYearlyLoad(values.yearlyLoad))
+      dispatch(project.actions.setLoadProfile(values.loadProfile))
+    })
+    dispatch(calculateEnergy())
+    dispatch(getHourlyData(values.loadProfile, 'loadProfile'))
+    dispatch(getHourlyData('SE3', 'spotPrice'))
+    handleSaveProject()
     nextStep()
   }
 
@@ -50,7 +64,7 @@ export const NewProjectForm = () => {
   }
 
   return (
-    <Stack direction='column' w='100%'>
+    <Stack w='100%' flexDir='column' margin={3} spacing={'20px'} dir='column'>
       <Formik initialValues={formInitialValues} validationSchema={currentValidationSchema} onSubmit={handleSubmit}>
         {(props) => (
           <Steps activeStep={activeStep}>
