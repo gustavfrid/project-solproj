@@ -1,11 +1,25 @@
 import { Stack } from '@chakra-ui/react'
-import { ProjectInfoForm, ProjectSizingForm } from '.'
+import { useFormikContext } from 'formik'
+import { Text } from '@chakra-ui/react'
+import { FormHeading } from '../FormFields'
+import { AdjustbleArrow } from '../../../assets/CustomIcons'
+import { MapboxMap } from '../../Location/MapboxMap'
 
-export const ProjectFormSummary = ({ formField }) => {
+export const ProjectFormSummary = () => {
+  const { values: formValues } = useFormikContext()
+  const { projectName, projectSize, systemAzimuth, systemInclination, yearlyLoad, loadProfile } = formValues
   return (
-    <Stack spacing={4}>
-      <ProjectInfoForm formField={formField} />
-      <ProjectSizingForm formField={formField} />
+    <Stack mb={5}>
+      <Stack spacing={2} alignItems='flex-start'>
+        <FormHeading text={`Project name: ${projectName}`} />
+        <MapboxMap height={[300, 400]} position='relative'>
+          <AdjustbleArrow angle={systemAzimuth} boxSize={200} color={'white'} strokeW={3} position='absolute' />
+        </MapboxMap>
+        <Text>Size: {projectSize} kW</Text>
+        <Text>Inclination: {systemInclination} &deg; </Text>
+        <Text>Yearly consumption: {yearlyLoad} kWh</Text>
+        <Text>Consumption profile: {loadProfile}</Text>
+      </Stack>
     </Stack>
   )
 }

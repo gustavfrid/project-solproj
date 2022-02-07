@@ -18,7 +18,7 @@ const renderStepContent = (step, props) => {
     case 1:
       return <ProjectSizingForm formField={formField} />
     case 2:
-      return <ProjectFormSummary formField={formField} />
+      return <ProjectFormSummary />
     default:
       return <div>Not Found</div>
   }

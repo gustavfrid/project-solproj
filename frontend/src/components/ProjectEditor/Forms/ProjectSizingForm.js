@@ -1,17 +1,8 @@
 import { useFormikContext } from 'formik'
-import { Stack, Heading, Divider } from '@chakra-ui/react'
-import { InputField, SliderInputField, SelectField } from '../FormFields'
+import { Stack } from '@chakra-ui/react'
+import { InputField, SliderInputField, SelectField, FormHeading } from '../FormFields'
 import { AdjustbleArrow, AdjustbleRoofAngle } from '../../../assets/CustomIcons'
 import { MapboxMap } from '../../Location/MapboxMap'
-
-const CustomHeading = ({ text }) => (
-  <>
-    <Heading as='h2' size='lg' alignSelf='flex-start'>
-      {text}
-    </Heading>
-    <Divider />
-  </>
-)
 
 export const ProjectSizingForm = (props) => {
   const {
@@ -22,12 +13,12 @@ export const ProjectSizingForm = (props) => {
   return (
     <Stack spacing={10}>
       <Stack>
-        <CustomHeading text={'System size'} />
+        <FormHeading text={'System size'} />
         <InputField name={projectSize.name} label={projectSize.label} type='number' />
       </Stack>
 
       <Stack>
-        <CustomHeading text={'Roof orientation'} />
+        <FormHeading text={'Roof orientation'} />
         <MapboxMap height={[300, 400]} position='relative'>
           <AdjustbleArrow angle={values.systemAzimuth} boxSize={200} color={'white'} strokeW={3} position='absolute' />
         </MapboxMap>
@@ -49,7 +40,7 @@ export const ProjectSizingForm = (props) => {
       </Stack>
 
       <Stack>
-        <CustomHeading text={'Roof inclination'} />
+        <FormHeading text={'Roof inclination'} />
         <AdjustbleRoofAngle angle={values.systemInclination} width={'100%'} height={200} />
         <SliderInputField
           name={systemInclination.name}
@@ -69,7 +60,7 @@ export const ProjectSizingForm = (props) => {
       </Stack>
 
       <Stack spacing={2.5}>
-        <CustomHeading text={'Consumption data'} />
+        <FormHeading text={'Consumption data'} />
         <InputField name={yearlyLoad.name} label={yearlyLoad.label} type='number' />
         <SelectField
           name={loadProfile.name}
