@@ -1,6 +1,6 @@
 import { configFormModel } from './configFormModel'
 const {
-  formField: { projectName, projectLocation, projectSize, systemAzimuth, systemInclination, yearlyLoad },
+  formField: { projectName, projectLocation, projectSize, systemAzimuth, systemInclination, yearlyLoad, loadProfile },
 } = configFormModel
 
 export const formInitialValues = {
@@ -10,4 +10,5 @@ export const formInitialValues = {
   [systemAzimuth.name]: '',
   [systemInclination.name]: 30,
   [yearlyLoad.name]: '',
+  [loadProfile.name]: 'townhouse',
 }

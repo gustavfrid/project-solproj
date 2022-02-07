@@ -10,10 +10,10 @@ export const ProjectInfoForm = (props) => {
   const location = useSelector((store) => store.project.location.coordinates)
 
   return (
-    <Stack spacing='20px'>
+    <Stack spacing={4}>
+      <InputField name={projectName.name} label={projectName.label} />
       <MapboxSimple />
       <InputField name={projectLocation.name} label={projectLocation.label} value={location.join(', ')} />
-      <InputField name={projectName.name} label={projectName.label} />
     </Stack>
   )
 }

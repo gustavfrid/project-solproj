@@ -1,6 +1,6 @@
 import { useFormikContext } from 'formik'
 import { Stack, Heading, Divider } from '@chakra-ui/react'
-import { InputField, SliderInputField } from '../FormFields'
+import { InputField, SliderInputField, SelectField } from '../FormFields'
 import { AdjustbleArrow, AdjustbleRoofAngle } from '../../../assets/CustomIcons'
 import { MapboxMap } from '../../Location/MapboxMap'
 
@@ -15,7 +15,7 @@ const CustomHeading = ({ text }) => (
 
 export const ProjectSizingForm = (props) => {
   const {
-    formField: { projectSize, systemAzimuth, systemInclination, yearlyLoad },
+    formField: { projectSize, systemAzimuth, systemInclination, yearlyLoad, loadProfile },
   } = props
   const { values } = useFormikContext()
 
@@ -64,6 +64,19 @@ export const ProjectSizingForm = (props) => {
             { v: 30, ml: -2 },
             { v: 40, ml: -2 },
             { v: 90, ml: -2 },
+          ]}
+        />
+      </Stack>
+
+      <Stack spacing={2.5}>
+        <CustomHeading text={'Consumption data'} />
+        <InputField name={yearlyLoad.name} label={yearlyLoad.label} type='number' />
+        <SelectField
+          name={loadProfile.name}
+          label={loadProfile.label}
+          options={[
+            { value: 'domestic', label: 'Domestic' },
+            { value: 'townhouse', label: 'Townhouse' },
           ]}
         />
       </Stack>
