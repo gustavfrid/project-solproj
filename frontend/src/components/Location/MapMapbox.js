@@ -15,9 +15,6 @@ import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 // css module for geocoding
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
-const MapContainer = styled.div`
-  height: 100%;
-`
 const Sidebar = styled.div`
   position: absolute;
   /* max-height: 10%; */

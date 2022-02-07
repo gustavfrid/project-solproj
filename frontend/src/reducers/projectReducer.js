@@ -3,7 +3,7 @@ import { batch } from 'react-redux'
 
 import { API_URL } from '../utils/constants'
 import { ui } from './ui'
-import { hoursToDays, hoursToMonths, hoursToYear, divideArrayByNumber } from '../utils/dataHandlers'
+import { hoursToDays, hoursToMonths, hoursToYear } from '../utils/dataHandlers'
 
 const initialState = {
   projectId: 'new',
@@ -11,6 +11,12 @@ const initialState = {
   location: {
     type: 'Point',
     coordinates: [18.070742255316343, 59.32496507200476],
+  },
+  mapStyle: 'mapbox://styles/mapbox/satellite-v9',
+  viewState: {
+    longitude: 18.070742255316343,
+    latitude: 59.32496507200476,
+    zoom: 17,
   },
   systemSize: '',
   systemAzimuth: '',
@@ -30,6 +36,9 @@ export const project = createSlice({
     },
     setLocation: (state, action) => {
       state.location.coordinates = action.payload
+    },
+    setViewState: (state, action) => {
+      state.viewState = action.payload
     },
     setProjectName: (state, action) => {
       state.projectName = action.payload

@@ -39,7 +39,7 @@ export const ProjectEditor = () => {
   }
 
   return (
-    <Stack flexDir='column' margin={8} spacing={'20px'} dir='column'>
+    <Stack flexDir='column' margin={3} spacing={'20px'} dir='column'>
       <h2>{projectId === 'new' ? 'Create New Project' : projectName}</h2>
       {/* <h3>Select location</h3>
       <MapMapbox /> */}

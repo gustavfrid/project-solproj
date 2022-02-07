@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import { Stack, Button, Input, FormControl, FormLabel, FormErrorMessage, HStack, Center, Flex } from '@chakra-ui/react'
 
 import { CustomSlider } from './CustomSlider'
-import { AdjustbleAngle, AdjustbleArrow } from '../../assets/CustomIcons'
+import { AdjustblePvAngle, AdjustbleArrow } from '../../assets/CustomIcons'
 import { project, calculateEnergy, getHourlyData } from '../../reducers/projectReducer'
 
 export const PvForm = () => {
@@ -92,9 +92,9 @@ export const PvForm = () => {
                 />
               </Flex>
               <HStack justify='center'>
-                <AdjustbleAngle angle={props.values.systemInclination} boxSize={20} />
-                <AdjustbleAngle angle={props.values.systemInclination} boxSize={20} />
-                <AdjustbleAngle angle={props.values.systemInclination} boxSize={20} />
+                <AdjustblePvAngle angle={props.values.systemInclination} boxSize={20} />
+                <AdjustblePvAngle angle={props.values.systemInclination} boxSize={20} />
+                <AdjustblePvAngle angle={props.values.systemInclination} boxSize={20} />
               </HStack>
               <CustomSlider
                 name='systemInclination'

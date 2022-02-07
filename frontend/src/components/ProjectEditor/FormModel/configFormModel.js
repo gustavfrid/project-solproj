@@ -6,6 +6,11 @@ export const configFormModel = {
       label: 'Project Name',
       requiredErrorMsg: 'Project name is required',
     },
+    projectLocation: {
+      name: 'projectLocation',
+      label: 'Project Location',
+      requiredErrorMsg: 'Project location is required for the energy calculation',
+    },
     projectSize: {
       name: 'projectSize',
       label: 'Project Size kW',
