@@ -11,13 +11,14 @@ import {
 } from '@chakra-ui/react'
 
 export const NumberField = (props) => {
-  const { label, ...rest } = props
+  const { label, name, min, ...rest } = props
   const [field, meta] = useField(props)
+
   // TODO: exaxtly what props should be spread on NumberInput & NumberInputField
   return (
     <FormControl variant='floating' isInvalid={meta.error && meta.touched}>
-      <NumberInput {...field} {...rest} placeholder=' '>
-        <NumberInputField {...field} {...rest} />
+      <NumberInput {...field} name={name} min={min} {...rest} placeholder=' '>
+        <NumberInputField {...field} />
         <NumberInputStepper maxW='4'>
           <NumberIncrementStepper />
           <NumberDecrementStepper />

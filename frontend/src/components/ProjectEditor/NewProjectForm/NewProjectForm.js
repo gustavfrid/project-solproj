@@ -1,10 +1,8 @@
 import { Flex, Heading, Button, Stack } from '@chakra-ui/react'
 import { Step, Steps, useSteps } from 'chakra-ui-steps'
-import { Formik, Form, useFormikContext } from 'formik'
+import { Formik, Form } from 'formik'
 
-import { ProjectInfoForm } from './Forms/ProjectInfoForm'
-import { ProjectSizingForm } from './Forms/ProjectSizingForm'
-import { ProjectFormSummary } from './Forms/ProjectFormSummary'
+import { ProjectInfoForm, ProjectSizingForm, ProjectFormSummary } from './Forms'
 
 import { validationSchema } from './FormModel/validationSchema'
 import { configFormModel } from './FormModel/configFormModel'
@@ -16,11 +14,11 @@ const { formId, formField } = configFormModel
 const renderStepContent = (step, props) => {
   switch (step) {
     case 0:
-      return <ProjectInfoForm formField={formField} extra={props} />
+      return <ProjectInfoForm formField={formField} />
     case 1:
       return <ProjectSizingForm formField={formField} />
     case 2:
-      return <ProjectFormSummary />
+      return <ProjectFormSummary formField={formField} />
     default:
       return <div>Not Found</div>
   }

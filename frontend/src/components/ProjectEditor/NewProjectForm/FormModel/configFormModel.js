@@ -16,5 +16,15 @@ export const configFormModel = {
       label: 'Azimuth slider',
       requiredErrorMsg: '',
     },
+    systemInclination: {
+      name: 'systemInclination',
+      label: 'Inclination slider',
+      requiredErrorMsg: '',
+    },
+    yearlyLoad: {
+      name: 'yearlyLoad',
+      label: 'Yearly electricity consumption kWh',
+      requiredErrorMsg: 'Yearly electricity consumption is required to estimate exported electricity',
+    },
   },
 }

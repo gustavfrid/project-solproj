@@ -3,7 +3,7 @@ import * as Yup from 'yup'
 import { configFormModel } from './configFormModel'
 
 const {
-  formField: { projectName, projectSize, systemAzimuth },
+  formField: { projectName, projectSize, systemAzimuth, systemInclination, yearlyLoad },
 } = configFormModel
 
 export const validationSchema = [
@@ -15,5 +15,11 @@ export const validationSchema = [
   }),
   Yup.object().shape({
     [systemAzimuth.name]: Yup.number(),
+  }),
+  Yup.object().shape({
+    [systemInclination.name]: Yup.number(),
+  }),
+  Yup.object().shape({
+    [yearlyLoad.name]: Yup.number(),
   }),
 ]

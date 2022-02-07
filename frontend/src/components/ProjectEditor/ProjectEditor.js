@@ -7,7 +7,7 @@ import { MapMapbox } from '../Location/MapMapbox'
 import { PvForm } from './PvForm'
 // import { BarChart } from '../Charts/BarChart'
 import { ReAreaChart } from '../Charts/AreaChart'
-import { ConfigForm } from './ConfigForm/ConfigForm'
+import { NewProjectForm } from './NewProjectForm'
 
 export const ProjectEditor = () => {
   const { pvgis, load, projectId, projectName } = useSelector((store) => store.project)
@@ -45,7 +45,7 @@ export const ProjectEditor = () => {
       <MapMapbox /> */}
       {/* <PvForm /> */}
 
-      <ConfigForm />
+      <NewProjectForm />
       <Button variant='contained' onClick={() => onSaveProject()}>
         {id === 'new' ? 'Create project' : 'Save project'}
       </Button>
