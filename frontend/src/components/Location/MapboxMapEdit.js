@@ -15,9 +15,12 @@ export const MapboxMapEdit = (props) => {
   const location = useSelector((store) => store.project.location)
   const dispatch = useDispatch()
 
-  const onMove = useCallback((evt) => {
-    dispatch(project.actions.setViewState(evt.viewState))
-  }, [])
+  const onMove = useCallback(
+    (evt) => {
+      dispatch(project.actions.setViewState(evt.viewState))
+    },
+    [dispatch]
+  )
 
   const handleMarkerLocation = (e) => {
     const newLocation = e.target._lngLat

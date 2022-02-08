@@ -7,7 +7,7 @@ import { useDispatch, batch, useSelector } from 'react-redux'
 import { InputField, SliderInputField, SelectField, FormHeading } from './FormFields'
 import { AdjustbleArrow, AdjustbleRoofAngle } from '../../assets/CustomIcons'
 import { MapboxMapEdit, MapboxMapStatic } from '../Location'
-import { project, calculateEnergy, getHourlyData, updateProject } from '../../reducers/projectReducer'
+import { project, calculateEnergy, getHourlyData } from '../../reducers/projectReducer'
 import { configFormModel } from './FormModel/configFormModel'
 
 export const EditProjectForm = ({ id }) => {
@@ -85,7 +85,13 @@ export const EditProjectForm = ({ id }) => {
                   label={configFormModel.formField.location.label}
                   value={props.values.location}
                 />
-                {isEditLocationMode && <MapboxMapEdit height={[300, 400]} position='relative' />}
+                {isEditLocationMode && (
+                  <MapboxMapEdit
+                    height={[300, 400]}
+                    position='relative'
+                    setFormikValue={props.getFieldHelpers(configFormModel.formField.location.name).setValue}
+                  />
+                )}
 
                 {!isEditLocationMode && (
                   <MapboxMapStatic height={[300, 400]} position='relative'>

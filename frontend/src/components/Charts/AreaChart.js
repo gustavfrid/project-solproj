@@ -1,17 +1,14 @@
 import { useState } from 'react'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Brush } from 'recharts'
-import { hoursToDays, calcExportsHourly } from '../../utils/dataHandlers'
+import { hoursToDays } from '../../utils/dataHandlers'
 
 export const ReAreaChart = ({ dataSeries }) => {
-  console.log('🚀 ~ file: AreaChart.js ~ line 6 ~ ReAreaChart ~ dataSeries', dataSeries)
   const loadDaily = dataSeries.load.daily
   const pvgisDaily = dataSeries.pvgis.daily
 
   const exportsDaily = hoursToDays(
     dataSeries.load.hourly.map((v, i) => v - dataSeries.pvgis.hourly[i]).map((hour) => (hour > 0 ? 0 : hour))
   )
-
-  dataSeries.pvgis.hourly.map((v, i) => v - dataSeries.load.hourly[i])
 
   const data = pvgisDaily.map((prod, i) => ({ name: i + 1, prod: prod, load: loadDaily[i], export: exportsDaily[i] }))
   const [opacity, setOpacity] = useState({ load: 0.3, prod: 0.3, export: 0.3 })

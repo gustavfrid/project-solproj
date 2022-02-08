@@ -1,4 +1,4 @@
-import { Stack, Text } from '@chakra-ui/react'
+import { Stack } from '@chakra-ui/react'
 import { InputField } from '../FormFields/InputField'
 import { MapboxMapEdit } from '../../Location/MapboxMapEdit'
 import { useField } from 'formik'
@@ -7,7 +7,7 @@ export const ProjectInfoForm = (props) => {
   const {
     formField: { projectName, location },
   } = props
-  const [field, , helpers] = useField({ name: location.name, label: location.label })
+  const [, , helpers] = useField({ name: location.name, label: location.label })
 
   return (
     <Stack spacing={4}>
