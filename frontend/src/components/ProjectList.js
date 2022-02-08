@@ -1,8 +1,23 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
 import moment from 'moment'
-import { Table, Thead, Tbody, Tr, Th, Td, TableCaption, IconButton, Center, Flex } from '@chakra-ui/react'
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  IconButton,
+  Center,
+  Flex,
+  Stack,
+  Text,
+  Button,
+} from '@chakra-ui/react'
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 
 import { projectList, getProjectList } from '../reducers/projectListReducer'
@@ -11,6 +26,7 @@ import { project, getHourlyData, deleteProject } from '../reducers/projectReduce
 export const ProjectList = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const [listSize, setListSize] = useState(5)
 
   const projects = useSelector((store) => store.projectList.projects)
 
@@ -18,6 +34,11 @@ export const ProjectList = () => {
     dispatch(getProjectList())
     dispatch(project.actions.reset())
   }, [dispatch])
+
+  const toggleListSize = () => {
+    if (listSize === 5) setListSize(50)
+    if (listSize === 50) setListSize(5)
+  }
 
   const handleSelectProject = (selected) => {
     batch(() => {
@@ -44,42 +65,53 @@ export const ProjectList = () => {
 
   return (
     <Flex justify='center'>
-      <Center h='90vh' w='80vw'>
+      <Center h='90vh' w='80%'>
         {projects.length === 0 ? (
-          <Link to='/main/projects/new'>No projects, create a new one!</Link>
+          <Link to='/main/projects/new'>
+            <Text fontSize='2xl'>No projects, create a new one!</Text>
+          </Link>
         ) : (
-          <Table size='sm'>
-            <TableCaption>Recent projects</TableCaption>
+          <Table size='sm' w={'100%'}>
+            <TableCaption onClick={toggleListSize}>
+              {listSize} Recent projects, click to show {listSize === 5 ? 'more' : 'less'}
+            </TableCaption>
             <Thead>
               <Tr>
-                <Th>Project Name</Th>
-                <Th isNumeric>System Size</Th>
+                <Th>Project</Th>
+                <Th isNumeric>Size kW</Th>
                 <Th>Updated</Th>
                 <Th>Edit</Th>
-                <Th>Delete</Th>
               </Tr>
             </Thead>
             <Tbody>
-              {projects?.slice(0, 5).map((project) => (
+              {projects?.slice(0, listSize).map((project) => (
                 <Tr key={project._id}>
-                  <Td onClick={() => handleSelectProject(project)}>{project.projectName}</Td>
+                  <Td onClick={() => handleSelectProject(project)}>
+                    <Text isTruncated maxW={['80px', '150px', '350px', '500px']}>
+                      {project.projectName}
+                    </Text>
+                  </Td>
                   <Td isNumeric>{project.systemSize}</Td>
-                  <Td>{moment(project.updatedAt).fromNow(true)}</Td>
                   <Td>
-                    <IconButton
-                      size='sm'
-                      onClick={() => handleSelectProject(project)}
-                      aria-label='Edit project'
-                      icon={<EditIcon />}
-                    />
+                    <Text isTruncated maxW={['80px', '80px', 'revert']}>
+                      {moment(project.updatedAt).fromNow()}
+                    </Text>
                   </Td>
                   <Td>
-                    <IconButton
-                      size='sm'
-                      onClick={() => handleDeleteProject(project._id)}
-                      aria-label='Delete project'
-                      icon={<DeleteIcon />}
-                    />
+                    <Stack direction='row' spacing={1}>
+                      <IconButton
+                        size='sm'
+                        onClick={() => handleSelectProject(project)}
+                        aria-label='Edit project'
+                        icon={<EditIcon />}
+                      />
+                      <IconButton
+                        size='sm'
+                        onClick={() => handleDeleteProject(project._id)}
+                        aria-label='Delete project'
+                        icon={<DeleteIcon />}
+                      />
+                    </Stack>
                   </Td>
                 </Tr>
               ))}
