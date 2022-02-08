@@ -14,7 +14,7 @@ export const getProjectList = async (req, res, next) => {
 }
 
 export const createProject = async (req, res, next) => {
-  const { projectName, systemSize, systemAzimuth, systemInclination, yearlyLoad, pvgis, location, owner } =
+  const { projectName, systemSize, systemAzimuth, systemInclination, yearlyLoad, pvgis, location, owner, loadProfile } =
     req.body.project
   try {
     const newProject = await new Project({
@@ -25,6 +25,7 @@ export const createProject = async (req, res, next) => {
       systemAzimuth,
       systemInclination,
       yearlyLoad,
+      loadProfile,
       pvgis,
     }).save()
     res.status(201).json({
@@ -53,7 +54,6 @@ export const updateProject = async (req, res, next) => {
       },
       { new: true }
     )
-    // console.log('[updateProject] updated project', updatedProject)
     res.status(201).json({
       response: updatedProject,
       success: true,

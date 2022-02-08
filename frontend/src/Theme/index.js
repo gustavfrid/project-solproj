@@ -1,4 +1,5 @@
 import { extendTheme } from '@chakra-ui/react'
+import { StepsStyleConfig as Steps } from 'chakra-ui-steps'
 
 const activeLabelStyles = {
   transform: 'scale(0.85) translateY(-24px) translateX(-10px)',
@@ -25,7 +26,7 @@ export const theme = extendTheme({
               left: 0,
               zIndex: 2,
               position: 'absolute',
-              backgroundColor: 'white',
+              backgroundColor: 'white', // TODO: make this dynamic depending on theme
               pointerEvents: 'none',
               mx: 3,
               px: 1,
@@ -35,5 +36,6 @@ export const theme = extendTheme({
         },
       },
     },
+    Steps,
   },
 })
