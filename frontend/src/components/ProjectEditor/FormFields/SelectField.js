@@ -9,7 +9,9 @@ export const SelectField = (props) => {
     <FormControl variant='floating' isInvalid={meta.error && meta.touched}>
       <Select {...field} {...rest} placeholder={label}>
         {props.options.map((option) => (
-          <option value={option.value}>{option.label}</option>
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
         ))}
       </Select>
       <FormLabel htmlFor={label}>{label}</FormLabel>

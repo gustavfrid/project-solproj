@@ -129,7 +129,7 @@ export const getHourlyData = (name, type) => {
         Authorization: getState().user.accessToken,
       },
     }
-
+    // TODO: kolla ignenom och se varför förbrjkingen ligger 1000
     fetch(API_URL(`data/${name}`), options)
       .then((res) => res.json())
       .then((res) => {

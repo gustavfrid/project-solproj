@@ -6,7 +6,7 @@ import { MapboxMap } from '../../Location/MapboxMap'
 
 export const ProjectSizingForm = (props) => {
   const {
-    formField: { projectSize, systemAzimuth, systemInclination, yearlyLoad, loadProfile },
+    formField: { systemSize, systemAzimuth, systemInclination, yearlyLoad, loadProfile },
   } = props
   const { values } = useFormikContext()
 
@@ -14,7 +14,7 @@ export const ProjectSizingForm = (props) => {
     <Stack spacing={10}>
       <Stack>
         <FormHeading text={'System size'} />
-        <InputField name={projectSize.name} label={projectSize.label} type='number' />
+        <InputField name={systemSize.name} label={systemSize.label} type='number' />
       </Stack>
 
       <Stack>

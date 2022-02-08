@@ -44,7 +44,7 @@ export const Auth = () => {
     <Center h='100vh' bgImage={HeroImage} bgPosition='center' bgRepeat='no-repeat' bgSize='cover'>
       <Modal closeOnOverlayClick={false} isOpen={isOpen} initialFocusRef={initialRef} isCentered>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent w={350}>
           <ModalHeader>{formState === 'signin' ? 'Sign In!' : 'Create account!'}</ModalHeader>
           <ModalCloseButton onClick={() => navigate('/')} />
           <ModalBody pb={6}>

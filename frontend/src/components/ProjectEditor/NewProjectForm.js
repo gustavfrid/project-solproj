@@ -1,4 +1,4 @@
-import { Flex, Heading, Button, Stack } from '@chakra-ui/react'
+import { Flex, Heading, Button, Stack, Divider } from '@chakra-ui/react'
 import { Step, Steps, useSteps } from 'chakra-ui-steps'
 import { Formik, Form } from 'formik'
 import { useDispatch, batch } from 'react-redux'
@@ -13,7 +13,7 @@ import { formInitialValues } from './FormModel/formInitialValues'
 const steps = ['Info', 'Configure', 'Review']
 const { formId, formField } = configFormModel
 
-const renderStepContent = (step, props) => {
+const renderStepContent = (step) => {
   switch (step) {
     case 0:
       return <ProjectInfoForm formField={formField} />
@@ -36,7 +36,7 @@ export const NewProjectForm = ({ handleSaveProject }) => {
   const isLastStep = activeStep === steps.length - 1
 
   const submitForm = async (values, actions) => {
-    // alert(JSON.stringify(values, null, 2))
+    alert(JSON.stringify(values, null, 2))
     actions.setSubmitting(false)
     batch(() => {
       dispatch(project.actions.setProjectName(values.projectName))
@@ -64,7 +64,11 @@ export const NewProjectForm = ({ handleSaveProject }) => {
   }
 
   return (
-    <Stack w='100%' flexDir='column' margin={3} spacing={'20px'} dir='column'>
+    <Stack w='100%' flexDir='column' p={4} spacing={'20px'} dir='column'>
+      <Heading as='h2' size='2xl'>
+        Create New Project
+      </Heading>
+      <Divider />
       <Formik initialValues={formInitialValues} validationSchema={currentValidationSchema} onSubmit={handleSubmit}>
         {(props) => (
           <Steps activeStep={activeStep}>
@@ -73,7 +77,7 @@ export const NewProjectForm = ({ handleSaveProject }) => {
                 {activeStep === steps.length ? (
                   //   success component
                   <Flex px={4} py={4} w='100%' flexDir='column'>
-                    <Heading fontSize='xl' textAlign='center'>
+                    <Heading as='h3' size='xl' textAlign='center'>
                       Woohoo! All steps completed!
                     </Heading>
                     <Button mx='auto' mt={6} size='sm' onClick={reset}>

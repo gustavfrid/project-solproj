@@ -11,9 +11,9 @@ export const configFormModel = {
       label: 'Project Location',
       requiredErrorMsg: 'Project location is required for the energy calculation',
     },
-    projectSize: {
-      name: 'projectSize',
-      label: 'Project Size kW',
+    systemSize: {
+      name: 'systemSize',
+      label: 'System Size kW',
       requiredErrorMsg: 'Project size is required to estimate production',
     },
     systemAzimuth: {

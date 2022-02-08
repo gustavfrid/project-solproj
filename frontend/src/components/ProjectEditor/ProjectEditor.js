@@ -12,18 +12,18 @@ import { NewProjectForm } from './NewProjectForm'
 export const ProjectEditor = () => {
   const { pvgis, load, projectId, projectName } = useSelector((store) => store.project)
   const dispatch = useDispatch()
-  let navigate = useNavigate()
-  let { id } = useParams()
+  const navigate = useNavigate()
   const toast = useToast()
+  const { id } = useParams()
+  const isNewProject = id === 'new'
 
   useEffect(() => {
-    if (id === 'new') {
-      dispatch(project.actions.reset())
-    }
-  }, [id, dispatch])
+    if (!isNewProject) return
+    dispatch(project.actions.reset())
+  }, [isNewProject, dispatch])
 
   const handleSaveProject = () => {
-    if (id === 'new') {
+    if (isNewProject) {
       dispatch(createProject())
       navigate('/main/projects/loading') // navigating to a loading site, could be handled by loader in ui?
 
@@ -39,13 +39,9 @@ export const ProjectEditor = () => {
   }
 
   return (
-    <Stack flexDir='column' margin={3} spacing={'20px'} dir='column'>
-      <h2>{projectId === 'new' ? 'Create New Project' : projectName}</h2>
-      {/* <h3>Select location</h3>
-      <MapMapbox /> */}
-      {/* <PvForm /> */}
+    <Stack flexDir='column' spacing={'20px'} dir='column'>
+      {isNewProject && <NewProjectForm handleSaveProject={handleSaveProject} />}
 
-      <NewProjectForm handleSaveProject={handleSaveProject} />
       <Button variant='contained' onClick={() => handleSaveProject()}>
         {id === 'new' ? 'Create project' : 'Save project'}
       </Button>
