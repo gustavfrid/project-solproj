@@ -14,7 +14,7 @@ export const NumberField = (props) => {
   const { label, name, min, ...rest } = props
   const [field, meta] = useField(props)
 
-  // TODO: exaxtly what props should be spread on NumberInput & NumberInputField
+  // TODO: what props should be spread on NumberInput & NumberInputField???
   return (
     <FormControl variant='floating' isInvalid={meta.error && meta.touched}>
       <NumberInput {...field} name={name} min={min} {...rest} placeholder=' '>

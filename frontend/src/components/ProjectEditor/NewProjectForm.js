@@ -4,9 +4,7 @@ import { Formik, Form } from 'formik'
 import { useDispatch, batch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { project, calculateEnergy, getHourlyData } from '../../reducers/projectReducer'
-
 import { ProjectInfoForm, ProjectSizingForm, ProjectFormSummary } from './Forms'
-
 import { validationSchema } from './FormModel/validationSchema'
 import { configFormModel } from './FormModel/configFormModel'
 import { formInitialValues } from './FormModel/formInitialValues'

@@ -12,7 +12,7 @@ export const LoadingProject = () => {
       if (projectId !== 'new') {
         navigate(`/main/projects/${projectId}`)
       }
-    }, 1000)
+    }, 500)
     return () => {
       clearTimeout(timeout)
     }

@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { ChakraProvider } from '@chakra-ui/react'
 import { theme } from './Theme'
-
 import { setupSimpleStore } from './store/setupStore'
 import { RequireAuth } from './components/Auth/RequireAuth'
 import { Start } from './components/Start'

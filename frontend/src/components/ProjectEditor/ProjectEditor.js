@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { Stack, Box } from '@chakra-ui/react'
-
 import { project } from '../../reducers/projectReducer'
 import { ReAreaChart } from '../Charts/AreaChart'
 import { NewProjectForm } from './NewProjectForm'
@@ -24,7 +23,6 @@ export const ProjectEditor = () => {
     <Stack flexDir='column' spacing={'20px'} dir='column'>
       {isNewProject && <NewProjectForm />}
       {!isNewProject && <EditProjectForm id={id} />}
-
       {pvgis && load && (
         <Box w='100%' h='300px'>
           <ReAreaChart dataSeries={{ pvgis, load }} />
