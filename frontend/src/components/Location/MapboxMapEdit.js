@@ -12,7 +12,7 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 export const MapboxMapEdit = (props) => {
   const mapStyle = useSelector((store) => store.project.mapStyle)
   const viewState = useSelector((store) => store.project.viewState)
-  const location = useSelector((store) => store.project.location.coordinates)
+  const location = useSelector((store) => store.project.location)
   const dispatch = useDispatch()
 
   const onMove = useCallback((evt) => {
@@ -22,8 +22,10 @@ export const MapboxMapEdit = (props) => {
   const handleMarkerLocation = (e) => {
     const newLocation = e.target._lngLat
     const newViewState = { ...viewState, longitude: newLocation.lng, latitude: newLocation.lat }
+
     dispatch(project.actions.setLocation([newLocation.lng, newLocation.lat]))
     dispatch(project.actions.setViewState(newViewState))
+    if (props.setFormikValue) props.setFormikValue([newLocation.lng, newLocation.lat])
   }
 
   return (
@@ -36,7 +38,11 @@ export const MapboxMapEdit = (props) => {
         mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}>
         <GeolocateControl position='bottom-right' />
         <FullscreenControl />
-        <GeocoderControl mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN} position='bottom-left' />
+        <GeocoderControl
+          mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+          position='bottom-left'
+          setFormikValue={props.setFormikValue}
+        />
         <Marker
           longitude={location[0]}
           latitude={location[1]}

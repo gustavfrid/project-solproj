@@ -28,11 +28,6 @@ export const hoursToYear = (hourlyData) => {
   return roundYear
 }
 
-export const calcExportsHourly = (hourlyLoad, hourlyProd) => {
-  const hourlyExportedElectricity = hourlyProd.map((v, i) => v - hourlyLoad[i])
-  return hourlyExportedElectricity
-}
-
 export const divideArrayByNumber = (array, number) => {
   let dataSeries = [...array]
   return dataSeries.map((v) => v / number)

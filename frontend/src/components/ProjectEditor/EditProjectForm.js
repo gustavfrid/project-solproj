@@ -21,7 +21,7 @@ export const EditProjectForm = ({ id }) => {
 
   const formInitialValues = {
     projectName,
-    projectLocation: location,
+    location,
     systemSize,
     systemAzimuth,
     systemInclination,
@@ -31,6 +31,7 @@ export const EditProjectForm = ({ id }) => {
 
   const validationSchema = Yup.object({
     projectName: Yup.string().required('Required'),
+    location: Yup.number(),
     systemSize: Yup.number(),
     systemAzimuth: Yup.number(),
     systemInclination: Yup.number(),
@@ -39,7 +40,7 @@ export const EditProjectForm = ({ id }) => {
   })
 
   const submitForm = async (values, actions) => {
-    alert(JSON.stringify(values, null, 2))
+    // alert(JSON.stringify(values, null, 2))
     actions.setSubmitting(false)
     batch(() => {
       dispatch(project.actions.setProjectName(values.projectName))
@@ -48,12 +49,11 @@ export const EditProjectForm = ({ id }) => {
       dispatch(project.actions.setSystemInclination(values.systemInclination))
       dispatch(project.actions.setYearlyLoad(values.yearlyLoad))
       dispatch(project.actions.setLoadProfile(values.loadProfile))
-      dispatch(calculateEnergy())
+      dispatch(calculateEnergy({ ...values, _id: 'update', id }))
       dispatch(getHourlyData(values.loadProfile, 'loadProfile'))
       dispatch(getHourlyData('SE3', 'spotPrice'))
-      dispatch(updateProject(id))
     })
-    // handleSaveProject()
+    actions.resetForm({ values })
     //TODO: set toast according to response from backend
     toast({
       title: `Success project updated!`,
@@ -80,6 +80,11 @@ export const EditProjectForm = ({ id }) => {
                   </FormLabel>
                   <Switch id='editLocation' onChange={() => setIsEditLocationMode(!isEditLocationMode)} />
                 </FormControl>
+                <InputField
+                  name={configFormModel.formField.location.name}
+                  label={configFormModel.formField.location.label}
+                  value={props.values.location}
+                />
                 {isEditLocationMode && <MapboxMapEdit height={[300, 400]} position='relative' />}
 
                 {!isEditLocationMode && (
@@ -135,7 +140,12 @@ export const EditProjectForm = ({ id }) => {
                     { v: 90, ml: -2 },
                   ]}
                 />
-
+                <FormHeading text={'System size'} />
+                <InputField
+                  name={configFormModel.formField.systemSize.name}
+                  label={configFormModel.formField.systemSize.label}
+                  type='number'
+                />
                 <FormHeading text={'Consumption data'} />
                 <InputField
                   name={configFormModel.formField.yearlyLoad.name}
@@ -152,14 +162,8 @@ export const EditProjectForm = ({ id }) => {
                 />
               </Stack>
               <Stack direction='row'>
-                <Button
-                  onClick={() =>
-                    console.log('🚀 ~ file: EditProjectForm.js ~ line 150 ~ EditProjectForm ~ props', props)
-                  }>
-                  Test
-                </Button>
                 <Button disabled={!props.dirty} type='submit'>
-                  Save
+                  {'Save & Calculate'}
                 </Button>
               </Stack>
             </Stack>

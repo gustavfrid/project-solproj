@@ -21,16 +21,18 @@ export const ProjectList = () => {
 
   const handleSelectProject = (selected) => {
     batch(() => {
-      dispatch(project.actions.setProjectId(project._id))
-      dispatch(project.actions.setLocation(selected.location.coordinates))
+      dispatch(project.actions.setProjectId(selected._id))
+      dispatch(project.actions.setLocation(selected.location))
       dispatch(project.actions.setProjectName(selected.projectName))
       dispatch(project.actions.setSystemSize(selected.systemSize))
       dispatch(project.actions.setSystemAzimuth(selected.systemAzimuth))
       dispatch(project.actions.setSystemInclination(selected.systemInclination))
       dispatch(project.actions.setYearlyLoad(selected.yearlyLoad))
+      dispatch(project.actions.setLoadProfile(selected.loadProfile))
       dispatch(project.actions.setPvgis(selected.pvgis))
+      dispatch(getHourlyData(selected.loadProfile, 'loadProfile'))
+      dispatch(getHourlyData('SE3', 'spotPrice'))
     })
-    dispatch(getHourlyData('domestic', 'loadProfile'))
 
     navigate(`/main/projects/${selected._id}`)
   }

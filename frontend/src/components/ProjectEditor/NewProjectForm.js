@@ -3,7 +3,7 @@ import { Step, Steps, useSteps } from 'chakra-ui-steps'
 import { Formik, Form } from 'formik'
 import { useDispatch, batch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { project, calculateEnergy, getHourlyData, createProject } from '../../reducers/projectReducer'
+import { project, calculateEnergy, getHourlyData } from '../../reducers/projectReducer'
 
 import { ProjectInfoForm, ProjectSizingForm, ProjectFormSummary } from './Forms'
 
@@ -27,7 +27,7 @@ const renderStepContent = (step) => {
   }
 }
 
-export const NewProjectForm = ({ handleSaveProject }) => {
+export const NewProjectForm = () => {
   const { nextStep, prevStep, reset, activeStep } = useSteps({
     initialStep: 0,
   })
@@ -48,12 +48,10 @@ export const NewProjectForm = ({ handleSaveProject }) => {
       dispatch(project.actions.setSystemInclination(values.systemInclination))
       dispatch(project.actions.setYearlyLoad(values.yearlyLoad))
       dispatch(project.actions.setLoadProfile(values.loadProfile))
-      dispatch(calculateEnergy())
+      dispatch(calculateEnergy({ ...values, _id: 'new' }))
       dispatch(getHourlyData(values.loadProfile, 'loadProfile'))
       dispatch(getHourlyData('SE3', 'spotPrice'))
-      dispatch(createProject())
     })
-    // handleSaveProject()
     nextStep()
 
     //TODO: set toast according to response from backend

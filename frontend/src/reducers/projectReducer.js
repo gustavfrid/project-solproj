@@ -8,10 +8,7 @@ import { hoursToDays, hoursToMonths, hoursToYear } from '../utils/dataHandlers'
 const initialState = {
   projectId: 'new',
   projectName: '',
-  location: {
-    type: 'Point',
-    coordinates: [18.070742255316343, 59.32496507200476],
-  },
+  location: [18.070742255316343, 59.32496507200476],
   mapStyle: 'mapbox://styles/mapbox/satellite-v9',
   viewState: {
     longitude: 18.070742255316343,
@@ -36,7 +33,7 @@ export const project = createSlice({
       state.projectId = action.payload
     },
     setLocation: (state, action) => {
-      state.location.coordinates = action.payload
+      state.location = action.payload
     },
     setViewState: (state, action) => {
       state.viewState = action.payload
@@ -72,7 +69,7 @@ export const project = createSlice({
   },
 })
 
-export const calculateEnergy = () => {
+export const calculateEnergy = (projectData) => {
   return (dispatch, getState) => {
     dispatch(ui.actions.setLoading(true))
 
@@ -80,15 +77,15 @@ export const calculateEnergy = () => {
       api: 'seriescalc', // seriescalc (for hourly data), PVcalc (for monthly data)
       duration: { startyear: 2015, endyear: 2015 },
       query: {
-        lat: getState().project.location.coordinates[1],
-        lon: getState().project.location.coordinates[0],
+        lon: projectData.location[0],
+        lat: projectData.location[1],
         raddatabase: 'PVGIS-ERA5',
-        peakpower: getState().project.systemSize,
+        peakpower: projectData.systemSize,
         pvtechchoice: 'crystSi',
         mountingplace: 'building',
         loss: 8,
-        angle: getState().project.systemInclination,
-        aspect: getState().project.systemAzimuth,
+        angle: projectData.systemInclination,
+        aspect: projectData.systemAzimuth,
         pvcalculation: 1,
         outputformat: 'json',
       },
@@ -111,6 +108,8 @@ export const calculateEnergy = () => {
         const monthly = hoursToMonths(hourly)
         const yearly = hoursToYear(hourly)
         dispatch(project.actions.setPvgis({ hourly, daily, monthly, yearly }))
+        if (projectData._id === 'new') dispatch(createProject())
+        if (projectData._id === 'update') dispatch(updateProject(projectData.id))
         dispatch(ui.actions.setLoading(false))
       })
   }
@@ -129,15 +128,15 @@ export const getHourlyData = (name, type) => {
         Authorization: getState().user.accessToken,
       },
     }
-    // TODO: kolla ignenom och se varför förbrjkingen ligger 1000
+    // TODO: kolla ignenom och se varför förbrukingen ligger 1000
     fetch(API_URL(`data/${name}`), options)
       .then((res) => res.json())
       .then((res) => {
         let hourly = res.data
         // load must be scaled with yearly electricity consumption, the response data is normalized to 1kWh/year
-        if (type === 'loadProfile') {
-          hourly = res.data.map((item) => item * yearlyLoad)
-        }
+        if (type === 'loadProfile') hourly = res.data.map((item) => item * yearlyLoad)
+        if (type === 'loadProfile' && name === 'domestic') hourly = res.data.map((item) => (item * yearlyLoad) / 1000)
+
         const daily = hoursToDays(hourly)
         const monthly = hoursToMonths(hourly)
         const yearly = hoursToYear(hourly)
@@ -172,7 +171,7 @@ export const createProject = () => {
         Authorization: getState().user.accessToken,
       },
       body: JSON.stringify({
-        project: { owner: getState().user.userId, ...getState().project, load: '' },
+        project: { owner: getState().user.userId, ...getState().project, load: '', price: '' },
       }),
     }
 
@@ -194,7 +193,7 @@ export const updateProject = (projectId) => {
         Authorization: getState().user.accessToken,
       },
       body: JSON.stringify({
-        project: { owner: getState().user.userId, ...getState().project, load: '' },
+        project: { owner: getState().user.userId, ...getState().project, load: '', price: '' },
       }),
     }
 
@@ -220,15 +219,16 @@ export const getProject = (projectId) => {
       .then((res) => {
         batch(() => {
           dispatch(project.actions.setProjectId(res.response._id))
-          dispatch(project.actions.setLocation(res.response.location.coordinates))
+          dispatch(project.actions.setLocation(res.response.location))
           dispatch(project.actions.setProjectName(res.response.projectName))
           dispatch(project.actions.setSystemSize(res.response.systemSize))
           dispatch(project.actions.setSystemAzimuth(res.response.systemAzimuth))
           dispatch(project.actions.setSystemInclination(res.response.systemInclination))
           dispatch(project.actions.setYearlyLoad(res.response.yearlyLoad))
+          dispatch(project.actions.setLoadProfile(res.response.loadProfile))
           dispatch(project.actions.setPvgis(res.response.pvgis))
+          dispatch(getHourlyData(res.response.loadProfile, 'loadProfile'))
         })
-        dispatch(getHourlyData('townhouse', 'loadProfile'))
       })
   }
 }

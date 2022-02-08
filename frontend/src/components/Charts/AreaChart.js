@@ -3,9 +3,16 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { hoursToDays, calcExportsHourly } from '../../utils/dataHandlers'
 
 export const ReAreaChart = ({ dataSeries }) => {
+  console.log('🚀 ~ file: AreaChart.js ~ line 6 ~ ReAreaChart ~ dataSeries', dataSeries)
   const loadDaily = dataSeries.load.daily
   const pvgisDaily = dataSeries.pvgis.daily
-  const exportsDaily = hoursToDays(calcExportsHourly(dataSeries.pvgis.hourly, dataSeries.load.hourly))
+
+  const exportsDaily = hoursToDays(
+    dataSeries.load.hourly.map((v, i) => v - dataSeries.pvgis.hourly[i]).map((hour) => (hour > 0 ? 0 : hour))
+  )
+
+  dataSeries.pvgis.hourly.map((v, i) => v - dataSeries.load.hourly[i])
+
   const data = pvgisDaily.map((prod, i) => ({ name: i + 1, prod: prod, load: loadDaily[i], export: exportsDaily[i] }))
   const [opacity, setOpacity] = useState({ load: 0.3, prod: 0.3, export: 0.3 })
 
@@ -27,10 +34,10 @@ export const ReAreaChart = ({ dataSeries }) => {
             <stop offset='5%' stopColor='#ecc94b' stopOpacity={1} />
             <stop offset='95%' stopColor='#ecc94b' stopOpacity={1} />
           </linearGradient>
-          {/* <linearGradient id='colorLoad' x1='0' y1='0' x2='0' y2='1'>
-            <stop offset='5%' stopColor='#82ca9d' stopOpacity={0} />
-            <stop offset='95%' stopColor='#82ca9d' stopOpacity={0} />
-          </linearGradient> */}
+          <linearGradient id='colorLoad' x1='0' y1='0' x2='0' y2='1'>
+            <stop offset='5%' stopColor='#82ca9d' stopOpacity={1} />
+            <stop offset='95%' stopColor='#82ca9d' stopOpacity={1} />
+          </linearGradient>
           <linearGradient id='colorExport' x1='0' y1='0' x2='0' y2='1'>
             <stop offset='5%' stopColor='#b1a9a7' stopOpacity={1} />
             <stop offset='95%' stopColor='#b1a9a7' stopOpacity={1} />
@@ -43,7 +50,7 @@ export const ReAreaChart = ({ dataSeries }) => {
         <Legend onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} />
         <Brush dataKey='name' height={30} stroke='#8884d8' />
         <Area type='monotone' dataKey='export' stroke='#b1a9a7' fillOpacity={opacity.export} fill='url(#colorExport)' />
-        {/* <Area type='monotone' dataKey='load' stroke='#82ca9d' fillOpacity={opacity.load} fill='url(#colorLoad)' /> */}
+        <Area type='monotone' dataKey='load' stroke='#82ca9d' fillOpacity={opacity.load} fill='url(#colorLoad)' />
         <Area type='monotone' dataKey='prod' stroke='#ecc94b' fillOpacity={opacity.prod} fill='url(#colorProd)' />
       </AreaChart>
     </ResponsiveContainer>

@@ -35,17 +35,14 @@ const ProjectSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: () => new Date() },
   projectName: {
     type: String,
-    unique: true,
     required: true,
   },
-  location: {
-    type: pointSchema,
-    required: true,
-  },
+  location: { type: [Number], required: true },
   systemSize: Number,
   systemAzimuth: Number,
   systemInclination: Number,
   yearlyLoad: Number,
+  loadProfile: String,
   pvgis: {},
 })
 

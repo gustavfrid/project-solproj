@@ -25,7 +25,7 @@ export const ProjectEditor = () => {
       {isNewProject && <NewProjectForm />}
       {!isNewProject && <EditProjectForm id={id} />}
 
-      {pvgis && (
+      {pvgis && load && (
         <Box w='100%' h='300px'>
           <ReAreaChart dataSeries={{ pvgis, load }} />
         </Box>

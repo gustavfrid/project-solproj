@@ -1,19 +1,19 @@
-import { Stack } from '@chakra-ui/react'
-import { useSelector } from 'react-redux'
+import { Stack, Text } from '@chakra-ui/react'
 import { InputField } from '../FormFields/InputField'
 import { MapboxMapEdit } from '../../Location/MapboxMapEdit'
+import { useField } from 'formik'
 
 export const ProjectInfoForm = (props) => {
   const {
-    formField: { projectName, projectLocation },
+    formField: { projectName, location },
   } = props
-  const location = useSelector((store) => store.project.location.coordinates)
+  const [field, , helpers] = useField({ name: location.name, label: location.label })
 
   return (
     <Stack spacing={4}>
       <InputField name={projectName.name} label={projectName.label} />
-      <MapboxMapEdit height={[300, 400]} position='relative' />
-      <InputField name={projectLocation.name} label={projectLocation.label} value={location.join(', ')} />
+      <MapboxMapEdit height={[300, 400]} position='relative' setFormikValue={helpers.setValue} />
+      <InputField name={location.name} label={location.label} />
     </Stack>
   )
 }
