@@ -9,23 +9,25 @@ const {
 export const validationSchema = [
   Yup.object().shape({
     [projectName.name]: Yup.string().required(`${projectName.requiredErrorMsg}`),
-  }),
-  Yup.object().shape({
     [projectLocation.name]: Yup.string(),
   }),
   Yup.object().shape({
     [systemSize.name]: Yup.number().required(`${systemSize.requiredErrorMsg}`),
-  }),
-  Yup.object().shape({
     [systemAzimuth.name]: Yup.number(),
-  }),
-  Yup.object().shape({
     [systemInclination.name]: Yup.number(),
-  }),
-  Yup.object().shape({
     [yearlyLoad.name]: Yup.number(),
+    [loadProfile.name]: Yup.string(),
   }),
+]
+
+export const validationSchemaEdit = [
   Yup.object().shape({
+    [projectName.name]: Yup.string().required(`${projectName.requiredErrorMsg}`),
+    [projectLocation.name]: Yup.string(),
+    [systemSize.name]: Yup.number().required(`${systemSize.requiredErrorMsg}`),
+    [systemAzimuth.name]: Yup.number(),
+    [systemInclination.name]: Yup.number(),
+    [yearlyLoad.name]: Yup.number(),
     [loadProfile.name]: Yup.string(),
   }),
 ]

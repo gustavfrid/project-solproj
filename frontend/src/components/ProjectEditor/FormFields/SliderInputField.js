@@ -15,8 +15,8 @@ import {
 } from '@chakra-ui/react'
 
 export const SliderInputField = (props) => {
-  const { children, label, min, max, defaultValue, markers, step } = props
-  const [field, meta, helpers] = useField(props)
+  const { children, min, max, defaultValue, markers, step } = props
+  const [field, , helpers] = useField(props)
   const [showTooltip, setShowTooltip] = useState(false)
   return (
     <HStack spacing='15px'>
@@ -28,6 +28,7 @@ export const SliderInputField = (props) => {
         min={min}
         max={max}
         step={step}
+        focusThumbOnChange={false}
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         onChange={(v) => helpers.setValue(v)}>

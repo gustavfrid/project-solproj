@@ -7,8 +7,9 @@ import { project } from '../../reducers/projectReducer'
 import { GeocoderControl } from './Geocoder'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
-export const MapboxSimple = () => {
+export const MapboxMapEdit = (props) => {
   const mapStyle = useSelector((store) => store.project.mapStyle)
   const viewState = useSelector((store) => store.project.viewState)
   const location = useSelector((store) => store.project.location.coordinates)
@@ -20,15 +21,13 @@ export const MapboxSimple = () => {
 
   const handleMarkerLocation = (e) => {
     const newLocation = e.target._lngLat
-    console.log('🚀 ~ file: MapboxSimple.js ~ line 23 ~ handleMarkerLocation ~ newLocation', newLocation)
-    dispatch(project.actions.setLocation([newLocation.lng, newLocation.lat]))
-    console.log('🚀 ~ file: MapboxSimple.js ~ line 14 ~ MapboxSimple ~ viewState', viewState)
     const newViewState = { ...viewState, longitude: newLocation.lng, latitude: newLocation.lat }
+    dispatch(project.actions.setLocation([newLocation.lng, newLocation.lat]))
     dispatch(project.actions.setViewState(newViewState))
   }
 
   return (
-    <Box w='100%' h={[400, 500, 600]}>
+    <Box w='100%' h={props.height} position={props.position} display='flex' justifyContent='center' alignItems='center'>
       <Map
         {...viewState}
         onMove={onMove}
@@ -46,6 +45,7 @@ export const MapboxSimple = () => {
           onDragEnd={handleMarkerLocation}
         />
       </Map>
+      {props.children}
     </Box>
   )
 }

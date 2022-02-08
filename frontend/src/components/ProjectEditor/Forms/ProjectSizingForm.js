@@ -2,7 +2,7 @@ import { useFormikContext } from 'formik'
 import { Stack } from '@chakra-ui/react'
 import { InputField, SliderInputField, SelectField, FormHeading } from '../FormFields'
 import { AdjustbleArrow, AdjustbleRoofAngle } from '../../../assets/CustomIcons'
-import { MapboxMap } from '../../Location/MapboxMap'
+import { MapboxMapStatic } from '../../Location/MapboxMapStatic'
 
 export const ProjectSizingForm = (props) => {
   const {
@@ -19,9 +19,9 @@ export const ProjectSizingForm = (props) => {
 
       <Stack>
         <FormHeading text={'Roof orientation'} />
-        <MapboxMap height={[300, 400]} position='relative'>
+        <MapboxMapStatic height={[300, 400]} position='relative'>
           <AdjustbleArrow angle={values.systemAzimuth} boxSize={200} color={'white'} strokeW={3} position='absolute' />
-        </MapboxMap>
+        </MapboxMapStatic>
         <SliderInputField
           name={systemAzimuth.name}
           aria-label={systemAzimuth.label}
@@ -51,9 +51,18 @@ export const ProjectSizingForm = (props) => {
           step={5}
           markers={[
             { v: 0, ml: -1 },
+            { v: 5, ml: -1 },
+            { v: 10, ml: -2 },
             { v: 15, ml: -2 },
+            { v: 20, ml: -2 },
+            { v: 25, ml: -2 },
             { v: 30, ml: -2 },
+            { v: 35, ml: -2 },
             { v: 40, ml: -2 },
+            { v: 45, ml: -2 },
+            { v: 50, ml: -2 },
+            { v: 60, ml: -2 },
+            { v: 70, ml: -2 },
             { v: 90, ml: -2 },
           ]}
         />

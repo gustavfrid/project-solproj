@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-export const MapboxMap = (props) => {
+export const MapboxMapStatic = (props) => {
   const mapStyle = useSelector((store) => store.project.mapStyle)
   const viewState = useSelector((store) => store.project.viewState)
   const location = useSelector((store) => store.project.location.coordinates)

@@ -3,7 +3,7 @@ import { useFormikContext } from 'formik'
 import { Text } from '@chakra-ui/react'
 import { FormHeading } from '../FormFields'
 import { AdjustbleArrow } from '../../../assets/CustomIcons'
-import { MapboxMap } from '../../Location/MapboxMap'
+import { MapboxMapStatic } from '../../Location/MapboxMapStatic'
 
 export const ProjectFormSummary = () => {
   const { values: formValues } = useFormikContext()
@@ -12,9 +12,9 @@ export const ProjectFormSummary = () => {
     <Stack mb={5}>
       <Stack spacing={2} alignItems='flex-start'>
         <FormHeading text={`Project name: ${projectName}`} />
-        <MapboxMap height={[300, 400]} position='relative'>
+        <MapboxMapStatic height={[300, 400]} position='relative'>
           <AdjustbleArrow angle={systemAzimuth} boxSize={200} color={'white'} strokeW={3} position='absolute' />
-        </MapboxMap>
+        </MapboxMapStatic>
         <Text>Size: {systemSize} kW</Text>
         <Text>Inclination: {systemInclination}&deg; </Text>
         <Text>Yearly consumption: {yearlyLoad} kWh</Text>

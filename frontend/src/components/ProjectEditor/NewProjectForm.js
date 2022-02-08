@@ -36,7 +36,7 @@ export const NewProjectForm = ({ handleSaveProject }) => {
   const isLastStep = activeStep === steps.length - 1
 
   const submitForm = async (values, actions) => {
-    alert(JSON.stringify(values, null, 2))
+    // alert(JSON.stringify(values, null, 2))
     actions.setSubmitting(false)
     batch(() => {
       dispatch(project.actions.setProjectName(values.projectName))
@@ -97,7 +97,7 @@ export const NewProjectForm = ({ handleSaveProject }) => {
                           </Button>
                         )}
                         <Button disabled={props.isSubmitting} type='submit'>
-                          {isLastStep ? 'Finish' : 'Next'}
+                          {isLastStep ? 'Finish & Create' : 'Next'}
                         </Button>
                       </Stack>
                     </Stack>

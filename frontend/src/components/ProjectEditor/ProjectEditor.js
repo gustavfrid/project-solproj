@@ -1,13 +1,15 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Button, Stack, useToast, Box } from '@chakra-ui/react'
+import { Stack, useToast, Box } from '@chakra-ui/react'
+
 import { project, createProject, updateProject } from '../../reducers/projectReducer'
-import { MapMapbox } from '../Location/MapMapbox'
-import { PvForm } from './PvForm'
+// import { MapMapbox } from '../Location/MapMapbox'
+// import { PvForm } from './PvForm'
 // import { BarChart } from '../Charts/BarChart'
 import { ReAreaChart } from '../Charts/AreaChart'
 import { NewProjectForm } from './NewProjectForm'
+import { EditProjectForm } from './EditProjectForm'
 
 export const ProjectEditor = () => {
   const { pvgis, load, projectId, projectName } = useSelector((store) => store.project)
@@ -41,11 +43,7 @@ export const ProjectEditor = () => {
   return (
     <Stack flexDir='column' spacing={'20px'} dir='column'>
       {isNewProject && <NewProjectForm handleSaveProject={handleSaveProject} />}
-
-      <Button variant='contained' onClick={() => handleSaveProject()}>
-        {id === 'new' ? 'Create project' : 'Save project'}
-      </Button>
-      {/* {pvgis && <BarChart dataSeries={{ pvgis, load }} />} */}
+      {!isNewProject && <EditProjectForm handleSaveProject={handleSaveProject} />}
 
       {pvgis && (
         <Box w='100%' h='300px'>
