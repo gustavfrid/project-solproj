@@ -1,4 +1,5 @@
-import { Heading, Button, Stack, Divider, Switch, FormControl, FormLabel } from '@chakra-ui/react'
+import { useState } from 'react'
+import { Heading, Button, Stack, Divider, Switch, FormControl, FormLabel, useToast } from '@chakra-ui/react'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch, batch, useSelector } from 'react-redux'
@@ -6,19 +7,17 @@ import { useDispatch, batch, useSelector } from 'react-redux'
 import { InputField, SliderInputField, SelectField, FormHeading } from './FormFields'
 import { AdjustbleArrow, AdjustbleRoofAngle } from '../../assets/CustomIcons'
 import { MapboxMapEdit, MapboxMapStatic } from '../Location'
-
-import { project, calculateEnergy, getHourlyData } from '../../reducers/projectReducer'
-import { ProjectInfoForm, ProjectSizingForm } from './Forms'
+import { project, calculateEnergy, getHourlyData, updateProject } from '../../reducers/projectReducer'
 import { configFormModel } from './FormModel/configFormModel'
-import { useState } from 'react'
 
-export const EditProjectForm = ({ handleSaveProject }) => {
+export const EditProjectForm = ({ id }) => {
   const [isEditLocationMode, setIsEditLocationMode] = useState(false)
   const { projectName, systemSize, systemAzimuth, systemInclination, yearlyLoad, loadProfile, location } = useSelector(
     (store) => store.project
   )
 
   const dispatch = useDispatch()
+  const toast = useToast()
 
   const formInitialValues = {
     projectName,
@@ -49,11 +48,18 @@ export const EditProjectForm = ({ handleSaveProject }) => {
       dispatch(project.actions.setSystemInclination(values.systemInclination))
       dispatch(project.actions.setYearlyLoad(values.yearlyLoad))
       dispatch(project.actions.setLoadProfile(values.loadProfile))
+      dispatch(calculateEnergy())
+      dispatch(getHourlyData(values.loadProfile, 'loadProfile'))
+      dispatch(getHourlyData('SE3', 'spotPrice'))
+      dispatch(updateProject(id))
     })
-    dispatch(calculateEnergy())
-    dispatch(getHourlyData(values.loadProfile, 'loadProfile'))
-    dispatch(getHourlyData('SE3', 'spotPrice'))
-    handleSaveProject()
+    // handleSaveProject()
+    //TODO: set toast according to response from backend
+    toast({
+      title: `Success project updated!`,
+      status: 'success',
+      isClosable: true,
+    })
   }
 
   return (
@@ -146,7 +152,13 @@ export const EditProjectForm = ({ handleSaveProject }) => {
                 />
               </Stack>
               <Stack direction='row'>
-                <Button disabled={props.isSubmitting} type='submit'>
+                <Button
+                  onClick={() =>
+                    console.log('🚀 ~ file: EditProjectForm.js ~ line 150 ~ EditProjectForm ~ props', props)
+                  }>
+                  Test
+                </Button>
+                <Button disabled={!props.dirty} type='submit'>
                   Save
                 </Button>
               </Stack>

@@ -1,8 +1,9 @@
-import { Flex, Heading, Button, Stack, Divider } from '@chakra-ui/react'
+import { Flex, Heading, Button, Stack, Divider, useToast } from '@chakra-ui/react'
 import { Step, Steps, useSteps } from 'chakra-ui-steps'
 import { Formik, Form } from 'formik'
 import { useDispatch, batch } from 'react-redux'
-import { project, calculateEnergy, getHourlyData } from '../../reducers/projectReducer'
+import { useNavigate } from 'react-router-dom'
+import { project, calculateEnergy, getHourlyData, createProject } from '../../reducers/projectReducer'
 
 import { ProjectInfoForm, ProjectSizingForm, ProjectFormSummary } from './Forms'
 
@@ -31,6 +32,8 @@ export const NewProjectForm = ({ handleSaveProject }) => {
     initialStep: 0,
   })
   const dispatch = useDispatch()
+  const toast = useToast()
+  const navigate = useNavigate()
 
   const currentValidationSchema = validationSchema[activeStep]
   const isLastStep = activeStep === steps.length - 1
@@ -45,12 +48,21 @@ export const NewProjectForm = ({ handleSaveProject }) => {
       dispatch(project.actions.setSystemInclination(values.systemInclination))
       dispatch(project.actions.setYearlyLoad(values.yearlyLoad))
       dispatch(project.actions.setLoadProfile(values.loadProfile))
+      dispatch(calculateEnergy())
+      dispatch(getHourlyData(values.loadProfile, 'loadProfile'))
+      dispatch(getHourlyData('SE3', 'spotPrice'))
+      dispatch(createProject())
     })
-    dispatch(calculateEnergy())
-    dispatch(getHourlyData(values.loadProfile, 'loadProfile'))
-    dispatch(getHourlyData('SE3', 'spotPrice'))
-    handleSaveProject()
+    // handleSaveProject()
     nextStep()
+
+    //TODO: set toast according to response from backend
+    toast({
+      title: `Success project created!`,
+      status: 'success',
+      isClosable: true,
+    })
+    navigate('/main/projects/loading') // navigating to a loading site, could be handled by loader in ui?
   }
 
   function handleSubmit(values, actions) {
