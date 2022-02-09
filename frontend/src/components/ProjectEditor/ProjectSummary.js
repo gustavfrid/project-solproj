@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { Stack, Text, Grid, GridItem } from '@chakra-ui/react'
-import { hoursToDays, dateArray } from '../../utils/dataHandlers'
-import { RePieChart, ReAreaChartT } from '../Charts'
+import { hoursToDays, dateArray, hoursToMonths } from '../../utils/dataHandlers'
+import { RePieChart, ReAreaChart, ReBarChart } from '../Charts'
 import { colors } from '../../Theme/colors'
 import { FormHeading } from './FormFields'
 import { SavingsIcon, SolarIcon, TreeIcon } from '../../assets/SummaryIcons'
@@ -12,8 +12,14 @@ export const ProjectSummary = () => {
   const hourlyExport = load.hourly.map((load, i) => (load - pvgis.hourly[i] > 0 ? 0 : load - pvgis.hourly[i]))
   const hourlyImport = load.hourly.map((load, i) => (load - pvgis.hourly[i] <= 0 ? 0 : load - pvgis.hourly[i]))
   const hourlyUse = pvgis.hourly.map((v, i) => v + hourlyExport[i])
+
   const dailyUse = hoursToDays(hourlyUse)
   const dailyExport = hoursToDays(hourlyExport)
+  const dailyImport = hoursToDays(hourlyImport)
+
+  const monthlyUse = hoursToMonths(hourlyUse)
+  const monthlyExport = hoursToMonths(hourlyExport)
+  const monthlyImport = hoursToMonths(hourlyImport)
 
   const hourlyProductionValue = pvgis.hourly.map((v, i) => v * price[i])
   const hourlyLoadCost = load.hourly.map((v, i) => v * price[i])
@@ -32,22 +38,32 @@ export const ProjectSummary = () => {
       <FormHeading text='Summary' />
       <Grid templateColumns='repeat(4, 1fr)' gap={5}>
         <GridItem colSpan={[4, 2, 1]} p={5} boxShadow='2xl' rounded='lg'>
-          <Text align='center'>Where does your electricity come from?</Text>
+          <Text align='center' fontSize={18}>
+            Where does your electricity come from?
+          </Text>
           <RePieChart
             data={[
               { name: 'Solar', value: totalSelfConsumption, fill: colors.yellow },
               { name: 'Grid', value: totalImport, fill: colors.gray },
             ]}
           />
+          <Text align='center' color={'gray.400'}>
+            Total: {totalSelfConsumption + totalImport} kWh
+          </Text>
         </GridItem>
         <GridItem colSpan={[4, 2, 1]} p={5} boxShadow='2xl' rounded='lg'>
-          <Text align='center'>Where does your electricity go?</Text>
+          <Text align='center' fontSize={18}>
+            Where does your electricity go?
+          </Text>
           <RePieChart
             data={[
               { name: 'Use', value: totalSelfConsumption, fill: colors.yellow },
               { name: 'Export', value: -totalExport, fill: colors.gray },
             ]}
           />
+          <Text align='center' color={'gray.400'}>
+            Total: {totalSelfConsumption - totalExport} kWh
+          </Text>
         </GridItem>
 
         <GridItem
@@ -92,10 +108,10 @@ export const ProjectSummary = () => {
             </GridItem>
           </Grid>
         </GridItem>
-        <GridItem colSpan={[4, 4, 4]} w='100%' h='300px' p={3} boxShadow='2xl' rounded='lg'>
+        <GridItem colSpan={[4, 2]} w='100%' h='300px' p={3} boxShadow='2xl' rounded='lg'>
           <Text align='center'>Super fancy chart</Text>
           {load.daily && (
-            <ReAreaChartT
+            <ReAreaChart
               axisX={dates}
               data={[
                 {
@@ -123,6 +139,45 @@ export const ProjectSummary = () => {
                   stroke: colors.blaze_orange,
                   fill: colors.blaze_orange,
                   opacity: 1,
+                  unit: 'kWh',
+                },
+              ]}
+            />
+          )}
+        </GridItem>
+        <GridItem colSpan={[4, 2]} w='100%' h='300px' p={3} boxShadow='2xl' rounded='lg'>
+          <Text align='center'>Super fancy chart again</Text>
+          {load.daily && (
+            <ReBarChart
+              data={[
+                {
+                  name: 'use',
+                  data: monthlyUse,
+                  fill: colors.yellow,
+                  stopColor: colors.yellow,
+                  stroke: colors.yellow,
+                  opacity: 1,
+                  stack: 'a',
+                  unit: 'kWh',
+                },
+                {
+                  name: 'import',
+                  data: monthlyImport,
+                  fill: colors.gray,
+                  stopColor: colors.gray,
+                  stroke: colors.gray,
+                  opacity: 1,
+                  stack: 'a',
+                  unit: 'kWh',
+                },
+                {
+                  name: 'export',
+                  data: monthlyExport,
+                  fill: colors.blaze_orange,
+                  stopColor: colors.blaze_orange,
+                  stroke: colors.blaze_orange,
+                  opacity: 1,
+                  stack: 'a',
                   unit: 'kWh',
                 },
               ]}
