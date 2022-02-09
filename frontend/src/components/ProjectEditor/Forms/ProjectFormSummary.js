@@ -10,7 +10,7 @@ export const ProjectFormSummary = () => {
   const { projectName, systemSize, systemAzimuth, systemInclination, yearlyLoad, loadProfile } = formValues
   return (
     <Stack mb={5}>
-      <Stack spacing={2} alignItems='flex-start'>
+      <Stack spacing={3} alignItems='flex-start' p={5} boxShadow='2xl' rounded='lg'>
         <FormHeading text={`Project name: ${projectName}`} />
         <MapboxMapStatic height={[300, 400]} position='relative'>
           <AdjustbleArrow angle={systemAzimuth} boxSize={200} color={'white'} strokeW={3} position='absolute' />

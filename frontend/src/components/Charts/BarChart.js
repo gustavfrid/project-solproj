@@ -33,7 +33,7 @@ export const ReBarChart = ({ data, axisX }) => {
         }}>
         <defs>
           {data.map((v) => (
-            <linearGradient id={`color${v.name}`} x1='0' y1='0' x2='0' y2='1'>
+            <linearGradient key={v.name} id={`color${v.name}`} x1='0' y1='0' x2='0' y2='1'>
               <stop offset='5%' stopColor={v.stopColor} stopOpacity={1} />
               <stop offset='95%' stopColor={v.stopColor} stopOpacity={0.3} />
             </linearGradient>

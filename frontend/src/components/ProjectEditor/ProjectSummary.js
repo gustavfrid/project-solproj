@@ -13,24 +13,24 @@ export const ProjectSummary = () => {
   const hourlyImport = load.hourly.map((load, i) => (load - pvgis.hourly[i] <= 0 ? 0 : load - pvgis.hourly[i]))
   const hourlyUse = pvgis.hourly.map((v, i) => v + hourlyExport[i])
 
-  const dailyUse = hoursToDays(hourlyUse)
+  // const dailyUse = hoursToDays(hourlyUse)
   const dailyExport = hoursToDays(hourlyExport)
-  const dailyImport = hoursToDays(hourlyImport)
+  // const dailyImport = hoursToDays(hourlyImport)
 
   const monthlyUse = hoursToMonths(hourlyUse)
   const monthlyExport = hoursToMonths(hourlyExport)
   const monthlyImport = hoursToMonths(hourlyImport)
 
   const hourlyProductionValue = pvgis.hourly.map((v, i) => v * price[i])
-  const hourlyLoadCost = load.hourly.map((v, i) => v * price[i])
-  const hourlyExportValue = hourlyExport.map((v, i) => v * price[i])
-  const hourlyImportCost = hourlyImport.map((v, i) => v * price[i])
+  // const hourlyLoadCost = load.hourly.map((v, i) => v * price[i])
+  // const hourlyExportValue = hourlyExport.map((v, i) => v * price[i])
+  // const hourlyImportCost = hourlyImport.map((v, i) => v * price[i])
 
   const totalSelfConsumption = Math.round(hourlyUse.reduce((a, b) => a + b, 0))
   const totalExport = Math.round(hourlyExport.reduce((a, b) => a + b, 0))
   const totalImport = Math.round(hourlyImport.reduce((a, b) => a + b, 0))
   const totalProductionValue = Math.round(hourlyProductionValue.reduce((a, b) => a + b, 0))
-  const totalLoadCost = Math.round(hourlyLoadCost.reduce((a, b) => a + b, 0))
+  // const totalLoadCost = Math.round(hourlyLoadCost.reduce((a, b) => a + b, 0))
   const dates = dateArray()
 
   return (
@@ -79,7 +79,7 @@ export const ProjectSummary = () => {
               <SavingsIcon boxSize={10} />
               <Stack direction={'column'}>
                 <Text fontSize={18} color={'gray.400'}>
-                  Savings
+                  Energy value
                 </Text>
                 <Text fontSize={22}>{totalProductionValue} €</Text>
               </Stack>

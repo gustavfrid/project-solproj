@@ -2,22 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
 import moment from 'moment'
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  IconButton,
-  Center,
-  Flex,
-  Stack,
-  Text,
-  Button,
-} from '@chakra-ui/react'
+import { Table, Thead, Tbody, Tr, Th, Td, TableCaption, IconButton, Center, Flex, Stack, Text } from '@chakra-ui/react'
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 
 import { projectList, getProjectList } from '../reducers/projectListReducer'
@@ -71,9 +56,15 @@ export const ProjectList = () => {
             <Text fontSize='2xl'>No projects, create a new one!</Text>
           </Link>
         ) : (
-          <Table size='sm' w={'100%'}>
+          <Table size='sm' w={'100%'} p={5} boxShadow='2xl' rounded='lg'>
             <TableCaption onClick={toggleListSize}>
-              {listSize} Recent projects, click to show {listSize === 5 ? 'more' : 'less'}
+              <Text fontSize={12}>
+                {listSize} Recent projects, click{' '}
+                <Text as='span' color='pink.400'>
+                  here
+                </Text>{' '}
+                to show {listSize === 5 ? 'more' : 'less'}
+              </Text>
             </TableCaption>
             <Thead>
               <Tr>

@@ -83,7 +83,7 @@ export const EditProjectForm = ({ id }) => {
         {(props) => (
           <Form id={'editForm'}>
             <Grid templateColumns='repeat(4, 1fr)' gap={5}>
-              <GridItem colSpan={[4, 4, 3]} p={5} boxShadow='lg' rounded='lg'>
+              <GridItem colSpan={[4, 4, 4, 2]} rowSpan={[1, 1, 1, 2]} p={5} boxShadow='lg' rounded='lg'>
                 <Stack direction='column' spacing={3}>
                   <FormHeading text={isEditLocationMode ? 'Edit Location' : 'Edit Orientation'} />
                   <FormControl display='flex' alignItems='center'>
@@ -133,7 +133,7 @@ export const EditProjectForm = ({ id }) => {
                 </Stack>
               </GridItem>
 
-              <GridItem colSpan={[4, 4, 1]} p={5} boxShadow='lg' rounded='lg'>
+              <GridItem colSpan={[4, 4, 2]} p={5} boxShadow='lg' rounded='lg'>
                 <Stack direction='column' spacing={3}>
                   <FormHeading text={'Roof inclination'} />
                   <AdjustbleRoofAngle angle={props.values.systemInclination} width={'100%'} height={200} />
@@ -146,16 +146,9 @@ export const EditProjectForm = ({ id }) => {
                     step={5}
                     markers={[
                       { v: 0, ml: -1 },
-                      // { v: 5, ml: -1 },
-                      // { v: 10, ml: -2 },
                       { v: 15, ml: -2 },
-                      // { v: 20, ml: -2 },
-                      // { v: 25, ml: -2 },
                       { v: 30, ml: -2 },
-                      // { v: 35, ml: -2 },
-                      // { v: 40, ml: -2 },
                       { v: 45, ml: -2 },
-                      // { v: 50, ml: -2 },
                       { v: 60, ml: -2 },
                       { v: 70, ml: -2 },
                       { v: 90, ml: -2 },
@@ -163,7 +156,7 @@ export const EditProjectForm = ({ id }) => {
                   />
                 </Stack>
               </GridItem>
-              <GridItem colSpan={[4, 2]} p={5} boxShadow='lg' rounded='lg'>
+              <GridItem colSpan={[4, 4, 2]} p={5} boxShadow='lg' rounded='lg'>
                 <Stack direction='column' spacing={3}>
                   <FormHeading text={'System size'} />
                   <InputField
@@ -171,10 +164,6 @@ export const EditProjectForm = ({ id }) => {
                     label={configFormModel.formField.systemSize.label}
                     type='number'
                   />
-                </Stack>
-              </GridItem>
-              <GridItem colSpan={[4, 2]} p={5} boxShadow='lg' rounded='lg'>
-                <Stack direction='column' spacing={3}>
                   <FormHeading text={'Consumption data'} />
                   <InputField
                     name={configFormModel.formField.yearlyLoad.name}
