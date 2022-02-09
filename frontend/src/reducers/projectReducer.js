@@ -108,8 +108,8 @@ export const calculateEnergy = (projectData) => {
         const monthly = hoursToMonths(hourly)
         const yearly = hoursToYear(hourly)
         dispatch(project.actions.setPvgis({ hourly, daily, monthly, yearly }))
-        if (projectData._id === 'new') dispatch(createProject())
-        if (projectData._id === 'update') dispatch(updateProject(projectData.id))
+        if (projectData.action === 'new') dispatch(createProject())
+        if (projectData.action === 'update') dispatch(updateProject(projectData.id))
         dispatch(ui.actions.setLoading(false))
       })
   }
@@ -153,7 +153,6 @@ export const getHourlyData = (name, type) => {
         }
         if (type === 'spotPrice') {
           dispatch(project.actions.setPrice(hourly.map((v) => (v * 10) / 1000))) // converting from eur/MWh to kr/kWh
-          console.log({ hourly })
         }
 
         dispatch(ui.actions.setLoading(false))

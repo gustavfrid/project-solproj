@@ -1,9 +1,10 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { Stack, Box } from '@chakra-ui/react'
+import { Stack } from '@chakra-ui/react'
 import { project } from '../../reducers/projectReducer'
-import { ReAreaChart } from '../Charts/AreaChart'
+
+import { ProjectSummary } from './ProjectSummary'
 import { NewProjectForm } from './NewProjectForm'
 import { EditProjectForm } from './EditProjectForm'
 
@@ -23,11 +24,7 @@ export const ProjectEditor = () => {
     <Stack flexDir='column' spacing={'20px'} dir='column'>
       {isNewProject && <NewProjectForm />}
       {!isNewProject && <EditProjectForm id={id} />}
-      {pvgis && load && (
-        <Box w='100%' h='300px'>
-          <ReAreaChart dataSeries={{ pvgis, load }} />
-        </Box>
-      )}
+      {pvgis && load && <ProjectSummary />}
     </Stack>
   )
 }

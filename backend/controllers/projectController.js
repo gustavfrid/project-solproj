@@ -39,7 +39,7 @@ export const createProject = async (req, res, next) => {
 
 export const updateProject = async (req, res, next) => {
   const { projectId } = req.params
-  const { projectName, systemSize, systemAzimuth, systemInclination, pvgis, location } = req.body.project
+  const { projectName, systemSize, systemAzimuth, systemInclination, pvgis, location, yearlyLoad } = req.body.project
   try {
     const updatedProject = await Project.findByIdAndUpdate(
       projectId,
@@ -50,6 +50,7 @@ export const updateProject = async (req, res, next) => {
         systemAzimuth,
         systemInclination,
         pvgis,
+        yearlyLoad,
         updatedAt: new Date(),
       },
       { new: true }

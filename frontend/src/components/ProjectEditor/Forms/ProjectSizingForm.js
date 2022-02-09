@@ -13,11 +13,6 @@ export const ProjectSizingForm = (props) => {
   return (
     <Stack spacing={10}>
       <Stack>
-        <FormHeading text={'System size'} />
-        <InputField name={systemSize.name} label={systemSize.label} type='number' />
-      </Stack>
-
-      <Stack>
         <FormHeading text={'Roof orientation'} />
         <MapboxMapStatic height={[300, 400]} position='relative'>
           <AdjustbleArrow angle={values.systemAzimuth} boxSize={200} color={'white'} strokeW={3} position='absolute' />
@@ -66,6 +61,10 @@ export const ProjectSizingForm = (props) => {
             { v: 90, ml: -2 },
           ]}
         />
+      </Stack>
+      <Stack>
+        <FormHeading text={'System size'} />
+        <InputField name={systemSize.name} label={systemSize.label} type='number' />
       </Stack>
 
       <Stack spacing={2.5}>

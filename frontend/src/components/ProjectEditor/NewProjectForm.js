@@ -46,7 +46,7 @@ export const NewProjectForm = () => {
       dispatch(project.actions.setSystemInclination(values.systemInclination))
       dispatch(project.actions.setYearlyLoad(values.yearlyLoad))
       dispatch(project.actions.setLoadProfile(values.loadProfile))
-      dispatch(calculateEnergy({ ...values, _id: 'new' }))
+      dispatch(calculateEnergy({ ...values, action: 'new' }))
       dispatch(getHourlyData(values.loadProfile, 'loadProfile'))
       dispatch(getHourlyData('SE3', 'spotPrice'))
     })

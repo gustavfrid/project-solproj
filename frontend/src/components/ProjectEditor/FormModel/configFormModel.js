@@ -28,12 +28,12 @@ export const configFormModel = {
     },
     yearlyLoad: {
       name: 'yearlyLoad',
-      label: 'Yearly electricity consumption kWh',
+      label: 'Yearly consumption kWh',
       requiredErrorMsg: 'Yearly electricity consumption is required to estimate exported electricity',
     },
     loadProfile: {
       name: 'loadProfile',
-      label: 'Your electricity consumption profile',
+      label: 'Consumption profile',
       requiredErrorMsg: 'Electricity consumption profile is required to estimate flow of electricity',
     },
   },
