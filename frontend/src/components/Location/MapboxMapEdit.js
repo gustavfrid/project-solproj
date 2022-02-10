@@ -116,7 +116,6 @@ export const MapboxMapEdit = ({
       <Map
         {...viewState}
         {...zoomControls}
-        reuseMaps
         onMove={onMove}
         style={{ height: '100%' }}
         mapStyle={mapStyle}
