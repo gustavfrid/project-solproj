@@ -7,9 +7,9 @@ import { GeocoderControl } from './GeocoderControl'
 import { DrawControl } from './DrawControl'
 import area from '@turf/area'
 
-import 'mapbox-gl/dist/mapbox-gl.css'
-import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
-import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
+// import 'mapbox-gl/dist/mapbox-gl.css'
+// import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
+// import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 
 export const MapboxMapEdit = ({
   setFormikLocationValue,
@@ -27,7 +27,7 @@ export const MapboxMapEdit = ({
   const location = useSelector((store) => store.project.location)
   const mapFeatures = useSelector((store) => store.project.mapFeatures)
   const dispatch = useDispatch()
-
+  console.log('🚀 ~ file: MapboxMapEdit.js ~ line 30 ~ MapboxMapEdit')
   const [, setFeatures] = useState({})
 
   // useEffect(() => {

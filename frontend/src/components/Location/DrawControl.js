@@ -2,12 +2,14 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import { useControl } from 'react-map-gl'
 
 export const DrawControl = (props) => {
+  console.log('🚀 ~ file: DrawControl.js ~ line 5 ~ DrawControl ~ props', props)
+
   useControl(
     ({ map }) => {
       map.on('draw.create', props.onCreate)
       map.on('draw.update', props.onUpdate)
       map.on('draw.delete', props.onDelete)
-      const draw = new MapboxDraw(props)
+      // const draw = new MapboxDraw(props)
 
       // if (props.mapFeatures) {
       //   console.log(
@@ -19,7 +21,7 @@ export const DrawControl = (props) => {
       //   const featureIds = draw.add(feature)
       //   console.log('🚀 ~ file: DrawControl.js ~ line 20 ~ DrawControl ~ featureIds', featureIds)
       // }
-      return draw
+      return new MapboxDraw(props)
     },
     ({ map }) => {
       map.off('draw.create', props.onCreate)
