@@ -51,7 +51,7 @@ export const EditProjectForm = ({ id }) => {
   })
 
   const submitForm = async (values, actions) => {
-    alert(JSON.stringify(values, null, 2))
+    // alert(JSON.stringify(values, null, 2))
     actions.setSubmitting(false)
     batch(() => {
       dispatch(project.actions.setProjectName(values.projectName))
@@ -83,6 +83,15 @@ export const EditProjectForm = ({ id }) => {
         {(props) => (
           <Form id={'editForm'}>
             <Grid templateColumns='repeat(4, 1fr)' gap={5}>
+              <GridItem colSpan={[4]} p={5} boxShadow='lg' rounded='lg'>
+                <Stack direction='column' spacing={3}>
+                  <FormHeading text={'Edit project name'} />
+                  <InputField
+                    name={configFormModel.formField.projectName.name}
+                    label={configFormModel.formField.projectName.label}
+                  />
+                </Stack>
+              </GridItem>
               <GridItem colSpan={[4, 4, 4, 2]} rowSpan={[1, 1, 1, 2]} p={5} boxShadow='lg' rounded='lg'>
                 <Stack direction='column' spacing={3}>
                   <FormHeading text={isEditLocationMode ? 'Edit Location' : 'Edit Orientation'} />

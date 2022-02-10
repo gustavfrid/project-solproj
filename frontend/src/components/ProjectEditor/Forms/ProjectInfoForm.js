@@ -17,7 +17,7 @@ export const ProjectInfoForm = (props) => {
       />
       <InputField name={projectName.name} label={projectName.label} />
       <MapboxMapEdit
-        height={[300, 400]}
+        height={[300, 400, 550]}
         position='relative'
         setFormikLocationValue={helpers.setValue}
         hasGeocoder={true}

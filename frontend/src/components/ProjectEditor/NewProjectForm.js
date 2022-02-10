@@ -102,11 +102,11 @@ export const NewProjectForm = () => {
                       </Stack>
                       <Stack direction='row'>
                         {activeStep !== 0 && (
-                          <Button variant='ghost' onClick={prevStep}>
+                          <Button variant='ghost' colorScheme={'yellow'} onClick={prevStep}>
                             Back
                           </Button>
                         )}
-                        <Button disabled={props.isSubmitting} type='submit'>
+                        <Button colorScheme={'yellow'} disabled={props.isSubmitting} type='submit'>
                           {isLastStep ? 'Finish & Create' : 'Next'}
                         </Button>
                       </Stack>
