@@ -31,6 +31,17 @@ export const MapboxMapEdit = (props) => {
     if (props.setFormikValue) props.setFormikValue([newLocation.lng, newLocation.lat])
   }
 
+  const handledGeoLocate = (e) => {
+    const newLocation = e.coords
+    console.log('🚀 ~ file: MapboxMapEdit.js ~ line 36 ~ handledGeoLocate ~ newLocation', newLocation)
+
+    const newViewState = { ...viewState, longitude: newLocation.longitude, latitude: newLocation.latitude }
+
+    dispatch(project.actions.setLocation([newLocation.longitude, newLocation.latitude]))
+    dispatch(project.actions.setViewState(newViewState))
+    if (props.setFormikValue) props.setFormikValue([newLocation.longitude, newLocation.latitude])
+  }
+
   return (
     <Box w='100%' h={props.height} position={props.position} display='flex' justifyContent='center' alignItems='center'>
       <Map
@@ -39,7 +50,7 @@ export const MapboxMapEdit = (props) => {
         style={{ height: '100%' }}
         mapStyle={mapStyle}
         mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}>
-        <GeolocateControl position='bottom-right' />
+        <GeolocateControl position='bottom-right' onGeolocate={handledGeoLocate} />
         <FullscreenControl />
         <GeocoderControl
           mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}

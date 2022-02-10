@@ -14,8 +14,19 @@ export const getProjectList = async (req, res, next) => {
 }
 
 export const createProject = async (req, res, next) => {
-  const { projectName, systemSize, systemAzimuth, systemInclination, yearlyLoad, pvgis, location, owner, loadProfile } =
-    req.body.project
+  const {
+    projectName,
+    systemSize,
+    systemAzimuth,
+    systemInclination,
+    yearlyLoad,
+    pvgis,
+    location,
+    owner,
+    loadProfile,
+    viewState,
+    mapStyle,
+  } = req.body.project
   try {
     const newProject = await new Project({
       owner,
@@ -26,6 +37,8 @@ export const createProject = async (req, res, next) => {
       systemInclination,
       yearlyLoad,
       loadProfile,
+      viewState,
+      mapStyle,
       pvgis,
     }).save()
     res.status(201).json({

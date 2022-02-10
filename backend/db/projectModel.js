@@ -38,6 +38,8 @@ const ProjectSchema = new mongoose.Schema({
     required: true,
   },
   location: { type: [Number], required: true },
+  mapStyle: String,
+  viewState: Object,
   systemSize: Number,
   systemAzimuth: Number,
   systemInclination: Number,
