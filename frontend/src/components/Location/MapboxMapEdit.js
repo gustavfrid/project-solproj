@@ -37,6 +37,7 @@ export const MapboxMapEdit = ({
 
   const onUpdate = useCallback(
     (e) => {
+      console.log('🚀 ~ file: MapboxMapEdit.js onUpdate ~ line 40 ~ e', e)
       setFeatures((currFeatures) => {
         const newFeatures = { ...currFeatures }
         for (const f of e.features) {
@@ -60,6 +61,7 @@ export const MapboxMapEdit = ({
 
   const onDelete = useCallback(
     (e) => {
+      console.log('🚀 ~ file: MapboxMapEdit.js onDelete ~ line 63 ~ e', e)
       setFeatures((currFeatures) => {
         const newFeatures = { ...currFeatures }
         for (const f of e.features) {
