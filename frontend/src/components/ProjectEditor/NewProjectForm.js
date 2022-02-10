@@ -4,12 +4,12 @@ import { Formik, Form } from 'formik'
 import { useDispatch, batch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { project, calculateEnergy, getHourlyData } from '../../reducers/projectReducer'
-import { ProjectInfoForm, ProjectSizingForm, ProjectFormSummary } from './Forms'
+import { ProjectInfoForm, ProjectConfigForm, ProjectFormSummary, ProjectSizingForm } from './Forms'
 import { validationSchema } from './FormModel/validationSchema'
 import { configFormModel } from './FormModel/configFormModel'
 import { formInitialValues } from './FormModel/formInitialValues'
 
-const steps = ['Info', 'Configure', 'Review']
+const steps = ['Info', 'Sizing', 'Configure', 'Review']
 const { formId, formField } = configFormModel
 
 const renderStepContent = (step) => {
@@ -19,6 +19,8 @@ const renderStepContent = (step) => {
     case 1:
       return <ProjectSizingForm formField={formField} />
     case 2:
+      return <ProjectConfigForm formField={formField} />
+    case 3:
       return <ProjectFormSummary />
     default:
       return <div>Not Found</div>

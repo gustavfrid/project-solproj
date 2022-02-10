@@ -23,6 +23,7 @@ const initialState = {
   pvgis: '',
   load: '',
   price: '',
+  mapFeatures: null,
 }
 
 export const project = createSlice({
@@ -64,6 +65,9 @@ export const project = createSlice({
     },
     setPrice: (state, action) => {
       state.price = action.payload
+    },
+    setMapFeatures: (state, action) => {
+      state.mapFeatures = action.payload
     },
     reset: (state) => (state = initialState),
   },

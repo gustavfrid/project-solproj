@@ -1,3 +1,4 @@
 export { ProjectInfoForm } from './ProjectInfoForm'
-export { ProjectSizingForm } from './ProjectSizingForm'
+export { ProjectConfigForm } from './ProjectConfigForm'
 export { ProjectFormSummary } from './ProjectFormSummary'
+export { ProjectSizingForm } from './ProjectSizingForm'

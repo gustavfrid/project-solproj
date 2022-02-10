@@ -46,6 +46,7 @@ export const ReBarChart = ({ data, axisX }) => {
         <Legend onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} />
         {data.map((v, i) => (
           <Bar
+            key={v.name}
             dataKey={v.name}
             stackId={v.stack}
             fill={`url(#color${v.name})`}

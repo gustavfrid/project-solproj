@@ -26,6 +26,7 @@ export const createProject = async (req, res, next) => {
     loadProfile,
     viewState,
     mapStyle,
+    mapFeatures,
   } = req.body.project
   try {
     const newProject = await new Project({
@@ -40,6 +41,7 @@ export const createProject = async (req, res, next) => {
       viewState,
       mapStyle,
       pvgis,
+      mapFeatures,
     }).save()
     res.status(201).json({
       response: newProject,

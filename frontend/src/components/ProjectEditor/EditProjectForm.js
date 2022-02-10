@@ -101,7 +101,9 @@ export const EditProjectForm = ({ id }) => {
                     <MapboxMapEdit
                       height={[300, 400]}
                       position='relative'
-                      setFormikValue={props.getFieldHelpers(configFormModel.formField.location.name).setValue}
+                      setFormikLocationValue={props.getFieldHelpers(configFormModel.formField.location.name).setValue}
+                      setFormikSizeValue={props.getFieldHelpers(configFormModel.formField.systemSize.name).setValue}
+                      zoomControls={{ doubleClickZoom: false }}
                     />
                   )}
                   {!isEditLocationMode && (

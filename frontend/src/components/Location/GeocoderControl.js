@@ -26,7 +26,7 @@ export const GeocoderControl = (props) => {
 
         if (resultLocation) {
           dispatch(project.actions.setLocation(resultLocation))
-          if (props.setFormikValue) props.setFormikValue(resultLocation)
+          if (props.setFormikLocationValue) props.setFormikLocationValue(resultLocation)
           setMarker(null)
         } else {
           setMarker(null)

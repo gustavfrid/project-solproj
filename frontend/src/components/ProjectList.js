@@ -56,7 +56,7 @@ export const ProjectList = () => {
             <Text fontSize='2xl'>No projects, create a new one!</Text>
           </Link>
         ) : (
-          <Table size='sm' w={'100%'} p={3} boxShadow='2xl' rounded='lg'>
+          <Table size='sm' p={3} boxShadow='2xl' rounded='lg'>
             <TableCaption onClick={toggleListSize}>
               <Text fontSize={12}>
                 {listSize} Recent projects, click{' '}

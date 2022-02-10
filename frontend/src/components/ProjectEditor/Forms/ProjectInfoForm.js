@@ -12,7 +12,13 @@ export const ProjectInfoForm = (props) => {
   return (
     <Stack spacing={4} p={5} boxShadow='2xl' rounded='lg'>
       <InputField name={projectName.name} label={projectName.label} />
-      <MapboxMapEdit height={[300, 400]} position='relative' setFormikValue={helpers.setValue} />
+      <MapboxMapEdit
+        height={[300, 400]}
+        position='relative'
+        setFormikLocationValue={helpers.setValue}
+        hasGeocoder={true}
+        hasGeolocate={true}
+      />
       <InputField name={location.name} label={location.label} />
     </Stack>
   )
