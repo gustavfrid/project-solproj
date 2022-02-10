@@ -59,7 +59,7 @@ export const ProjectList = () => {
           <Table size='sm' p={3} boxShadow='2xl' rounded='lg'>
             <TableCaption onClick={toggleListSize}>
               <Text fontSize={12}>
-                {listSize} Recent projects, click{' '}
+                {listSize} most recent projects, click{' '}
                 <Text as='span' color='pink.400'>
                   here
                 </Text>{' '}
