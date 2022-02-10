@@ -1,4 +1,4 @@
-import { Stack, Text } from '@chakra-ui/react'
+import { Stack } from '@chakra-ui/react'
 import { InputField, FormHeading } from '../FormFields'
 import { MapboxMapEdit } from '../../Location/MapboxMapEdit'
 import { useField } from 'formik'

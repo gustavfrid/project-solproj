@@ -6,7 +6,7 @@ import { MapboxMapStatic } from '../../Location/MapboxMapStatic'
 
 export const ProjectConfigForm = (props) => {
   const {
-    formField: { systemSize, systemAzimuth, systemInclination, yearlyLoad, loadProfile },
+    formField: { systemAzimuth, systemInclination, yearlyLoad, loadProfile },
   } = props
   const { values } = useFormikContext()
 
