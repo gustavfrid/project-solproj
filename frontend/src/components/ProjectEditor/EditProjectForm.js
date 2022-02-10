@@ -185,7 +185,7 @@ export const EditProjectForm = ({ id }) => {
             </Grid>
             <Stack direction='row' mt={4}>
               <Button colorScheme='pink' disabled={!props.dirty} type='submit'>
-                {'Save & Calculate'}
+                {'Save & ReCalculate'}
               </Button>
             </Stack>
           </Form>

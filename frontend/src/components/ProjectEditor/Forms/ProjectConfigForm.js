@@ -14,7 +14,10 @@ export const ProjectConfigForm = (props) => {
     <Grid templateColumns='repeat(4, 1fr)' gap={5}>
       <GridItem colSpan={[4, 4, 4, 2]} rowSpan={[1, 1, 1, 2]} p={5} boxShadow='2xl' rounded='lg'>
         <Stack direction='column' spacing={3}>
-          <FormHeading text={'Roof orientation'} />
+          <FormHeading
+            text={'Roof orientation'}
+            subTitle={'Rotate the arrow in the direction where the roof is leaning, use the slider below.'}
+          />
           <MapboxMapStatic height={[300, 400]} position='relative'>
             <AdjustbleArrow
               angle={values.systemAzimuth}
@@ -44,7 +47,7 @@ export const ProjectConfigForm = (props) => {
 
       <GridItem colSpan={[4, 4, 2]} p={5} boxShadow='2xl' rounded='lg'>
         <Stack direction='column' spacing={3}>
-          <FormHeading text={'Roof inclination'} />
+          <FormHeading text={'Roof inclination'} subTitle={'Set the roof inclination, use the slider below.'} />
           <AdjustbleRoofAngle angle={values.systemInclination} width={'100%'} height={200} />
           <SliderInputField
             name={systemInclination.name}
@@ -74,9 +77,10 @@ export const ProjectConfigForm = (props) => {
       </GridItem>
       <GridItem colSpan={[4, 4, 2]} p={5} boxShadow='2xl' rounded='lg'>
         <Stack direction='column' spacing={3}>
-          <FormHeading text={'System size'} />
-          <InputField name={systemSize.name} label={systemSize.label} type='number' />
-          <FormHeading text={'Consumption data'} />
+          <FormHeading
+            text={'Consumption data'}
+            subTitle={'Set your consumption data & profile to get all the fancy charts.'}
+          />
           <InputField name={yearlyLoad.name} label={yearlyLoad.label} type='number' />
           <SelectField
             name={loadProfile.name}

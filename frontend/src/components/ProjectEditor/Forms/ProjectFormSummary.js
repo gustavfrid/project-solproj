@@ -11,7 +11,10 @@ export const ProjectFormSummary = () => {
   return (
     <Stack mb={5}>
       <Stack spacing={3} alignItems='flex-start' p={5} boxShadow='2xl' rounded='lg'>
-        <FormHeading text={`Project name: ${projectName}`} />
+        <FormHeading
+          text={`Project name: ${projectName}`}
+          subTitle={'Final step, just create project or go back if something is wrong.'}
+        />
         <MapboxMapStatic height={[300, 400]} position='relative'>
           <AdjustbleArrow angle={systemAzimuth} boxSize={200} color={'white'} strokeW={3} position='absolute' />
         </MapboxMapStatic>
