@@ -15,7 +15,7 @@ export const ProjectFormSummary = () => {
           text={`Project name: ${projectName}`}
           subTitle={'Final step, just create project or go back if something is wrong.'}
         />
-        <MapboxMapStatic height={[300, 400]} position='relative'>
+        <MapboxMapStatic height={[300, 400, 550]} position='relative'>
           <AdjustbleArrow angle={systemAzimuth} boxSize={200} color={'white'} strokeW={3} position='absolute' />
         </MapboxMapStatic>
         <Text>Size: {systemSize} kW</Text>
