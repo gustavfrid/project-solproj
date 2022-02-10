@@ -50,13 +50,13 @@ export const ProjectList = () => {
 
   return (
     <Flex justify='center'>
-      <Center h='90vh' w='80%'>
+      <Center h='90vh'>
         {projects.length === 0 ? (
           <Link to='/main/projects/new'>
             <Text fontSize='2xl'>No projects, create a new one!</Text>
           </Link>
         ) : (
-          <Table size='sm' w={'100%'} p={5} boxShadow='2xl' rounded='lg'>
+          <Table size='sm' w={'100%'} p={3} boxShadow='2xl' rounded='lg'>
             <TableCaption onClick={toggleListSize}>
               <Text fontSize={12}>
                 {listSize} Recent projects, click{' '}
