@@ -30,11 +30,6 @@ export const MapboxMapEdit = ({
   console.log('🚀 ~ file: MapboxMapEdit.js ~ line 30 ~ MapboxMapEdit')
   const [, setFeatures] = useState({})
 
-  // useEffect(() => {
-  //   if (!hasDrawControl && DrawControl) return
-  //   DrawControl.add(JSON.stringify(mapFeatures))
-  // }, [])
-
   const onUpdate = useCallback(
     (e) => {
       console.log('🚀 ~ file: MapboxMapEdit.js onUpdate ~ line 40 ~ e', e)
@@ -82,11 +77,6 @@ export const MapboxMapEdit = ({
     },
     [dispatch, setFormikSizeValue]
   )
-
-  // let polygonArea = 0;
-  // for (const polygon of props.polygons) {
-  //   polygonArea += area(polygon);
-  // }
 
   const onMove = useCallback(
     (evt) => {
