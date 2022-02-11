@@ -27,12 +27,10 @@ export const MapboxMapEdit = ({
   const location = useSelector((store) => store.project.location)
   const mapFeatures = useSelector((store) => store.project.mapFeatures)
   const dispatch = useDispatch()
-  console.log('🚀 ~ file: MapboxMapEdit.js ~ line 30 ~ MapboxMapEdit')
   const [, setFeatures] = useState({})
 
   const onUpdate = useCallback(
     (e) => {
-      console.log('🚀 ~ file: MapboxMapEdit.js onUpdate ~ line 40 ~ e', e)
       setFeatures((currFeatures) => {
         const newFeatures = { ...currFeatures }
         for (const f of e.features) {
@@ -56,7 +54,6 @@ export const MapboxMapEdit = ({
 
   const onDelete = useCallback(
     (e) => {
-      console.log('🚀 ~ file: MapboxMapEdit.js onDelete ~ line 63 ~ e', e)
       setFeatures((currFeatures) => {
         const newFeatures = { ...currFeatures }
         for (const f of e.features) {
