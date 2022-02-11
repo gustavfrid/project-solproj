@@ -23,10 +23,12 @@ export const signup = async (req, res, next) => {
   try {
     const salt = bcrypt.genSaltSync()
 
+    const userRoleId = await Role.findOne({ description: 'user' })
+
     const newUser = await new User({
       username,
-      password: bcrypt.hashSync(password, salt), //, salt
-      role: '61f1a947794ba48500cb4f4b', //TODO: should be role : 'user'
+      password: bcrypt.hashSync(password, salt),
+      role: userRoleId,
     }).save()
 
     res.status(201).json({

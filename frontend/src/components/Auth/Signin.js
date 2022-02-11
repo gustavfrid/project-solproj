@@ -36,7 +36,7 @@ export const Signin = ({ formState, onClose, initialRef }) => {
         body: JSON.stringify(values),
       })
       const data = await response.json()
-      if (!response.ok) throw new Error(data.response)
+      if (!response.ok) throw new Error(response)
       batch(() => {
         dispatch(user.actions.setUserId(data.response.userId))
         dispatch(user.actions.setUsername(data.response.username))
@@ -69,7 +69,7 @@ export const Signin = ({ formState, onClose, initialRef }) => {
       setErrors({ submit: error })
 
       toast({
-        title: `${error}`,
+        title: `The username already exists`,
         status: 'error',
         isClosable: true,
       })
