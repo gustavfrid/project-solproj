@@ -146,7 +146,7 @@ export const ProjectSummary = () => {
           )}
         </GridItem>
         <GridItem colSpan={[4, 2]} w='100%' h='300px' p={3} boxShadow='2xl' rounded='lg'>
-          <Text align='center'>Super fancy chart again</Text>
+          <Text align='center'>Prod. vs Consumption</Text>
           {load.daily && (
             <ReBarChart
               data={[
