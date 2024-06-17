@@ -109,7 +109,7 @@ export const ProjectSummary = () => {
           </Grid>
         </GridItem>
         <GridItem colSpan={[4, 2]} w='100%' h='300px' p={3} boxShadow='2xl' rounded='lg'>
-          <Text align='center'>Prod. vs Consumption</Text>
+          <Text align='center'>Prod. vs Consumption [hour]</Text>
           {load.daily && (
             <ReAreaChart
               axisX={dates}
@@ -146,7 +146,7 @@ export const ProjectSummary = () => {
           )}
         </GridItem>
         <GridItem colSpan={[4, 2]} w='100%' h='300px' p={3} boxShadow='2xl' rounded='lg'>
-          <Text align='center'>Prod. vs Consumption</Text>
+          <Text align='center'>Prod. vs Consumption [month]</Text>
           {load.daily && (
             <ReBarChart
               data={[
